@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 #include "raylib.h"
 #include <vector>
 using namespace std;
@@ -29,8 +30,15 @@ public:
 
 
 private:
+	Model playerShipModel;
+	Entity playerClear;
+	Player* player;
+
 	void ProcessInput();
 	void Update(float deltaTime);
 	void Draw();
+
+	void CheckPlayerClear();
+
 };
 
