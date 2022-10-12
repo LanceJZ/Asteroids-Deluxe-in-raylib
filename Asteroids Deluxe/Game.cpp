@@ -49,23 +49,23 @@ bool Game::Initialise()
 	playerClear.Radius = 10.0f;
 	playerClear.Enabled = false;
 	player = new Player(playScreenW, playScreenH);
+	ufoControl = new UFOControl(playScreenW, playScreenH, player);
+	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo);
+
 
 	return false;
 }
 
 bool Game::Load()
 {
-	playerShipModel = LoadModel("models/playership.obj");
-	playerShipModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture =
-		LoadTexture("models/playership.png");
-	Model playerFlame = LoadModel("models/playerflame.obj");
-	playerFlame.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture =
-		LoadTexture("models/playerflame.png");
-	Model shot = LoadModel("models/shot.obj");
-	shot.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture =
-		LoadTexture("models/shot.png");
+	string rockOne = "Models/RockOne.vec";
+	string rockTwo = "Models/RockTwo.vec";
+	string rockThree = "Models/RockThree.vec";
+	string rockFour = "Models/RockFour.vec";
 
-	player->LoadModel(playerShipModel, shot, playerFlame);
+	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec");
+	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour);
+	ufoControl->LoadModel("Models/UFO.vec");
 
 	return 0;
 }

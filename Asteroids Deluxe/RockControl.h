@@ -12,8 +12,7 @@ public:
 	void NewWave(void);
 	vector<Rock*> rocks;
 
-	virtual void LoadModel(Model modelOne, Model modelTwo, Model modelThree,
-		Model modelFour);
+	virtual void LoadModel(string modelOne, string modelTwo, string modelThree,	string modelFour);
 	void LoadSound(Sound exp);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -27,7 +26,7 @@ public:
 private:
 	int rockCount = { 4 };
 
-	Model rockModels[4];
+	string rockModels[4];
 	Sound Explode;
 
 	void CreateRocks(void);

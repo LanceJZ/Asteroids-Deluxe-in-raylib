@@ -2,16 +2,15 @@
 #include "raymath.h"
 #include <string>
 
-Player::Player(float windowWidth, float windowHeight) : Entity()
+Player::Player(float windowWidth, float windowHeight)
 {
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 	MaxSpeed = 20;
 	Radius = 0.6f;
-	Scale = 0.2f;
 	Enabled = false;
 
-	flame = new Entity();
+	flame = new LineModel();
 	flame->Scale = Scale;
 	flame->Radius = 0.1f;
 	flame->Enabled = false;
@@ -27,15 +26,10 @@ Player::Player(float windowWidth, float windowHeight) : Entity()
 	}
 }
 
-void Player::LoadModel(Model model, Model shotmodel, Model flamemodel)
+void Player::LoadModel(string shipmodel, string flamemodel)
 {
-	TheModel = model;
+	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
-
-	for (auto shot : shots)
-	{
-		shot->LoadModel(shotmodel);
-	}
 }
 
 void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus)
@@ -85,9 +79,7 @@ void Player::Update(float deltaTime)
 	Entity::Update(deltaTime);
 	Entity::CheckScreenEdge();
 
-	Vector3 offset = VelocityFromAngleZ(RotationZ, -Radius * 1.25f);
-
-	flame->Position = Vector3Add(offset, Position);
+	flame->Position = Position;
 	flame->RotationZ = RotationZ;
 	flame->Update(deltaTime);
 
@@ -104,7 +96,7 @@ void Player::Update(float deltaTime)
 
 void Player::Draw()
 {
-	Entity::Draw();
+	LineModel::Draw();
 	flame->Draw();
 
 	for (auto line : lines)

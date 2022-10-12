@@ -1,20 +1,20 @@
 #pragma once
 #include "raylib.h"
-#include "Entity.h"
+#include "LineModel.h"
 #include "Timer.h"
 
-class Dot : public Entity
+class Dot : public LineModel
 {
 public:
+	bool Initialise();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-
-	bool Initialise();
 
 	void Spawn(Vector3 position, float time, float size);
 	void Clear();
 
 private:
+	string dotFile = "Models/Dot.vec";
 	Timer* timer;
 };
 

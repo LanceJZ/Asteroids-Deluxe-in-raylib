@@ -6,20 +6,22 @@ Shot::Shot(float windowWidth, float windowHeight)
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 
-	Scale = 0.15f;
+	//Scale = 2.25f;
 	Radius = 0.05f;
 
 	timer = new Timer();
+
+	LineModel::LoadModel(dotFile);
 }
 
 void Shot::LoadModel(Model model)
 {
-	TheModel = model;
+	//TheModel = model;
 }
 
 void Shot::Draw()
 {
-	Entity::Draw();
+	LineModel::Draw();
 }
 
 void Shot::Update(float deltaTime)

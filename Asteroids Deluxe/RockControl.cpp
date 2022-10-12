@@ -22,7 +22,7 @@ void RockControl::NewWave(void)
 }
 
 
-void RockControl::LoadModel(Model modelOne, Model modelTwo, Model modelThree, Model modelFour)
+void RockControl::LoadModel(string modelOne, string modelTwo, string modelThree, string modelFour)
 {
 	rockModels[0] = modelOne;
 	rockModels[1] = modelTwo;

@@ -9,7 +9,7 @@ class UFOControl : public Common
 {
 public:
 
-	virtual void LoadModel(Model theModel, Model shot);
+	virtual void LoadModel(string ship);
 	virtual void Update(float deltaTime);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
 	virtual void Draw();

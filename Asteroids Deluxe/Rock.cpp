@@ -1,6 +1,25 @@
 #include "Rock.h"
 #include "raymath.h"
 
+void Rock::LoadModel(string rockModel)
+{
+	LineModel::LoadModel(rockModel);
+}
+
+void Rock::LoadSound(Sound exp)
+{
+	Sound01 = exp;
+	SetSoundVolume(Sound01, 0.5f);
+}
+
+Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
+{
+	WindowWidth = windowWidth;
+	WindowHeight = windowHeight;
+	Rock::player = player;
+	Rock::ufo = ufo;
+}
+
 void Rock::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
@@ -22,7 +41,7 @@ void Rock::Update(float deltaTime)
 
 void Rock::Draw()
 {
-	Entity::Draw();
+	LineModel::Draw();
 	exploder->Draw();
 }
 
@@ -42,44 +61,26 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 	Position = pos;
 	Velocity = dir;
 	Rock::size = size;
+	float scale = 1.00666f;
 
 	switch (size)
 	{
 	case Small:
-		Scale = 0.04666f / 3.5f;
+		Scale = scale / 3.5f;
 		Radius = 2.10f / 3.5f;
 		break;
 	case Medium:
-		Scale = 0.04666f / 2;
+		Scale =  scale / 2;
 		Radius = 2.10f / 2;
 		break;
 	case Large:
-		Scale = 0.04666f;
+		Scale = scale;
 		Radius = 2.10f;
 		break;
 	}
 
 	Enabled = true;
 	BeenHit = false;
-}
-
-void Rock::LoadModel(Model model)
-{
-	TheModel = model;
-}
-
-void Rock::LoadSound(Sound exp)
-{
-	Sound01 = exp;
-	SetSoundVolume(Sound01, 0.5f);
-}
-
-Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
-{
-	WindowWidth = windowWidth;
-	WindowHeight = windowHeight;
-	Rock::player = player;
-	Rock::ufo = ufo;
 }
 
 void Rock::GiveScore()

@@ -1,10 +1,10 @@
 #include "UFO.h"
 #include "raymath.h"
 
-void UFO::LoadModel(Model model, Model shotmodel)
+void UFO::LoadModel(string ship)
 {
-	TheModel = model;
-	shot->LoadModel(shotmodel);
+	//TheModel = model;
+	LineModel::LoadModel(ship);
 	Enabled = false;
 	BeenHit = false;
 }
@@ -26,6 +26,7 @@ void UFO::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 	exploder->Update(deltaTime);
+	shot->Update(deltaTime);
 
 	if (Enabled)
 	{
@@ -90,9 +91,10 @@ void UFO::Update(float deltaTime)
 void UFO::Draw()
 {
 	if (!BeenHit)
-		Entity::Draw();
+		LineModel::Draw();
 
 	exploder->Draw();
+	shot->Draw();
 }
 
 bool UFO::Initialise()
@@ -121,7 +123,6 @@ UFO::UFO(float windowWidth, float windowHeight, Player* player)
 	fireTimer = new Timer();
 	vectorTimer = new Timer();
 	exploder = new Exploder();
-	Radius = 0.9f;
 }
 
 void UFO::ResetFireTimer()

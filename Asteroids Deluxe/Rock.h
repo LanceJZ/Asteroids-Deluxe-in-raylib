@@ -1,10 +1,10 @@
 #pragma once
-#include "Entity.h"
+#include "LineModel.h"
 #include "Player.h"
 #include "UFO.h"
 #include "Exploder.h"
 
-class Rock : public Entity
+class Rock : public LineModel
 {
 public:
 	enum RockSize
@@ -22,7 +22,7 @@ public:
 	bool Initialise();
 
 	void Spawn(Vector3 pos, float speed, RockSize size);
-	void LoadModel(Model model);
+	void LoadModel(string rockModel);
 	void LoadSound(Sound exp);
 	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo);
 

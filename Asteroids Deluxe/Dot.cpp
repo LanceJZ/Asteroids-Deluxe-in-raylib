@@ -1,6 +1,14 @@
 #include "Dot.h"
 #include "raymath.h"
 
+bool Dot::Initialise()
+{
+	LoadModel(dotFile);
+	timer = new Timer();
+
+	return false;
+}
+
 void Dot::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
@@ -19,16 +27,7 @@ void Dot::Update(float deltaTime)
 
 void Dot::Draw()
 {
-	//DrawPoint3D(Position, WHITE);
-	if (Enabled)
-		DrawCircle3D(Position, 0.02f, { 0 }, 0, WHITE);
-}
-
-bool Dot::Initialise()
-{
-	timer = new Timer();
-
-	return false;
+	LineModel::Draw();
 }
 
 void Dot::Spawn(Vector3 position, float time, float size)

@@ -1,11 +1,11 @@
 #pragma once
+#include "LineModel.h"
 #include "Player.h"
-#include "Entity.h"
 #include "Shot.h"
 #include "Exploder.h"
 #include "Timer.h"
 
-class UFO : public Entity
+class UFO : public LineModel
 {
 public:
 	enum Size
@@ -21,7 +21,7 @@ public:
 	Timer* vectorTimer;
 	Exploder* exploder;
 
-	void LoadModel(Model model, Model shotmodel);
+	void LoadModel(string ship);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
 	virtual void Update(float deltaTime);
 	virtual void Draw();

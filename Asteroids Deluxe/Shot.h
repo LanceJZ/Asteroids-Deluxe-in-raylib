@@ -1,8 +1,9 @@
 #pragma once
 #include "Entity.h"
 #include "Timer.h"
+#include "LineModel.h"
 
-class Shot : public Entity
+class Shot : public LineModel
 {
 public:
 	virtual void Update(float deltaTime);
@@ -15,6 +16,7 @@ public:
 private:
 	float windowWidth;
 	float windowHeight;
+	string dotFile = "Models/Dot.vec";
 	Color color{ RAYWHITE };
 	Timer* timer;
 };

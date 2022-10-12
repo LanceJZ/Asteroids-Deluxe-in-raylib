@@ -1,7 +1,9 @@
 #pragma once
-#include "Player.h"
 #include "raylib.h"
 #include <vector>
+#include "Player.h"
+#include "RockControl.h"
+#include "UFOControl.h"
 using namespace std;
 
 enum GameState
@@ -33,6 +35,8 @@ private:
 	Model playerShipModel;
 	Entity playerClear;
 	Player* player;
+	RockControl* rockControl;
+	UFOControl* ufoControl;
 
 	void ProcessInput();
 	void Update(float deltaTime);
