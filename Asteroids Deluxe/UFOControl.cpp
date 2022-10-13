@@ -14,6 +14,8 @@ UFOControl::UFOControl(float playScreenW, float playScreenH, Player* player)
 
 bool UFOControl::Initialise()
 {
+	ufo->Initialise();
+	ResetTimer();
 
 	return false;
 }

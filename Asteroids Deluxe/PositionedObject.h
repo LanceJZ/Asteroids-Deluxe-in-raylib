@@ -4,16 +4,16 @@
 class PositionedObject
 {
 public:
-	float MaxSpeed{ 0 };
-	float RotationZ{ 0 };
-	float Radius{ 0 };
-	float WindowWidth{ 0 };
-	float WindowHeight{ 0 };
+	float MaxSpeed = { 0 };
+	float RotationZ = { 0 };
+	float Radius = { 0 };
+	float WindowWidth = { 0 };
+	float WindowHeight = { 0 };
 	Vector2 Acceleration2 = { 0 };
 	Vector2 Velocity2 = { 0 };
 	Vector2 Position2 = { 0 };
-	Vector2 RotationVelocity2{ 0 };
-	Vector2 RotationAcceleration2{ 0 };
+	Vector2 RotationVelocity2 = { 0 };
+	Vector2 RotationAcceleration2 = { 0 };
 	Vector3 Acceleration = { 0 };
 	Vector3 Velocity = { 0 };
 	Vector3 Position = { 0 };

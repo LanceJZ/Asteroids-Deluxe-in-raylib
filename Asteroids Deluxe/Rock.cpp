@@ -22,7 +22,7 @@ Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 
 void Rock::Update(float deltaTime)
 {
-	Entity::Update(deltaTime);
+	PositionedObject::Update(deltaTime);
 	exploder->Update(deltaTime);
 	CheckScreenEdge();
 
@@ -57,6 +57,7 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 	float magnitude = GetRandomFloat(1.1f, 5.1f);
 	float angle = GetRandomRadian();
 	Vector3 dir = {cos(angle) * magnitude, sin(angle) * magnitude};
+	float maxVS = 0;
 
 	Position = pos;
 	Velocity = dir;
@@ -68,17 +69,32 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 	case Small:
 		Scale = scale / 3.5f;
 		Radius = 2.10f / 3.5f;
+		maxVS = 3;
 		break;
 	case Medium:
 		Scale =  scale / 2;
 		Radius = 2.10f / 2;
+		maxVS = 2;
 		break;
 	case Large:
 		Scale = scale;
 		Radius = 2.10f;
+		maxVS = 1;
+
+		if (Velocity.x > 0)
+		{
+			X(-WindowWidth);
+		}
+		else
+		{
+			X(WindowWidth);
+		}
+
 		break;
 	}
 
+	float rotVelSpeed = GetRandomFloat(-maxVS, maxVS);
+	RotationVelocity = { 0, 0, rotVelSpeed }; //TODO: complete this.
 	Enabled = true;
 	BeenHit = false;
 }

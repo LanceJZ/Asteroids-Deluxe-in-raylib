@@ -1,9 +1,26 @@
 #include "UFO.h"
 #include "raymath.h"
 
+UFO::UFO(float windowWidth, float windowHeight, Player* player)
+{
+	shot = new Shot(windowWidth, windowHeight);
+	UFO::player = player;
+	WindowWidth = windowWidth;
+	WindowHeight = windowHeight;
+	fireTimer = new Timer();
+	vectorTimer = new Timer();
+	exploder = new Exploder();
+}
+
+bool UFO::Initialise()
+{
+	Enabled = false;
+
+	return false;
+}
+
 void UFO::LoadModel(string ship)
 {
-	//TheModel = model;
 	LineModel::LoadModel(ship);
 	Enabled = false;
 	BeenHit = false;
@@ -97,11 +114,6 @@ void UFO::Draw()
 	shot->Draw();
 }
 
-bool UFO::Initialise()
-{
-	return false;
-}
-
 void UFO::Spawn(Vector3 pos, Vector3 vel)
 {
 	Position = pos;
@@ -112,17 +124,6 @@ void UFO::Spawn(Vector3 pos, Vector3 vel)
 	ResetVectorTimer();
 	ResetFireTimer();
 	ChangeVector();
-}
-
-UFO::UFO(float windowWidth, float windowHeight, Player* player)
-{
-	shot = new Shot(windowWidth, windowHeight);
-	UFO::player = player;
-	WindowWidth = windowWidth;
-	WindowHeight = windowHeight;
-	fireTimer = new Timer();
-	vectorTimer = new Timer();
-	exploder = new Exploder();
 }
 
 void UFO::ResetFireTimer()
@@ -137,11 +138,11 @@ void UFO::ResetVectorTimer()
 
 void UFO::ChangeVector()
 {
-	if (GetRandomFloat(1, 10) < 7)
+	if (GetRandomValue(1, 10) > 2)
 	{
 		if ((int)Velocity.y == 0)
 		{
-			if (GetRandomFloat(1, 10) < 5)
+			if (GetRandomValue(1, 10) < 5)
 			{
 				Velocity.y = MaxSpeed;
 			}
@@ -165,7 +166,14 @@ void UFO::FireShot()
 	switch (size)
 	{
 	case UFO::Large:
-		ang = GetRandomRadian();
+		if (GetRandomValue(1, 10) < 5)
+		{
+			ang = GetRandomRadian();
+		}
+		else
+		{
+			ang = AimedShot();
+		}
 		break;
 	case UFO::Small:
 		ang = AimedShot();

@@ -44,6 +44,9 @@ void PositionedObject::Update(float deltaTime)
 	X(X() + Velocity.x * deltaTime);
 	Y(Y() + Velocity.y * deltaTime);
 
+	RotationVelocity.z += RotationAcceleration.z;
+	RotationZ += RotationVelocity.z * deltaTime;
+
 	if (RotationZ > PI * 4)
 	{
 		RotationZ = 0;

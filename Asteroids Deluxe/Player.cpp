@@ -76,7 +76,7 @@ void Player::Input()
 
 void Player::Update(float deltaTime)
 {
-	Entity::Update(deltaTime);
+	PositionedObject::Update(deltaTime);
 	Entity::CheckScreenEdge();
 
 	flame->Position = Position;

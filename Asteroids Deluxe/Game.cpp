@@ -72,6 +72,10 @@ bool Game::Load()
 
 bool Game::BeginRun()
 {
+	player->Initialise();
+	ufoControl->Initialise();
+	rockControl->Initialise();
+	rockControl->NewGame();
 
 	return false;
 }
@@ -85,8 +89,8 @@ void Game::ProcessInput()
 	else if (IsKeyPressed(KEY_N))
 	{
 		player->NewGame();
-		//rockControl->NewGame();
-		//theUFOControl->NewGame();
+		rockControl->NewGame();
+		ufoControl->NewGame();
 		//PlayerShipDisplay();
 		//highscores->gameOver = false;
 	}
@@ -108,7 +112,8 @@ void Game::Update(float deltaTime)
 	UpdateCamera(&camera);
 
 	player->Update(deltaTime);
-
+	rockControl->Update(deltaTime);
+	ufoControl->Update(deltaTime);
 }
 
 void Game::Draw()
@@ -118,6 +123,8 @@ void Game::Draw()
 	BeginMode3D(camera);
 	//3D Drawing here.
 	player->Draw();
+	rockControl->Draw();
+	ufoControl->Draw();
 
 	EndMode3D();
 	//2D drawing, fonts go here.
@@ -129,23 +136,23 @@ void Game::CheckPlayerClear()
 {
 	bool clear = true;
 
-	//for (auto rock : rockControl->rocks)
-	//{
-	//	if (playerClear.CirclesIntersect(rock))
-	//	{
-	//		clear = false;
-	//	}
+	for (auto rock : rockControl->rocks)
+	{
+		if (playerClear.CirclesIntersect(rock))
+		{
+			clear = false;
+		}
 
-	//	if (playerClear.CirclesIntersect(theUFOControl->ufo))
-	//	{
-	//		clear = false;
-	//	}
+		if (playerClear.CirclesIntersect(ufoControl->ufo))
+		{
+			clear = false;
+		}
 
-	//	if (playerClear.CirclesIntersect(theUFOControl->ufo->shot))
-	//	{
-	//		clear = false;
-	//	}
-	//}
+		if (playerClear.CirclesIntersect(ufoControl->ufo->shot))
+		{
+			clear = false;
+		}
+	}
 
 	if (clear)
 	{

@@ -14,11 +14,6 @@ Shot::Shot(float windowWidth, float windowHeight)
 	LineModel::LoadModel(dotFile);
 }
 
-void Shot::LoadModel(Model model)
-{
-	//TheModel = model;
-}
-
 void Shot::Draw()
 {
 	LineModel::Draw();
