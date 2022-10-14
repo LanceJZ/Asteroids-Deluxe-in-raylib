@@ -1,6 +1,6 @@
 #include "Common.h"
 
-bool Common::Initialise()
+bool Common::Initialize()
 {
 
 	return false;

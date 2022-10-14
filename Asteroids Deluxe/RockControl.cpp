@@ -66,7 +66,7 @@ void RockControl::Draw(void)
 	}
 }
 
-bool RockControl::Initialise()
+bool RockControl::Initialize()
 {
 
 	return false;

@@ -10,7 +10,7 @@ public:
 	float GameScreenWidth = { 0 };
 	float GameScreenHeight = { 0 };
 
-	bool Initialise();
+	bool Initialize();
 	float GetRandomScreenY();
 	float GetRandomFloat(float min, float max);
 	float GetRandomRadian();

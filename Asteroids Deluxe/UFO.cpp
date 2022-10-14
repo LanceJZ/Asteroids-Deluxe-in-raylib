@@ -41,7 +41,7 @@ void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
 
 void UFO::Update(float deltaTime)
 {
-	Entity::Update(deltaTime);
+	PositionedObject::Update(deltaTime);
 	exploder->Update(deltaTime);
 	shot->Update(deltaTime);
 

@@ -41,17 +41,15 @@ bool Game::Initialise()
 	camera.fovy = 45.0f;                       // Camera field-of-view Y
 	camera.projection = CAMERA_ORTHOGRAPHIC;   // Camera mode type
 
-	float perH = 42.75f;
-	float perW = 42.75f;
-	float playScreenW = windowWidth / perW;
-	float playScreenH = windowHeight / perH;
+	float per = 42.75f;
+	float playScreenW = windowWidth / per;
+	float playScreenH = windowHeight / per;
 
 	playerClear.Radius = 10.0f;
 	playerClear.Enabled = false;
 	player = new Player(playScreenW, playScreenH);
 	ufoControl = new UFOControl(playScreenW, playScreenH, player);
 	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo);
-
 
 	return false;
 }
@@ -63,7 +61,7 @@ bool Game::Load()
 	string rockThree = "Models/RockThree.vec";
 	string rockFour = "Models/RockFour.vec";
 
-	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec");
+	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec", "Models/PlayerShield.vec");
 	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour);
 	ufoControl->LoadModel("Models/UFO.vec");
 
@@ -72,9 +70,9 @@ bool Game::Load()
 
 bool Game::BeginRun()
 {
-	player->Initialise();
-	ufoControl->Initialise();
-	rockControl->Initialise();
+	player->Initialize();
+	ufoControl->Initialize();
+	rockControl->Initialize();
 	rockControl->NewGame();
 
 	return false;

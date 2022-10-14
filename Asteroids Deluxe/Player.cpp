@@ -6,30 +6,20 @@ Player::Player(float windowWidth, float windowHeight)
 {
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
-	MaxSpeed = 20;
-	Radius = 0.6f;
-	Enabled = false;
-
 	flame = new LineModel();
-	flame->Scale = Scale;
-	flame->Radius = 0.1f;
-	flame->Enabled = false;
+	shield = new LineModel();
 
 	for (int i = 0; i < 4; i++)
 	{
 		shots[i] = new Shot(windowWidth, windowHeight);
 	}
-
-	for (int i = 0; i < 6; i++)
-	{
-		lines.push_back(new Line());
-	}
 }
 
-void Player::LoadModel(string shipmodel, string flamemodel)
+void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel)
 {
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
+	shield->LoadModel(shieldmodel);
 }
 
 void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus)
@@ -43,6 +33,23 @@ void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus)
 	SetSoundVolume(Sound02, 0.5f);
 	SetSoundVolume(Sound03, 0.5f);
 	SetSoundVolume(Sound04, 0.75f);
+}
+
+void Player::Initialize()
+{
+	MaxSpeed = 20;
+	Radius = 0.6f;
+	Enabled = false;
+	shield->Enabled = false;
+
+	flame->Scale = Scale;
+	flame->Radius = 0.1f;
+	flame->Enabled = false;
+
+	for (int i = 0; i < 6; i++)
+	{
+		lines.push_back(new Line());
+	}
 }
 
 void Player::Input()
@@ -72,6 +79,15 @@ void Player::Input()
 	{
 		Fire();
 	}
+
+	if (IsKeyDown(KEY_DOWN))
+	{
+		ShieldOn();
+	}
+	else
+	{
+		ShieldOff();
+	}
 }
 
 void Player::Update(float deltaTime)
@@ -82,6 +98,9 @@ void Player::Update(float deltaTime)
 	flame->Position = Position;
 	flame->RotationZ = RotationZ;
 	flame->Update(deltaTime);
+
+	shield->Position = Position;
+	shield->Update(deltaTime);
 
 	if (thrustOff)
 	{
@@ -98,6 +117,7 @@ void Player::Draw()
 {
 	LineModel::Draw();
 	flame->Draw();
+	shield->Draw();
 
 	for (auto line : lines)
 	{
@@ -206,4 +226,14 @@ void Player::Fire()
 			break;
 		}
 	}
+}
+
+void Player::ShieldOn()
+{
+	shield->Enabled = true;
+}
+
+void Player::ShieldOff()
+{
+	shield->Enabled = false;
 }

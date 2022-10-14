@@ -16,7 +16,7 @@ public:
 	void LoadSound(Sound exp);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	bool Initialise();
+	bool Initialize();
 
 	void RockHit(Rock* rockHit);
 

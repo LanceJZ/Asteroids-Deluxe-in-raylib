@@ -19,6 +19,10 @@ public:
 	Shot* shots[4];
 	vector<Line*> lines;
 
+	Player(float windowWidth, float windowHeight);
+	void LoadModel(string shipmodel, string flamemodel, string shieldmodel);
+	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus);
+	virtual void Initialize(); //initialize
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -27,20 +31,21 @@ public:
 	void ScoreUpdate(int addToScore);
 	void NewGame();
 	void Reset();
-	void LoadModel(string shipmodel, string flamemodel);
-	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus);
-	Player(float windowWidth, float windowHeight);
 
 private:
-	int nextNewLifeScore{ 10000 };
+	int nextNewLifeScore = 10000;
 	bool thrustOff = true;
-	float thrustSoundTime = { 0 };
+	float thrustSoundTime = 0;
+	float shieldPower = 100;
 	Color color{ RAYWHITE };
 
 	LineModel* flame;
+	LineModel* shield;
 
 	void ThrustOn();
 	void ThrustOff(float deltaTime);
 	void Fire();
+	void ShieldOn();
+	void ShieldOff();
 };
 

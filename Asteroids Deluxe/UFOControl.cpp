@@ -12,7 +12,7 @@ UFOControl::UFOControl(float playScreenW, float playScreenH, Player* player)
 	timer = new Timer();
 }
 
-bool UFOControl::Initialise()
+bool UFOControl::Initialize()
 {
 	ufo->Initialise();
 	ResetTimer();
