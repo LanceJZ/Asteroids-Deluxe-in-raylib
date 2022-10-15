@@ -94,7 +94,7 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 	}
 
 	float rotVelSpeed = GetRandomFloat(-maxVS, maxVS);
-	RotationVelocity = { 0, 0, rotVelSpeed }; //TODO: complete this.
+	RotationVelocity = { 0, 0, rotVelSpeed };
 	Enabled = true;
 	BeenHit = false;
 }

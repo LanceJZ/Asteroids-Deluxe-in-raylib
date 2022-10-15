@@ -243,9 +243,13 @@ float UFO::AimedShot()
 
 	percentChance += GetRandomFloat(0.0, 0.05f);
 
+	if (!player->Enabled)
+	{
+		return GetRandomRadian();
+	}
+
 	return AngleFromVectorZ(player->Position) +
 		GetRandomFloat(-percentChance, percentChance);
-
 }
 
 bool UFO::CheckReachedSide()

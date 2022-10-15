@@ -25,7 +25,7 @@ void LineModel::Draw()
 
 	rlPushMatrix();
 	rlTranslatef(Position.x, Position.y, 0);
-	rlRotatef(RotationZ * (180.0/3.141592653589793238463), 0, 0, 1); //Must be in degrees.
+	rlRotatef(RotationZ * (float)(180.0/3.141592653589793238463), 0, 0, 1); //Must be in degrees.
 	rlScalef(Scale, Scale, Scale);
 
 	for (int i = 0; i < lines.size()-1; i = i + 2)
