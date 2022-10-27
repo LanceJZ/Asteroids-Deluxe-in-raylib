@@ -130,10 +130,17 @@ bool Rock::CheckCollision()
 
 	if (CirclesIntersect(player))
 	{
-		player->Hit();
-		GiveScore();
+		if (player->GetShieldIsOn())
+		{
+			player->ShieldHit(Position, Velocity);
+		}
+		else
+		{
+			player->Hit();
+			GiveScore();
+			return true;
+		}
 
-		return true;
 	}
 
 	if (CirclesIntersect(ufo))

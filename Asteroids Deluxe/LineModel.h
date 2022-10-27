@@ -7,6 +7,9 @@
 class LineModel : public Entity
 {
 public:
+	Color modelColor = WHITE;
+	float Alpha = 255;
+
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();

@@ -8,25 +8,24 @@ using namespace std;
 class RockControl : public Common
 {
 public:
-	void NewGame(void);
-	void NewWave(void);
 	vector<Rock*> rocks;
 
+	RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo);
+	bool Initialize();
 	virtual void LoadModel(string modelOne, string modelTwo, string modelThree,	string modelFour);
 	void LoadSound(Sound exp);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	bool Initialize();
-
+	void NewGame(void);
+	void NewWave(void);
 	void RockHit(Rock* rockHit);
-
-	RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo);
 
 
 private:
 	int rockCount = { 4 };
 
-	string rockModels[4];
+	LineModel rockModels[4];
+	LineModel dotModel;
 	Sound Explode;
 
 	void CreateRocks(void);

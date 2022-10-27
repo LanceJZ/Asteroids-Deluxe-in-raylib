@@ -1,33 +1,28 @@
 #include "RockControl.h"
 #include <vector>
 
-void RockControl::NewGame(void)
+RockControl::RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo)
 {
-	for (auto rock : rocks)
-	{
-		rock->Enabled = false;
-	}
-
-	rockCount = 4;
-	NewWave();
+	GameScreenWidth = screenWidth;
+	GameScreenHeight = screenHeight;
+	RockControl::player = player;
+	RockControl::ufo = ufo;
 }
 
-void RockControl::NewWave(void)
+bool RockControl::Initialize()
 {
-	player->wave++;
-	SpawnNewWave(rockCount);
 
-	if (rockCount < 12 && !player->gameOver) //TODO: Check at home, let run while in Game Over with this checked.
-		rockCount++;
+	return false;
 }
-
 
 void RockControl::LoadModel(string modelOne, string modelTwo, string modelThree, string modelFour)
 {
-	rockModels[0] = modelOne;
-	rockModels[1] = modelTwo;
-	rockModels[2] = modelThree;
-	rockModels[3] = modelFour;
+	rockModels[0].LoadModel(modelOne);
+	rockModels[1].LoadModel(modelTwo);
+	rockModels[2].LoadModel(modelThree);
+	rockModels[3].LoadModel(modelFour);
+
+	dotModel.LoadModel("Models/Dot.vec");
 }
 
 void RockControl::LoadSound(Sound exp)
@@ -66,10 +61,24 @@ void RockControl::Draw(void)
 	}
 }
 
-bool RockControl::Initialize()
+void RockControl::NewGame(void)
 {
+	for (auto rock : rocks)
+	{
+		rock->Enabled = false;
+	}
 
-	return false;
+	rockCount = 4;
+	NewWave();
+}
+
+void RockControl::NewWave(void)
+{
+	player->wave++;
+	SpawnNewWave(rockCount);
+
+	if (rockCount < 12 && !player->gameOver) //TODO: Check at home, let run while in Game Over with this checked.
+		rockCount++;
 }
 
 void RockControl::RockHit(Rock* rockHit)
@@ -101,14 +110,6 @@ void RockControl::RockHit(Rock* rockHit)
 	}
 }
 
-RockControl::RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo)
-{
-	GameScreenWidth = screenWidth;
-	GameScreenHeight = screenHeight;
-	RockControl::player = player;
-	RockControl::ufo = ufo;
-}
-
 void RockControl::SpawnNewWave(int numberOfRocks)
 {
 	SpawnRocks({ 0, 0, 0 }, numberOfRocks, Rock::Large);
@@ -135,9 +136,10 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		if (spawnnewrock)
 		{
 			rocks.push_back(new Rock(GameScreenWidth, GameScreenHeight, player, ufo));
-			rocks[rockN]->LoadModel(rockModels[GetRandomValue(0, 3)]);
+			rocks[rockN]->SetModel(rockModels[GetRandomValue(0, 3)].GetModel());
 			rocks[rockN]->LoadSound(Explode);
 			rocks[rockN]->Initialise();
+			rocks[rockN]->exploder->dotModel.SetModel(dotModel.GetModel());
 		}
 
 		switch (size)

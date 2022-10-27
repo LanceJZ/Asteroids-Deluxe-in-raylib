@@ -5,13 +5,8 @@ Shot::Shot(float windowWidth, float windowHeight)
 	Enabled = false;
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
-
-	//Scale = 2.25f;
 	Radius = 0.05f;
-
 	timer = new Timer();
-
-	LineModel::LoadModel(dotFile);
 }
 
 void Shot::Draw()

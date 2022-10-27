@@ -31,6 +31,8 @@ public:
 	void ScoreUpdate(int addToScore);
 	void NewGame();
 	void Reset();
+	bool GetShieldIsOn();
+	Vector3 ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel);
 
 private:
 	int nextNewLifeScore = 10000;
@@ -41,6 +43,7 @@ private:
 
 	LineModel* flame;
 	LineModel* shield;
+	LineModel dotModel;
 
 	void ThrustOn();
 	void ThrustOff(float deltaTime);

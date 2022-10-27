@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "Player.h"
 #include "raymath.h"
 #include <string>
@@ -20,6 +21,12 @@ void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel)
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
 	shield->LoadModel(shieldmodel);
+	dotModel.LoadModel("Models/Dot.vec");
+
+	for (int i = 0; i < 4; i++)
+	{
+		shots[i]->SetModel(dotModel.GetModel());
+	}
 }
 
 void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus)
@@ -110,6 +117,24 @@ void Player::Update(float deltaTime)
 	for (auto shot : shots)
 	{
 		shot->Update(deltaTime);
+	}
+
+	if (shield->Enabled)
+	{
+		if (shieldPower > 0)
+		{
+			shieldPower -= 10 * deltaTime;
+
+			if (shieldPower < 0)
+				shieldPower = 0;
+		}
+	}
+	else
+	{
+		if (shieldPower < 100)
+		{
+			shieldPower += 1 * deltaTime;
+		}
 	}
 }
 
@@ -215,25 +240,57 @@ void Player::ThrustOff(float deltaTime)
 void Player::Fire()
 {
 	float speed = 25.5f;
-	Vector3 velocity = { ((float)cos(RotationZ) * speed), ((float)sin(RotationZ) * speed), 0 };
 
 	for (auto shot : shots)
 	{
 		if (!shot->Enabled)
 		{
 			//PlaySound(Sound01);
-			shot->Spawn(Position, velocity, 1.5f);
+			shot->Spawn(Position, VelocityFromAngleZ(speed), 1.5f);
 			break;
 		}
 	}
 }
 
+Vector3 Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
+{
+	Vector3 velOut = Velocity;
+	Acceleration = { 0 };
+	Velocity.x = (Velocity.x * 0.1f) * -1;
+	Velocity.y = (Velocity.y * 0.1f) * -1;
+	Velocity.x = hitbyVel.x * 0.95f;
+	Velocity.y = hitbyVel.y * 0.95f;
+	Vector3 vel = VelocityFromAngleZ(AngleFromVectorsZ(hitbyPos, Position), 3.5f);
+	Velocity.x += vel.x;
+	Velocity.y += vel.y;
+
+	if (shieldPower > 20)
+	{
+		shieldPower -= 20;
+	}
+	else
+	{
+		shieldPower = 0;
+	}
+
+	return velOut;
+}
+
 void Player::ShieldOn()
 {
-	shield->Enabled = true;
+	if (shieldPower > 0)
+	{
+		shield->Enabled = true;
+		shield->Alpha = 2.55 * shieldPower;
+	}
 }
 
 void Player::ShieldOff()
 {
 	shield->Enabled = false;
+}
+
+bool Player::GetShieldIsOn()
+{
+	return shield->Enabled;
 }

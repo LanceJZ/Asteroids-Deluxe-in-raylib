@@ -42,6 +42,7 @@ void Exploder::Spawn(Vector3 position, int count, float radius)
 		{
 			dots.push_back(new Dot());
 			dots[dot]->Initialise();
+			dots[dot]->SetModel(dotModel.GetModel());
 		}
 
 		dots[dot]->Spawn(position, count / 10.0f, radius / 2.0f);

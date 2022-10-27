@@ -14,7 +14,7 @@ public:
 	void Clear();
 
 private:
-	string dotFile = "Models/Dot.vec";
+	//string dotFile = "Models/Dot.vec";
 	Timer* timer;
 };
 

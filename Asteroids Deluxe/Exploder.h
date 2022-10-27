@@ -6,6 +6,7 @@
 class Exploder
 {
 public:
+	LineModel dotModel;
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	bool Initialise();

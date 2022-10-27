@@ -141,6 +141,10 @@
     <ClCompile Include="AsteroidsDeluxe.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LineModel.cpp" />
+    <ClCompile Include="LineModelManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PositionedObject.cpp" />
     <ClCompile Include="Rock.cpp" />
@@ -149,6 +153,22 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UFO.cpp" />
     <ClCompile Include="UFOControl.cpp" />
+    <ClCompile Include="Wedge.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WedgeControl.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WedgeGroup.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WedgePair.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
@@ -158,6 +178,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineModel.h" />
+    <ClInclude Include="LineModelManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionedObject.h" />
     <ClInclude Include="Rock.h" />
@@ -166,6 +190,22 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UFO.h" />
     <ClInclude Include="UFOControl.h" />
+    <ClInclude Include="Wedge.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WedgeControl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WedgeGroup.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WedgePair.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

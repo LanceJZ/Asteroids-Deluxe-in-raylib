@@ -50,6 +50,7 @@ bool Game::Initialise()
 	player = new Player(playScreenW, playScreenH);
 	ufoControl = new UFOControl(playScreenW, playScreenH, player);
 	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo);
+	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo);
 
 	return false;
 }
@@ -64,6 +65,7 @@ bool Game::Load()
 	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec", "Models/PlayerShield.vec");
 	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour);
 	ufoControl->LoadModel("Models/UFO.vec");
+	wedgeControl->LoadModel("Models/Wedge.vec");
 
 	return 0;
 }
@@ -74,6 +76,7 @@ bool Game::BeginRun()
 	ufoControl->Initialize();
 	rockControl->Initialize();
 	rockControl->NewGame();
+	wedgeControl->Initialise();
 
 	return false;
 }
@@ -112,6 +115,7 @@ void Game::Update(float deltaTime)
 	player->Update(deltaTime);
 	rockControl->Update(deltaTime);
 	ufoControl->Update(deltaTime);
+	wedgeControl->Update(deltaTime);
 }
 
 void Game::Draw()
@@ -123,6 +127,7 @@ void Game::Draw()
 	player->Draw();
 	rockControl->Draw();
 	ufoControl->Draw();
+	wedgeControl->Draw();
 
 	EndMode3D();
 	//2D drawing, fonts go here.

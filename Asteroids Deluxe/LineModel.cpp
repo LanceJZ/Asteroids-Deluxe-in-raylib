@@ -9,6 +9,8 @@ void LineModel::Input()
 void LineModel::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
+
+	modelColor.a = Alpha;
 }
 
 void LineModel::Draw()
@@ -25,20 +27,17 @@ void LineModel::Draw()
 
 	rlPushMatrix();
 	rlTranslatef(Position.x, Position.y, 0);
-	rlRotatef(RotationZ * (float)(180.0/3.141592653589793238463), 0, 0, 1); //Must be in degrees.
+	rlRotatef(RotationZ * (float)(180.0f/PI), 0, 0, 1);
 	rlScalef(Scale, Scale, Scale);
 
 	for (int i = 0; i < lines.size()-1; i = i + 2)
 	{
-		DrawLine3D(lines[i], lines[i + 1], WHITE);
+		DrawLine3D(lines[i], lines[i + 1], modelColor);
 	}
 
 	rlPopMatrix();
 
-#ifdef _DEBUG
-		DrawCircle3D(Position, Radius, { 0 }, 0, { 150, 50, 200, 200 });
-#endif
-
+	Entity::Draw();
 }
 
 void LineModel::Load()

@@ -6,18 +6,6 @@
 class Entity : public PositionedObject, public Common
 {
 public:
-	//using PositionedObject::MaxSpeed;
-	//using PositionedObject::Position;
-	//using PositionedObject::RotationZ;
-	//using PositionedObject::Rotation;
-	//using PositionedObject::Velocity;
-	//using PositionedObject::Acceleration;
-	//using PositionedObject::Velocity2;
-	//using PositionedObject::Acceleration2;
-	//using PositionedObject::Position2;
-	//using PositionedObject::ScreenWidth;
-	//using PositionedObject::ScreenHeight;
-
 	bool Enabled = true;
 	bool BeenHit = false;
 	float Scale = 1.0f;
@@ -40,10 +28,10 @@ public:
 	virtual void Draw();
 	bool CirclesIntersect(Entity* target);
 	float AngleFromVectorZ(Vector3 target);
-	Vector3 VelocityFromAngleZ(float rotation, float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
-
+	Vector3 VelocityFromAngleZ(float angle, float magnitude);
+	Vector3 RandomeVelocity(float magnitude);
+	float AngleFromVectorsZ(Vector3 origin, Vector3 target);
 private:
-
 };
 

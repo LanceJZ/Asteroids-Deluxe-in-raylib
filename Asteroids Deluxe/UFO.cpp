@@ -187,7 +187,7 @@ void UFO::FireShot()
 			PlaySound(Sound04);
 		}
 
-		Vector3 offset = Vector3Add(VelocityFromAngleZ(ang, Radius), Position);
+		Vector3 offset = Vector3Add(VelocityFromAngleZ(Radius), Position);
 		shot->Spawn(offset,	VelocityFromAngleZ(ang, shotSpeed), 1.75f);	}
 }
 
@@ -208,15 +208,30 @@ bool UFO::CheckCollision()
 {
 	if (shot->CirclesIntersect(player))
 	{
-		player->Hit();
+		if (player->GetShieldIsOn())
+		{
+			player->ShieldHit(shot->Position, shot->Velocity);
+		}
+		else
+		{
+			player->Hit();
+		}
+
 		shot->Enabled = false;
 	}
 
 	if (CirclesIntersect(player))
 	{
-		player->Hit();
-		GiveScore();
-		return true;
+		if (player->GetShieldIsOn())
+		{
+			player->ShieldHit(Position, Velocity);
+		}
+		else
+		{
+			player->Hit();
+			GiveScore();
+			return true;
+		}
 	}
 
 	for (auto shot : player->shots)

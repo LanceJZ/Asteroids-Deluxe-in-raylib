@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "RockControl.h"
 #include "UFOControl.h"
+#include "WedgeControl.h"
 using namespace std;
 
 enum GameState
@@ -37,6 +38,7 @@ private:
 	Player* player;
 	RockControl* rockControl;
 	UFOControl* ufoControl;
+	WedgeControl* wedgeControl;
 
 	void ProcessInput();
 	void Update(float deltaTime);
