@@ -7,7 +7,7 @@
 class WedgeGroup : public Entity
 {
 public:
-	bool docked = true;
+	bool wedgepairsDocked = true;
 	bool newWave = false;
 
 	WedgePair* wedgePairs[3];
@@ -22,10 +22,14 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Undock();
 	void Spawn(Vector3 position);
 
 private:
 	LineModel wedgeModel;
+	Player* player;
+
+	bool CheckCollision();
+	void Collision();
+	void Undock();
 };
 

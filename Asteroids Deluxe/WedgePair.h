@@ -8,6 +8,7 @@ class WedgePair : public Entity
 {
 public:
 	bool docked = true;
+	bool wedgeDocked = true;
 	bool newWave = false;
 
 	Wedge* wedges[2];
@@ -18,12 +19,11 @@ public:
 	bool Initialise();
 	void Load();
 	void LoadModel(string model);
+	void LoadWedgeModel(vector<Vector3> model);
 
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-
-	void LoadWedgeModel(vector<Vector3> model);
 
 private:
 	LineModel wedgeModel;

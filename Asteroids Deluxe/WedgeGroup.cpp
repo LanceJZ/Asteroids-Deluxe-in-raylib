@@ -10,6 +10,7 @@ WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UF
 
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
+	WedgeGroup::player = player;
 
 	Radius = 1.6f;
 }
@@ -25,7 +26,7 @@ bool WedgeGroup::Initialise()
 		wedgePair->Initialise();
 	}
 
-	docked = true;
+	wedgepairsDocked = true;
 
 	return false;
 }
@@ -52,10 +53,15 @@ void WedgeGroup::Input()
 
 void WedgeGroup::Update(float deltaTime)
 {
+	Entity::Update(deltaTime);
 
-	if (docked)
+	if (wedgepairsDocked)
 	{
-		float wY = 0.56f; //Off Center on the Y. Needs to be raised a bit.
+		if (CheckCollision())
+			Collision();
+
+		float wY = 0.75f;
+		float wYlower = 0.35f;
 		float wX = 0.65f;
 		float rot = 0.333f;
 
@@ -63,18 +69,18 @@ void WedgeGroup::Update(float deltaTime)
 
 		wedgePairs[0]->Position.y = Position.y + wY;
 		wedgePairs[0]->Position.x = Position.x;
-		wedgePairs[1]->Position = { Position.x + wX, Position.y - wY, 0 };
+		wedgePairs[1]->Position = { Position.x + wX, Position.y - wYlower, 0 };
 		wedgePairs[1]->RotationZ = (float)PI * rot;
-		wedgePairs[2]->Position = { Position.x - wX, Position.y - wY, 0 };
+		wedgePairs[2]->Position = { Position.x - wX, Position.y - wYlower, 0 };
 		wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
+
+		CheckScreenEdge();
 	}
 
 	for (auto wedgePair : wedgePairs)
 	{
 		wedgePair->Update(deltaTime);
 	}
-
-	CheckScreenEdge();
 }
 
 void WedgeGroup::Draw()
@@ -87,10 +93,39 @@ void WedgeGroup::Draw()
 	}
 }
 
+bool WedgeGroup::CheckCollision()
+{
+	if (CirclesIntersect(player))
+	{
+		return true;
+	}
+
+	for (auto shot : player->shots)
+	{
+		if (CirclesIntersect(shot))
+		{
+			shot->Enabled = false;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void WedgeGroup::Collision()
+{
+	Undock();
+}
+
 void WedgeGroup::Undock()
 {
-	docked = false;
+	wedgepairsDocked = false;
 	Velocity = { 0 };
+
+	for (auto wedgePair : wedgePairs)
+	{
+		wedgePair->docked = false;
+	}
 }
 
 void WedgeGroup::Spawn(Vector3 position)

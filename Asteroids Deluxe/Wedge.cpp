@@ -4,7 +4,7 @@ Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 {
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
-
+	Wedge::player = player;
 }
 
 Wedge::~Wedge()
@@ -36,4 +36,11 @@ void Wedge::Update(float deltaTime)
 void Wedge::Draw()
 {
 	LineModel::Draw();
+}
+
+float Wedge::ChasePlayer(Entity* chaser)
+{
+	//return Core.AimAtTargetZ(origin, Main.instance.ThePlayer.Position, rotation, rotateMagnitude);
+
+	return AimAtTargetZ(chaser->Position, player->Position, chaser->RotationZ, 5.0f);
 }

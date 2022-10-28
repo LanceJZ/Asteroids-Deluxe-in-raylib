@@ -32,7 +32,7 @@ bool WedgePair::Initialise()
 		wedge->Initialise();
 	}
 
-	docked = true;
+	wedgeDocked = true;
 
 	return false;
 }
@@ -55,7 +55,7 @@ void WedgePair::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
-	if (docked)
+	if (wedgeDocked)
 	{
 		Vector3 pos = VelocityFromAngleZ(RotationZ, 0.65f);
 
@@ -87,5 +87,6 @@ void WedgePair::Draw()
 
 void WedgePair::ChasePlayer()
 {
-
+	RotationVelocity.z = wedges[0]->ChasePlayer(this);
+	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }
