@@ -19,11 +19,11 @@ WedgeGroup::~WedgeGroup()
 {
 }
 
-bool WedgeGroup::Initialise()
+bool WedgeGroup::Initialize()
 {
 	for (auto wedgePair : wedgePairs)
 	{
-		wedgePair->Initialise();
+		wedgePair->Initialize();
 	}
 
 	wedgepairsDocked = true;
@@ -121,6 +121,7 @@ void WedgeGroup::Undock()
 {
 	wedgepairsDocked = false;
 	Velocity = { 0 };
+	Enabled = false;
 
 	for (auto wedgePair : wedgePairs)
 	{
@@ -130,5 +131,6 @@ void WedgeGroup::Undock()
 
 void WedgeGroup::Spawn(Vector3 position)
 {
-
+	Enabled = true;
+	Initialize();
 }

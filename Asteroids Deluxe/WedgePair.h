@@ -16,7 +16,7 @@ public:
 	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo);
 	virtual ~WedgePair();
 
-	bool Initialise();
+	bool Initialize();
 	void Load();
 	void LoadModel(string model);
 	void LoadWedgeModel(vector<Vector3> model);
@@ -27,7 +27,10 @@ public:
 
 private:
 	LineModel wedgeModel;
+	Player* player;
 
+	bool CheckCollision();
+	void Collision();
 	void ChasePlayer();
 };
 

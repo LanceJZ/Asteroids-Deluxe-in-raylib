@@ -1,5 +1,72 @@
 #include "PositionedObject.h"
 
+PositionedObject::PositionedObject()
+{
+
+}
+
+void PositionedObject::Update(float deltaTime)
+{
+	Velocity.x += Acceleration.x;
+	Velocity.y += Acceleration.y;
+	X(X() + Velocity.x * deltaTime);
+	Y(Y() + Velocity.y * deltaTime);
+
+	RotationVelocity.z += RotationAcceleration.z;
+	RotationZ += RotationVelocity.z * deltaTime;
+
+	if (RotationZ > PI * 4)
+	{
+		RotationZ = 0;
+	}
+	else if (RotationZ < 0)
+	{
+		RotationZ = PI * 4;
+	}
+
+}
+
+float PositionedObject::Chase(PositionedObject Chasing)
+{
+	return 0.0f;
+}
+
+float PositionedObject::RotateTwordsTargetZ(Vector3 target, float magnitude)
+{
+	float turnVelocity = 0;
+	float targetAngle = AngleFromVectorsZ(target);
+	float targetLessFacing = targetAngle - RotationZ;
+	float facingLessTarget = RotationZ - targetAngle;
+
+	if (abs(targetLessFacing) > PI)
+	{
+		if (RotationZ > targetAngle)
+		{
+			facingLessTarget = (((PI * 2) - RotationZ) + targetAngle) * -1;
+		}
+		else
+		{
+			facingLessTarget = ((PI * 2) - targetAngle) + RotationZ;
+		}
+	}
+
+	if (facingLessTarget > 0)
+	{
+		turnVelocity = -magnitude;
+	}
+	else
+	{
+		turnVelocity = magnitude;
+	}
+
+	return turnVelocity;
+}
+
+float PositionedObject::AngleFromVectorsZ(Vector3 target)
+{
+	return (atan2(target.y - Position.y, target.x - Position.x));
+}
+
 float PositionedObject::X()
 {
 	return Position.x;
@@ -30,32 +97,6 @@ void PositionedObject::Y(float y)
 void PositionedObject::Z(float z)
 {
 	Position.z = z;
-}
-
-PositionedObject::PositionedObject()
-{
-
-}
-
-void PositionedObject::Update(float deltaTime)
-{
-	Velocity.x += Acceleration.x;
-	Velocity.y += Acceleration.y;
-	X(X() + Velocity.x * deltaTime);
-	Y(Y() + Velocity.y * deltaTime);
-
-	RotationVelocity.z += RotationAcceleration.z;
-	RotationZ += RotationVelocity.z * deltaTime;
-
-	if (RotationZ > PI * 4)
-	{
-		RotationZ = 0;
-	}
-	else if (RotationZ < 0)
-	{
-		RotationZ = PI * 4;
-	}
-
 }
 
 void PositionedObject::CheckScreenEdge()

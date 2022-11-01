@@ -9,6 +9,9 @@ WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO*
 
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
+	WedgePair::player = player;
+
+	Radius = 0.6f;
 }
 
 WedgePair::~WedgePair()
@@ -25,11 +28,11 @@ void WedgePair::LoadWedgeModel(vector<Vector3> model)
 	}
 }
 
-bool WedgePair::Initialise()
+bool WedgePair::Initialize()
 {
 	for (auto wedge : wedges)
 	{
-		wedge->Initialise();
+		wedge->Initialize();
 	}
 
 	wedgeDocked = true;
@@ -66,9 +69,15 @@ void WedgePair::Update(float deltaTime)
 		wedges[0]->X(pos.x + Position.x);
 		wedges[0]->Y(pos.y + Position.y);
 	}
-	else
+
+	if (!docked && wedgeDocked)
 	{
 		ChasePlayer();
+
+		if (CheckCollision())
+		{
+			Collision();
+		}
 	}
 
 	for (auto wedge : wedges)
@@ -85,8 +94,40 @@ void WedgePair::Draw()
 	}
 }
 
+bool WedgePair::CheckCollision()
+{
+	if (CirclesIntersect(player))
+	{
+
+		return true;
+	}
+
+	for (auto shot : player->shots)
+	{
+		if (CirclesIntersect(shot))
+		{
+			shot->Enabled = false;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void WedgePair::Collision()
+{
+	wedgeDocked = false;
+	Velocity = { 0 };
+	Enabled = false;
+
+	for (auto wedge : wedges)
+	{
+		wedge->docked = false;
+	}
+}
+
 void WedgePair::ChasePlayer()
 {
-	RotationVelocity.z = wedges[0]->ChasePlayer(this);
+	RotationVelocity.z = RotateTwordsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }

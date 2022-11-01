@@ -1,9 +1,13 @@
 #pragma once
 #include "raylib.h"
+#include "raymath.h"
 
 class PositionedObject
 {
 public:
+	PositionedObject();
+	virtual void Update(float deltaTime);
+
 	float MaxSpeed = { 0 };
 	float RotationZ = { 0 };
 	float Radius = { 0 };
@@ -21,6 +25,10 @@ public:
 	Vector3 RotationVelocity = { 0 };
 	Vector3 RotationAcceleration = { 0 };
 
+	float Chase(PositionedObject Chasing);
+	float RotateTwordsTargetZ(Vector3 target, float magnitude);
+	float AngleFromVectorsZ(Vector3 target);
+
 	virtual float X();
 	virtual float Y();
 	virtual float Z();
@@ -28,9 +36,6 @@ public:
 	virtual void Y(float y);
 	virtual void Z(float z);
 
-	PositionedObject();
-
-	virtual void Update(float deltaTime);
 	void CheckScreenEdge();
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();

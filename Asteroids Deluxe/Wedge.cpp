@@ -11,7 +11,7 @@ Wedge::~Wedge()
 {
 }
 
-bool Wedge::Initialise()
+bool Wedge::Initialize()
 {
 	docked = true;
 
@@ -31,6 +31,15 @@ void Wedge::Input()
 void Wedge::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
+
+	if (!docked)
+	{
+		if (CheckCollision)
+		{
+			Collision();
+		}
+
+	}
 }
 
 void Wedge::Draw()
@@ -38,9 +47,32 @@ void Wedge::Draw()
 	LineModel::Draw();
 }
 
-float Wedge::ChasePlayer(Entity* chaser)
+bool Wedge::CheckCollision()
 {
-	//return Core.AimAtTargetZ(origin, Main.instance.ThePlayer.Position, rotation, rotateMagnitude);
+	if (CirclesIntersect(player))
+	{
+		return true;
+	}
 
-	return AimAtTargetZ(chaser->Position, player->Position, chaser->RotationZ, 5.0f);
+	for (auto shot : player->shots)
+	{
+		if (CirclesIntersect(shot))
+		{
+			shot->Enabled = false;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Wedge::Collision()
+{
+	Enabled = false;
+}
+
+void Wedge::ChasePlayer()
+{
+	RotationVelocity.z = RotateTwordsTargetZ(player->Position, 5.0f);
+	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }

@@ -14,14 +14,12 @@ public:
 	Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo);
 	virtual ~Wedge();
 
-	bool Initialise();
+	bool Initialize();
 	void Load();
 
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-
-	float ChasePlayer(Entity* chaser);
 
 private:
 	int score = 200;
@@ -29,5 +27,8 @@ private:
 	Player* player;
 	//Color color = {175, 175, 255};
 
+	bool CheckCollision();
+	void Collision();
+	void ChasePlayer();
 };
 

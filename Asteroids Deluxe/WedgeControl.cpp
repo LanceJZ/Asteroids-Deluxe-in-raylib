@@ -15,11 +15,11 @@ WedgeControl::~WedgeControl()
 
 bool WedgeControl::Initialise()
 {
-	wedgeGroup->Position = { 10, 10, 0 };
-	wedgeGroup->Velocity.x = 3;
-	wedgeGroup->Velocity.y = 2;
+	wedgeGroup->Position = { 15, 15, 0 };
+	wedgeGroup->Velocity.x = 2;
+	wedgeGroup->Velocity.y = 1;
 
-	wedgeGroup->Initialise();
+	wedgeGroup->Initialize();
 
 	return false;
 }

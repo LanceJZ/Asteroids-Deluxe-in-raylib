@@ -75,10 +75,12 @@ void Player::Input()
 
 	if (IsKeyDown(KEY_UP))
 	{
-		ThrustOn();
+		thrustOn = true;
+		thrustOff = false;
 	}
 	else
 	{
+		thrustOn = false;
 		thrustOff = true;
 	}
 
@@ -112,6 +114,11 @@ void Player::Update(float deltaTime)
 	if (thrustOff)
 	{
 		ThrustOff(deltaTime);
+	}
+
+	if (thrustOn)
+	{
+		ThrustOn(deltaTime);
 	}
 
 	for (auto shot : shots)
@@ -215,16 +222,17 @@ void Player::Reset()
 	}
 }
 
-void Player::ThrustOn()
+void Player::ThrustOn(float deltaTime)
 {
 	//if (!IsSoundPlaying(Sound02))
 	//{
 	//	PlaySound(Sound02);
 	//}
 
-	float acceleration = 0.25f;
-	Acceleration.x = (cos(RotationZ) * acceleration);
-	Acceleration.y = (sin(RotationZ) * acceleration);
+	float acceleration = 10.666f;
+	float topaccel = 0.05f;
+	Acceleration.x = ((cos(RotationZ) - (Velocity.x * topaccel)) * acceleration) * deltaTime;
+	Acceleration.y = ((sin(RotationZ) - (Velocity.y * topaccel)) * acceleration) * deltaTime;
 	thrustOff = false;
 	flame->Enabled = true;
 }

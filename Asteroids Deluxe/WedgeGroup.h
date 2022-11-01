@@ -14,7 +14,7 @@ public:
 
 	WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo);
 	virtual ~WedgeGroup();
-	bool Initialise();
+	bool Initialize();
 	void Load();
 	void LoadModel(string model);
 
