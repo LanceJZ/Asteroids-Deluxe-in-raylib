@@ -5,7 +5,7 @@ WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player,
 	GameScreenWidth = playScreenW;
 	GameScreenHeight = playScreenH;
 	WedgeControl::player = player;
-
+	spawnTimer = new Timer();
 	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo);
 }
 
@@ -15,11 +15,8 @@ WedgeControl::~WedgeControl()
 
 bool WedgeControl::Initialise()
 {
-	wedgeGroup->Position = { 15, 15, 0 };
-	wedgeGroup->Velocity.x = 2;
-	wedgeGroup->Velocity.y = 1;
-
 	wedgeGroup->Initialize();
+	spawnTimer->Reset(3);
 
 	return false;
 }
@@ -42,6 +39,12 @@ void WedgeControl::Input()
 void WedgeControl::Update(float deltaTime)
 {
 	wedgeGroup->Update(deltaTime);
+	spawnTimer->Update(deltaTime);
+
+	if (spawnTimer->Elapsed())
+	{
+		SpawnGroup();
+	}
 }
 
 void WedgeControl::Draw()
@@ -49,10 +52,7 @@ void WedgeControl::Draw()
 	wedgeGroup->Draw();
 }
 
-void WedgeControl::Disperse()
-{
-}
-
 void WedgeControl::SpawnGroup()
 {
+
 }

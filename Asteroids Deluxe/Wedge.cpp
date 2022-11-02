@@ -5,6 +5,7 @@ Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	Wedge::player = player;
+	Radius = 0.72f;
 }
 
 Wedge::~Wedge()
@@ -14,6 +15,7 @@ Wedge::~Wedge()
 bool Wedge::Initialize()
 {
 	docked = true;
+	Enabled = false;
 
 	return false;
 }
@@ -34,11 +36,12 @@ void Wedge::Update(float deltaTime)
 
 	if (!docked)
 	{
-		if (CheckCollision)
+		if (CheckCollision())
 		{
 			Collision();
 		}
 
+		ChasePlayer();
 	}
 }
 
@@ -73,6 +76,6 @@ void Wedge::Collision()
 
 void Wedge::ChasePlayer()
 {
-	RotationVelocity.z = RotateTwordsTargetZ(player->Position, 5.0f);
+	RotationVelocity.z = RotateTowardsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }

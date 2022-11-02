@@ -26,7 +26,7 @@ public:
 	Vector3 RotationAcceleration = { 0 };
 
 	float Chase(PositionedObject Chasing);
-	float RotateTwordsTargetZ(Vector3 target, float magnitude);
+	float RotateTowardsTargetZ(Vector3 target, float magnitude);
 	float AngleFromVectorsZ(Vector3 target);
 
 	virtual float X();

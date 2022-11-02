@@ -18,6 +18,9 @@ public:
 	float GetRandomRadian();
 	float AimAtTargetZ(Vector3 origin, Vector3 target, float facingAngle, float magnitude);
 	float AngleFromVectorsZ(Vector3 origin, Vector3 target);
+	Vector3 GetRandomVelocity(float speed);
+	Vector3 GetRandomVelocity(float speed, float radianDirection);
+	Vector3 GetVelocityFromAngleZ(float rotation, float magnitude);
 
 private:
 	random_device rd;

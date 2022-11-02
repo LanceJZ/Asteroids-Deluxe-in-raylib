@@ -59,3 +59,25 @@ float Common::AngleFromVectorsZ(Vector3 origin, Vector3 target)
 {
 	return (atan2(target.y - origin.y, target.x - origin.x));
 }
+
+Vector3 Common::GetRandomVelocity(float speed)
+{
+	return GetRandomVelocity(speed, GetRandomRadian();
+}
+
+Vector3 Common::GetRandomVelocity(float speed, float radianDirection)
+{
+	//  float amt = Core.RandomMinMax(speed * 0.15f, speed);
+	//	return VelocityFromAngleZ(radianDirection, amt);
+
+
+	return Vector3();
+}
+
+Vector3 Common::GetVelocityFromAngleZ(float rotation, float magnitude)
+{
+	//  return new Vector3(MathF.Cos(rotation) * magnitude,
+	//	MathF.Sin(rotation)* magnitude, 0);
+
+	return Vector3();
+}

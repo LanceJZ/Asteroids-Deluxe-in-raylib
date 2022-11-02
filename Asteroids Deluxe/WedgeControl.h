@@ -2,6 +2,7 @@
 #include "WedgeGroup.h"
 #include "Player.h"
 #include "UFO.h"
+#include "Timer.h"
 #include "Common.h"
 #include "raylib.h"
 
@@ -21,10 +22,9 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Disperse(); //disperse group.
-
 private:
 	Player* player;
+	Timer* spawnTimer;
 
 	void SpawnGroup();
 };

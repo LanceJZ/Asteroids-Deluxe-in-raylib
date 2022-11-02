@@ -27,6 +27,7 @@ bool WedgeGroup::Initialize()
 	}
 
 	wedgepairsDocked = true;
+	Enabled = false;
 
 	return false;
 }
@@ -132,5 +133,7 @@ void WedgeGroup::Undock()
 void WedgeGroup::Spawn(Vector3 position)
 {
 	Enabled = true;
-	Initialize();
+	Position = position;
+
+
 }

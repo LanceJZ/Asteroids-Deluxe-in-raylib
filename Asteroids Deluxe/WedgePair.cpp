@@ -11,7 +11,7 @@ WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO*
 	WindowWidth = windowWidth;
 	WedgePair::player = player;
 
-	Radius = 0.6f;
+	Radius = 0.95f;
 }
 
 WedgePair::~WedgePair()
@@ -36,6 +36,7 @@ bool WedgePair::Initialize()
 	}
 
 	wedgeDocked = true;
+	Enabled = false;
 
 	return false;
 }
@@ -88,6 +89,8 @@ void WedgePair::Update(float deltaTime)
 
 void WedgePair::Draw()
 {
+	Entity::Draw();
+
 	for (auto wedge : wedges)
 	{
 		wedge->Draw();
@@ -128,6 +131,6 @@ void WedgePair::Collision()
 
 void WedgePair::ChasePlayer()
 {
-	RotationVelocity.z = RotateTwordsTargetZ(player->Position, 5.0f);
+	RotationVelocity.z = RotateTowardsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }

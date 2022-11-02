@@ -31,22 +31,23 @@ float PositionedObject::Chase(PositionedObject Chasing)
 	return 0.0f;
 }
 
-float PositionedObject::RotateTwordsTargetZ(Vector3 target, float magnitude)
+float PositionedObject::RotateTowardsTargetZ(Vector3 target, float magnitude)
 {
 	float turnVelocity = 0;
 	float targetAngle = AngleFromVectorsZ(target);
 	float targetLessFacing = targetAngle - RotationZ;
 	float facingLessTarget = RotationZ - targetAngle;
+	float pi = (float)PI;
 
-	if (abs(targetLessFacing) > PI)
+	if (abs((int)targetLessFacing) > pi)
 	{
 		if (RotationZ > targetAngle)
 		{
-			facingLessTarget = (((PI * 2) - RotationZ) + targetAngle) * -1;
+			facingLessTarget = (((pi * 2) - RotationZ) + targetAngle) * -1;
 		}
 		else
 		{
-			facingLessTarget = ((PI * 2) - targetAngle) + RotationZ;
+			facingLessTarget = ((pi * 2) - targetAngle) + RotationZ;
 		}
 	}
 
@@ -64,7 +65,7 @@ float PositionedObject::RotateTwordsTargetZ(Vector3 target, float magnitude)
 
 float PositionedObject::AngleFromVectorsZ(Vector3 target)
 {
-	return (atan2(target.y - Position.y, target.x - Position.x));
+	return ((float)atan2(target.y - Position.y, target.x - Position.x));
 }
 
 float PositionedObject::X()
