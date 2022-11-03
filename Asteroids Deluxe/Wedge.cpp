@@ -76,6 +76,6 @@ void Wedge::Collision()
 
 void Wedge::ChasePlayer()
 {
-	RotationVelocity.z = RotateTowardsTargetZ(player->Position, 5.0f);
+	RotationVelocity.z = PositionedObject::RotateTowardsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
 }

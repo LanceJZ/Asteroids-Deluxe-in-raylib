@@ -4,11 +4,11 @@
 #include "UFO.h"
 #include "Timer.h"
 #include "Common.h"
-#include "raylib.h"
 
 class WedgeControl : public Common
 {
 public:
+	bool ready = false;
 	WedgeGroup* wedgeGroup;
 
 	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo);

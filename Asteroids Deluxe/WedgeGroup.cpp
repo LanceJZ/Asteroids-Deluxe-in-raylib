@@ -130,10 +130,9 @@ void WedgeGroup::Undock()
 	}
 }
 
-void WedgeGroup::Spawn(Vector3 position)
+void WedgeGroup::Spawn(Vector3 position, Vector3 velocity)
 {
 	Enabled = true;
 	Position = position;
-
-
+	Velocity = velocity;
 }

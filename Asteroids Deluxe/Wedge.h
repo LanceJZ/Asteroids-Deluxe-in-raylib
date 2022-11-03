@@ -1,6 +1,4 @@
 #pragma once
-#include "raylib.h"
-#include "raymath.h"
 #include "LineModel.h"
 #include "Player.h"
 #include "UFO.h"

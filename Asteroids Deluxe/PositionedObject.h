@@ -1,8 +1,7 @@
 #pragma once
-#include "raylib.h"
-#include "raymath.h"
+#include "Common.h"
 
-class PositionedObject
+class PositionedObject : public Common
 {
 public:
 	PositionedObject();

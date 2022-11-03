@@ -2,7 +2,6 @@
 #include "Wedge.h"
 #include "Player.h"
 #include "UFO.h"
-#include "raylib.h"
 
 class WedgePair : public Entity
 {

@@ -43,7 +43,12 @@ void WedgeControl::Update(float deltaTime)
 
 	if (spawnTimer->Elapsed())
 	{
-		SpawnGroup();
+		spawnTimer->Reset();
+
+		if (ready)
+		{
+			SpawnGroup();
+		}
 	}
 }
 
@@ -54,5 +59,11 @@ void WedgeControl::Draw()
 
 void WedgeControl::SpawnGroup()
 {
+	/*      Velocity = Core.RandomVelocity(3);
+			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);
+			X = Core.ScreenWidth;
+	*/
 
+	wedgeGroup->Spawn({ GameScreenWidth,
+		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(3));
 }

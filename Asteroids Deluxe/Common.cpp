@@ -24,10 +24,10 @@ float Common::GetRandomRadian()
 	return GetRandomFloat(0, PI * 2);
 }
 
-float Common::AimAtTargetZ(Vector3 origin, Vector3 target, float facingAngle, float magnitude)
+float Common::RotateTowardsTargetZ(Vector3 origin, Vector3 target, float facingAngle, float magnitude)
 {
 	float turnVelocity = 0;
-	float targetAngle = AngleFromVectorsZ(origin, target);
+	float targetAngle = GetAngleFromVectorsZ(origin, target);
 	float targetLessFacing = targetAngle - facingAngle;
 	float facingLessTarget = facingAngle - targetAngle;
 
@@ -55,14 +55,14 @@ float Common::AimAtTargetZ(Vector3 origin, Vector3 target, float facingAngle, fl
 	return turnVelocity;
 }
 
-float Common::AngleFromVectorsZ(Vector3 origin, Vector3 target)
+float Common::GetAngleFromVectorsZ(Vector3 origin, Vector3 target)
 {
-	return (atan2(target.y - origin.y, target.x - origin.x));
+	return (atan2f(target.y - origin.y, target.x - origin.x));
 }
 
 Vector3 Common::GetRandomVelocity(float speed)
 {
-	return GetRandomVelocity(speed, GetRandomRadian();
+	return GetRandomVelocity(speed, GetRandomRadian());
 }
 
 Vector3 Common::GetRandomVelocity(float speed, float radianDirection)
@@ -70,8 +70,7 @@ Vector3 Common::GetRandomVelocity(float speed, float radianDirection)
 	//  float amt = Core.RandomMinMax(speed * 0.15f, speed);
 	//	return VelocityFromAngleZ(radianDirection, amt);
 
-
-	return Vector3();
+	return GetVelocityFromAngleZ(radianDirection, GetRandomFloat(speed * 0.15f, speed));
 }
 
 Vector3 Common::GetVelocityFromAngleZ(float rotation, float magnitude)
@@ -79,5 +78,5 @@ Vector3 Common::GetVelocityFromAngleZ(float rotation, float magnitude)
 	//  return new Vector3(MathF.Cos(rotation) * magnitude,
 	//	MathF.Sin(rotation)* magnitude, 0);
 
-	return Vector3();
+	return { cosf(rotation) * magnitude, sinf(rotation) * magnitude, 0 };
 }

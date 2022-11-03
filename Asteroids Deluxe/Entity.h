@@ -1,9 +1,7 @@
 #pragma once
-#include "raylib.h"
 #include "PositionedObject.h"
-#include "Common.h"
 
-class Entity : public PositionedObject, public Common
+class Entity : public PositionedObject
 {
 public:
 	bool Enabled = true;
