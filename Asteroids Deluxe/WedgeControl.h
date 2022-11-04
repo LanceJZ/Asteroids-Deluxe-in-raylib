@@ -4,6 +4,7 @@
 #include "UFO.h"
 #include "Timer.h"
 #include "Common.h"
+#include "CrossCom.h"
 
 class WedgeControl : public Common
 {
@@ -11,7 +12,7 @@ public:
 	bool ready = false;
 	WedgeGroup* wedgeGroup;
 
-	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo);
+	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom);
 	virtual ~WedgeControl();
 
 	bool Initialise();
@@ -25,6 +26,7 @@ public:
 private:
 	Player* player;
 	Timer* spawnTimer;
+	CrossCom* crossCom;
 
 	void SpawnGroup();
 };

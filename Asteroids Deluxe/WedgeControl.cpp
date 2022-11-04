@@ -1,10 +1,11 @@
 #include "WedgeControl.h"
 
-WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo)
+WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom)
 {
 	GameScreenWidth = playScreenW;
 	GameScreenHeight = playScreenH;
 	WedgeControl::player = player;
+	WedgeControl::crossCom = crosscom;
 	spawnTimer = new Timer();
 	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo);
 }
@@ -41,14 +42,16 @@ void WedgeControl::Update(float deltaTime)
 	wedgeGroup->Update(deltaTime);
 	spawnTimer->Update(deltaTime);
 
-	if (spawnTimer->Elapsed())
+	if (ready)
 	{
-		spawnTimer->Reset();
-
-		if (ready)
+		if (spawnTimer->Elapsed())
 		{
 			SpawnGroup();
 		}
+	}
+	else
+	{
+		spawnTimer->Reset();
 	}
 }
 
@@ -63,6 +66,13 @@ void WedgeControl::SpawnGroup()
 			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);
 			X = Core.ScreenWidth;
 	*/
+	ready = false;
+
+	if (wedgeGroup->Enabled)
+	{
+		spawnTimer->Reset();
+		return;
+	}
 
 	wedgeGroup->Spawn({ GameScreenWidth,
 		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(3));

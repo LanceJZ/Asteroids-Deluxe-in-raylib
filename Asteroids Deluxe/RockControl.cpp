@@ -1,12 +1,13 @@
 #include "RockControl.h"
 #include <vector>
 
-RockControl::RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo)
+RockControl::RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo, CrossCom* crosscom)
 {
 	GameScreenWidth = screenWidth;
 	GameScreenHeight = screenHeight;
 	RockControl::player = player;
 	RockControl::ufo = ufo;
+	RockControl::crossCom = crosscom;
 }
 
 bool RockControl::Initialize()
@@ -108,6 +109,23 @@ void RockControl::RockHit(Rock* rockHit)
 			NewWave();
 		break;
 	}
+
+	int rockCount = 0;
+
+	for (auto rock : rocks)
+	{
+		if (rock->Enabled)
+		{
+			rockCount++;
+		}
+
+	}
+
+	if (rockCount < 4)
+	{
+		rockCountUnderFour = true;
+	}
+
 }
 
 void RockControl::SpawnNewWave(int numberOfRocks)

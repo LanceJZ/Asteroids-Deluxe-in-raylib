@@ -49,6 +49,7 @@ bool Game::Initialise()
 	playerClear.Enabled = false;
 	player = new Player(playScreenW, playScreenH);
 	ufoControl = new UFOControl(playScreenW, playScreenH, player);
+	crossCom = new CrossCom();
 	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo);
 	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo);
 
@@ -116,6 +117,11 @@ void Game::Update(float deltaTime)
 	rockControl->Update(deltaTime);
 	ufoControl->Update(deltaTime);
 	wedgeControl->Update(deltaTime);
+
+	if (rockControl->rockCountUnderFour)
+	{
+		wedgeControl->ready = true;
+	}
 }
 
 void Game::Draw()

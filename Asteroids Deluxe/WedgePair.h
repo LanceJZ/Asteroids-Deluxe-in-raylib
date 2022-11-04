@@ -24,6 +24,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	void Spawn();
+
 private:
 	LineModel wedgeModel;
 	Player* player;

@@ -29,6 +29,8 @@ bool WedgeGroup::Initialize()
 	wedgepairsDocked = true;
 	Enabled = false;
 
+	Position = { 20, 20, 0 };
+
 	return false;
 }
 
@@ -78,9 +80,16 @@ void WedgeGroup::Update(float deltaTime)
 		CheckScreenEdge();
 	}
 
+	Enabled = false;
+
 	for (auto wedgePair : wedgePairs)
 	{
 		wedgePair->Update(deltaTime);
+
+		if (wedgePair->Enabled)
+		{
+			Enabled = true;
+		}
 	}
 }
 
@@ -135,4 +144,9 @@ void WedgeGroup::Spawn(Vector3 position, Vector3 velocity)
 	Enabled = true;
 	Position = position;
 	Velocity = velocity;
+
+	for (auto wedgePair : wedgePairs)
+	{
+		wedgePair->Spawn();
+	}
 }

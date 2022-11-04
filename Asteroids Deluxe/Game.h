@@ -5,6 +5,7 @@
 #include "RockControl.h"
 #include "UFOControl.h"
 #include "WedgeControl.h"
+#include "CrossCom.h"
 using namespace std;
 
 enum GameState
@@ -39,6 +40,7 @@ private:
 	RockControl* rockControl;
 	UFOControl* ufoControl;
 	WedgeControl* wedgeControl;
+	CrossCom* crossCom;
 
 	void ProcessInput();
 	void Update(float deltaTime);

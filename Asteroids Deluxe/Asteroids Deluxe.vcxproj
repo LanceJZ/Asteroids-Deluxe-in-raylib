@@ -134,6 +134,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="CrossCom.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Exploder.cpp" />
@@ -172,6 +176,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="CrossCom.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exploder.h" />

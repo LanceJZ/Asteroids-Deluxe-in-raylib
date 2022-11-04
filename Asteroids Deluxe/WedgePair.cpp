@@ -81,9 +81,16 @@ void WedgePair::Update(float deltaTime)
 		}
 	}
 
+	Enabled = false;
+
 	for (auto wedge : wedges)
 	{
 		wedge->Update(deltaTime);
+
+		if (wedge->Enabled)
+		{
+			Enabled = true;
+		}
 	}
 }
 
@@ -94,6 +101,16 @@ void WedgePair::Draw()
 	for (auto wedge : wedges)
 	{
 		wedge->Draw();
+	}
+}
+
+void WedgePair::Spawn()
+{
+	Enabled = true;
+
+	for (auto wedge : wedges)
+	{
+		wedge->Enabled = true;
 	}
 }
 
