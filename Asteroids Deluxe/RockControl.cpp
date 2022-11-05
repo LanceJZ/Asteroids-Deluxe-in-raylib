@@ -123,7 +123,7 @@ void RockControl::RockHit(Rock* rockHit)
 
 	if (rockCount < 4)
 	{
-		rockCountUnderFour = true;
+		crossCom->rocksUnderFour = true;
 	}
 
 }

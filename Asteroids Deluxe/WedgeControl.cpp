@@ -42,16 +42,18 @@ void WedgeControl::Update(float deltaTime)
 	wedgeGroup->Update(deltaTime);
 	spawnTimer->Update(deltaTime);
 
-	if (ready)
+	if (spawnTimer->Elapsed())
 	{
-		if (spawnTimer->Elapsed())
+		spawnTimer->Reset();
+
+		if (crossCom->rocksUnderFour && ready)
 		{
 			SpawnGroup();
 		}
-	}
-	else
-	{
-		spawnTimer->Reset();
+		else if (!ready)
+		{
+			ready = true;
+		}
 	}
 }
 
@@ -66,7 +68,9 @@ void WedgeControl::SpawnGroup()
 			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);
 			X = Core.ScreenWidth;
 	*/
+
 	ready = false;
+	crossCom->rocksUnderFour = false;
 
 	if (wedgeGroup->Enabled)
 	{

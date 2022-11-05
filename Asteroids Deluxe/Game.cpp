@@ -50,8 +50,8 @@ bool Game::Initialise()
 	player = new Player(playScreenW, playScreenH);
 	ufoControl = new UFOControl(playScreenW, playScreenH, player);
 	crossCom = new CrossCom();
-	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo);
-	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo);
+	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom); 
+	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 
 	return false;
 }
@@ -117,11 +117,6 @@ void Game::Update(float deltaTime)
 	rockControl->Update(deltaTime);
 	ufoControl->Update(deltaTime);
 	wedgeControl->Update(deltaTime);
-
-	if (rockControl->rockCountUnderFour)
-	{
-		wedgeControl->ready = true;
-	}
 }
 
 void Game::Draw()
@@ -160,6 +155,27 @@ void Game::CheckPlayerClear()
 		if (playerClear.CirclesIntersect(ufoControl->ufo->shot))
 		{
 			clear = false;
+		}
+
+		if (playerClear.CirclesIntersect(wedgeControl->wedgeGroup))
+		{
+			clear = false;
+		}
+
+		for (auto wedgePair : wedgeControl->wedgeGroup->wedgePairs)
+		{
+			if (playerClear.CirclesIntersect(wedgePair))
+			{
+				clear = false;
+			}
+
+			for (auto wedge : wedgePair->wedges)
+			{
+				if (playerClear.CirclesIntersect(wedge))
+				{
+					clear = false;
+				}
+			}
 		}
 	}
 
