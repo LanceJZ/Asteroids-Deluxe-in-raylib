@@ -35,7 +35,6 @@ bool WedgePair::Initialize()
 		wedge->Initialize();
 	}
 
-	wedgeDocked = true;
 	Enabled = false;
 
 	return false;
@@ -63,12 +62,12 @@ void WedgePair::Update(float deltaTime)
 	{
 		Vector3 pos = VelocityFromAngleZ(RotationZ, 0.65f);
 
-		wedges[1]->RotationZ = (float)PI + RotationZ;
 		wedges[1]->X(Position.x - pos.x);
 		wedges[1]->Y(Position.y - pos.y);
-		wedges[0]->RotationZ = RotationZ;
 		wedges[0]->X(pos.x + Position.x);
 		wedges[0]->Y(pos.y + Position.y);
+		wedges[1]->RotationZ = (float)PI + RotationZ;
+		wedges[0]->RotationZ = RotationZ;
 	}
 
 	if (!docked && wedgeDocked)
@@ -81,16 +80,9 @@ void WedgePair::Update(float deltaTime)
 		}
 	}
 
-	Enabled = false;
-
 	for (auto wedge : wedges)
 	{
 		wedge->Update(deltaTime);
-
-		if (wedge->Enabled)
-		{
-			Enabled = true;
-		}
 	}
 }
 
@@ -107,10 +99,14 @@ void WedgePair::Draw()
 void WedgePair::Spawn()
 {
 	Enabled = true;
+	wedgeDocked = true;
+	docked = true;
+	wedges[1]->RotationZ = (float)PI + RotationZ;
+	wedges[0]->RotationZ = RotationZ;
 
 	for (auto wedge : wedges)
 	{
-		wedge->Enabled = true;
+		wedge->Spawn();
 	}
 }
 
@@ -137,8 +133,9 @@ bool WedgePair::CheckCollision()
 void WedgePair::Collision()
 {
 	wedgeDocked = false;
-	Velocity = { 0 };
 	Enabled = false;
+	Velocity = { 0 };
+	RotationVelocity.z = 0;
 
 	for (auto wedge : wedges)
 	{

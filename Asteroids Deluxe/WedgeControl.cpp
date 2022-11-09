@@ -18,6 +18,7 @@ bool WedgeControl::Initialise()
 {
 	wedgeGroup->Initialize();
 	spawnTimer->Reset(3);
+	ready = false;
 
 	return false;
 }
@@ -55,6 +56,29 @@ void WedgeControl::Update(float deltaTime)
 			ready = true;
 		}
 	}
+
+	if (!crossCom->rocksUnderFour)
+	{
+		spawnTimer->Reset();
+	}
+
+	bool resetTimer = false;
+
+	for (auto wedgePair : wedgeGroup->wedgePairs)
+	{
+		for (auto wedge : wedgePair->wedges)
+		{
+			if (wedge->Enabled)
+			{
+				resetTimer = true;
+			}
+		}
+	}
+
+	if (resetTimer)
+	{
+		spawnTimer->Reset();
+	}
 }
 
 void WedgeControl::Draw()
@@ -62,7 +86,7 @@ void WedgeControl::Draw()
 	wedgeGroup->Draw();
 }
 
-void WedgeControl::SpawnGroup()
+void WedgeControl::SpawnGroup() //TODO: See why not spawning second time properly.
 {
 	/*      Velocity = Core.RandomVelocity(3);
 			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);
@@ -71,12 +95,6 @@ void WedgeControl::SpawnGroup()
 
 	ready = false;
 	crossCom->rocksUnderFour = false;
-
-	if (wedgeGroup->Enabled)
-	{
-		spawnTimer->Reset();
-		return;
-	}
 
 	wedgeGroup->Spawn({ GameScreenWidth,
 		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(3));

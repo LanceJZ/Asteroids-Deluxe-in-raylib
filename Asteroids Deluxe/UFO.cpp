@@ -41,7 +41,7 @@ void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
 
 void UFO::Update(float deltaTime)
 {
-	PositionedObject::Update(deltaTime);
+	LineModel::Update(deltaTime);
 	exploder->Update(deltaTime);
 	shot->Update(deltaTime);
 
@@ -214,7 +214,7 @@ bool UFO::CheckCollision()
 		}
 		else
 		{
-			player->Hit();
+			//player->Hit();
 		}
 
 		shot->Enabled = false;
@@ -228,7 +228,7 @@ bool UFO::CheckCollision()
 		}
 		else
 		{
-			player->Hit();
+			//player->Hit();
 			GiveScore();
 			return true;
 		}

@@ -14,7 +14,6 @@ Wedge::~Wedge()
 
 bool Wedge::Initialize()
 {
-	docked = true;
 	Enabled = false;
 
 	return false;
@@ -50,6 +49,12 @@ void Wedge::Draw()
 	LineModel::Draw();
 }
 
+void Wedge::Spawn()
+{
+	Enabled = true;
+	docked = true;
+}
+
 bool Wedge::CheckCollision()
 {
 	if (CirclesIntersect(player))
@@ -72,6 +77,8 @@ bool Wedge::CheckCollision()
 void Wedge::Collision()
 {
 	Enabled = false;
+	RotationVelocity.z = 0;
+	Velocity = { 0 };
 }
 
 void Wedge::ChasePlayer()

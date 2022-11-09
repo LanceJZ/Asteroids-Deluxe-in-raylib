@@ -19,6 +19,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	void Spawn();
+
 private:
 	int score = 200;
 	float rotateMagnitude = PI / 2;
