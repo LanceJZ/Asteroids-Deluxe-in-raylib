@@ -28,7 +28,7 @@ bool WedgeGroup::Initialize()
 
 	Enabled = false;
 
-	Position = { 20, 20, 0 };
+	Position = { 30, 30, 0 };
 
 	return false;
 }

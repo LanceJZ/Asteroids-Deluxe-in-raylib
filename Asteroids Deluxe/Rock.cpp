@@ -22,7 +22,7 @@ Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 
 void Rock::Update(float deltaTime)
 {
-	PositionedObject::Update(deltaTime);
+	LineModel::Update(deltaTime);
 	exploder->Update(deltaTime);
 	CheckScreenEdge();
 
@@ -136,7 +136,7 @@ bool Rock::CheckCollision()
 		}
 		else
 		{
-			player->Hit();
+			//player->Hit();
 			GiveScore();
 			return true;
 		}

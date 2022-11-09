@@ -40,7 +40,6 @@ void WedgeControl::Input()
 
 void WedgeControl::Update(float deltaTime)
 {
-	wedgeGroup->Update(deltaTime);
 	spawnTimer->Update(deltaTime);
 
 	if (spawnTimer->Elapsed())
@@ -79,6 +78,8 @@ void WedgeControl::Update(float deltaTime)
 	{
 		spawnTimer->Reset();
 	}
+
+	wedgeGroup->Update(deltaTime);
 }
 
 void WedgeControl::Draw()
@@ -86,7 +87,7 @@ void WedgeControl::Draw()
 	wedgeGroup->Draw();
 }
 
-void WedgeControl::SpawnGroup() //TODO: See why not spawning second time properly.
+void WedgeControl::SpawnGroup() //TODO: See why not spawning a third time.
 {
 	/*      Velocity = Core.RandomVelocity(3);
 			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);

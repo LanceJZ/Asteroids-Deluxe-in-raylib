@@ -79,6 +79,7 @@ void Wedge::Collision()
 	Enabled = false;
 	RotationVelocity.z = 0;
 	Velocity = { 0 };
+	Position = { 30, 30, 0 };
 }
 
 void Wedge::ChasePlayer()
