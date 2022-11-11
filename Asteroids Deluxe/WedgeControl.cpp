@@ -89,11 +89,6 @@ void WedgeControl::Draw()
 
 void WedgeControl::SpawnGroup() //TODO: See why not spawning a third time.
 {
-	/*      Velocity = Core.RandomVelocity(3);
-			Y = Core.RandomMinMax(-Core.ScreenHeight, Core.ScreenHeight);
-			X = Core.ScreenWidth;
-	*/
-
 	ready = false;
 	crossCom->rocksUnderFour = false;
 

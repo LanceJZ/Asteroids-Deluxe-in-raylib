@@ -5,6 +5,7 @@ Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	Wedge::player = player;
+	Wedge::ufo = ufo;
 	Radius = 0.72f;
 }
 
@@ -69,6 +70,18 @@ bool Wedge::CheckCollision()
 			shot->Enabled = false;
 			return true;
 		}
+	}
+
+	if (CirclesIntersect(ufo))
+	{
+		ufo->Collision();
+		return true;
+	}
+
+	if (CirclesIntersect(ufo->shot))
+	{
+		ufo->shot->Enabled = false;
+		return true;
 	}
 
 	return false;

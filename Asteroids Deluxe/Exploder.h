@@ -6,7 +6,7 @@
 class Exploder
 {
 public:
-	LineModel dotModel;
+	Exploder(vector<Vector3> dotModel);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	bool Initialise();
@@ -16,5 +16,6 @@ public:
 
 private:
 	vector<Dot*> dots;
+	LineModel dotModel;
 };
 

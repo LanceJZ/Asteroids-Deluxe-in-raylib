@@ -29,6 +29,7 @@ public:
 private:
 	LineModel wedgeModel;
 	Player* player;
+	UFO* ufo;
 
 	bool CheckCollision();
 	void Collision();

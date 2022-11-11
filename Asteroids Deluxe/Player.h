@@ -20,7 +20,7 @@ public:
 	vector<Line*> lines;
 
 	Player(float windowWidth, float windowHeight);
-	void LoadModel(string shipmodel, string flamemodel, string shieldmodel);
+	void LoadModel(string shipmodel, string flamemodel, string shieldmodel, vector<Vector3> dotModel);
 	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus);
 	virtual void Initialize(); //initialize
 	virtual void Input();
@@ -44,7 +44,6 @@ private:
 
 	LineModel* flame;
 	LineModel* shield;
-	LineModel dotModel;
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

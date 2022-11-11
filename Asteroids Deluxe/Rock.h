@@ -15,16 +15,16 @@ public:
 	};
 
 	RockSize size = Large;
-
 	Exploder* exploder;
+
+	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo);
+	void LoadSound(Sound exp);
+	void SetDotModel(vector<Vector3> dotModel);
+	bool Initialise();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	bool Initialise();
 
 	void Spawn(Vector3 pos, float speed, RockSize size);
-	void LoadModel(string rockModel);
-	void LoadSound(Sound exp);
-	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo);
 
 
 private:
@@ -32,5 +32,6 @@ private:
 	bool CheckCollision();
 	Player* player;
 	UFO* ufo;
+	vector<Vector3> dotModel;
 };
 

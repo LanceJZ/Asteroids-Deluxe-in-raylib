@@ -50,7 +50,7 @@ bool Game::Initialise()
 	player = new Player(playScreenW, playScreenH);
 	ufoControl = new UFOControl(playScreenW, playScreenH, player);
 	crossCom = new CrossCom();
-	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom); 
+	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 
 	return false;
@@ -62,10 +62,13 @@ bool Game::Load()
 	string rockTwo = "Models/RockTwo.vec";
 	string rockThree = "Models/RockThree.vec";
 	string rockFour = "Models/RockFour.vec";
+	LineModel dotModel;
+	dotModel.LoadModel("Models/Dot.vec");
 
-	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec", "Models/PlayerShield.vec");
-	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour);
-	ufoControl->LoadModel("Models/UFO.vec");
+	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec",
+		"Models/PlayerShield.vec", dotModel.GetModel());
+	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour, dotModel.GetModel());
+	ufoControl->LoadModel("Models/UFO.vec", dotModel.GetModel());
 	wedgeControl->LoadModel("Models/Wedge.vec");
 
 	return 0;

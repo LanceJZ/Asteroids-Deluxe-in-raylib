@@ -3,27 +3,19 @@
 
 UFO::UFO(float windowWidth, float windowHeight, Player* player)
 {
-	shot = new Shot(windowWidth, windowHeight);
 	UFO::player = player;
+	shot = new Shot(windowWidth, windowHeight);
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 	fireTimer = new Timer();
 	vectorTimer = new Timer();
-	exploder = new Exploder();
 }
 
-bool UFO::Initialise()
-{
-	Enabled = false;
-
-	return false;
-}
-
-void UFO::LoadModel(string ship)
+void UFO::LoadModel(string ship, vector<Vector3> dotModel)
 {
 	LineModel::LoadModel(ship);
-	Enabled = false;
-	BeenHit = false;
+	shot->SetModel(dotModel);
+	exploder = new Exploder(dotModel);
 }
 
 void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
@@ -37,6 +29,13 @@ void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
 	SetSoundVolume(Sound02, 0.5f);
 	SetSoundVolume(Sound03, 0.5f);
 	SetSoundVolume(Sound04, 0.5f);
+}
+
+bool UFO::Initialise()
+{
+	Enabled = false;
+
+	return false;
 }
 
 void UFO::Update(float deltaTime)
@@ -92,24 +91,13 @@ void UFO::Update(float deltaTime)
 
 	if (CheckCollision())
 	{
-		Enabled = false;
-		BeenHit = true;
-		exploder->Spawn(Position, 15, radius / 2.0f);
-
-		if (!player->gameOver)
-		{
-			PlaySound(Sound01);
-			StopSound(Sound02);
-			StopSound(Sound03);
-		}
+		Collision();
 	}
 }
 
 void UFO::Draw()
 {
-	if (!BeenHit)
-		LineModel::Draw();
-
+	LineModel::Draw();
 	exploder->Draw();
 	shot->Draw();
 }
@@ -119,11 +107,23 @@ void UFO::Spawn(Vector3 pos, Vector3 vel)
 	Position = pos;
 	Velocity = vel;
 	Enabled = true;
-	BeenHit = false;
 
 	ResetVectorTimer();
 	ResetFireTimer();
 	ChangeVector();
+}
+
+void UFO::Collision()
+{
+	Enabled = false;
+	exploder->Spawn(Position, 15, radius / 2.0f);
+
+	if (!player->gameOver)
+	{
+		PlaySound(Sound01);
+		StopSound(Sound02);
+		StopSound(Sound03);
+	}
 }
 
 void UFO::ResetFireTimer()

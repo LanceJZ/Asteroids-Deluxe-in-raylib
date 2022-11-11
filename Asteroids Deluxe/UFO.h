@@ -21,15 +21,16 @@ public:
 	Timer* vectorTimer;
 	Exploder* exploder;
 
-	void LoadModel(string ship);
+	UFO(float windowWidth, float windowHeight, Player* player);
+	void LoadModel(string ship, vector<Vector3> dotModel);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
+	bool Initialise();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	bool Initialise();
 
 	void Spawn(Vector3 pos, Vector3 vel);
+	void Collision();
 
-	UFO(float windowWidth, float windowHeight, Player* player);
 
 private:
 	float radius{ 0.9f };

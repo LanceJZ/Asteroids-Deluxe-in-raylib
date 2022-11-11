@@ -3,7 +3,6 @@
 
 bool Dot::Initialise()
 {
-	//LoadModel(dotFile);
 	timer = new Timer();
 
 	return false;

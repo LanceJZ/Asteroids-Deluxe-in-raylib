@@ -1,5 +1,10 @@
 #include "Exploder.h"
 
+Exploder::Exploder(vector<Vector3> dotModel)
+{
+	Exploder::dotModel.SetModel(dotModel);
+}
+
 void Exploder::Update(float deltaTime)
 {
 	for (auto dot : dots)

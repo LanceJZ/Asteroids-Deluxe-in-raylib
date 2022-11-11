@@ -1,4 +1,4 @@
-#include "RockControl.h"
+ #include "RockControl.h"
 #include <vector>
 
 RockControl::RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo, CrossCom* crosscom)
@@ -16,14 +16,15 @@ bool RockControl::Initialize()
 	return false;
 }
 
-void RockControl::LoadModel(string modelOne, string modelTwo, string modelThree, string modelFour)
+void RockControl::LoadModel(string modelOne, string modelTwo, string modelThree,
+	string modelFour, vector<Vector3> dotModel)
 {
 	rockModels[0].LoadModel(modelOne);
 	rockModels[1].LoadModel(modelTwo);
 	rockModels[2].LoadModel(modelThree);
 	rockModels[3].LoadModel(modelFour);
 
-	dotModel.LoadModel("Models/Dot.vec");
+	RockControl::dotModel = dotModel;
 }
 
 void RockControl::LoadSound(Sound exp)
@@ -155,9 +156,9 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		{
 			rocks.push_back(new Rock(GameScreenWidth, GameScreenHeight, player, ufo));
 			rocks[rockN]->SetModel(rockModels[GetRandomValue(0, 3)].GetModel());
+			rocks[rockN]->SetDotModel(dotModel);
 			rocks[rockN]->LoadSound(Explode);
 			rocks[rockN]->Initialise();
-			rocks[rockN]->exploder->dotModel.SetModel(dotModel.GetModel());
 		}
 
 		switch (size)

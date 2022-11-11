@@ -47,6 +47,5 @@ private:
 	void Draw();
 
 	void CheckPlayerClear();
-
 };
 

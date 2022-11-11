@@ -14,7 +14,8 @@ public:
 
 	RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo, CrossCom* crosscom);
 	bool Initialize();
-	virtual void LoadModel(string modelOne, string modelTwo, string modelThree,	string modelFour);
+	virtual void LoadModel(string modelOne, string modelTwo, string modelThree,
+		string modelFour, vector<Vector3> dotModel);
 	void LoadSound(Sound exp);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -27,7 +28,7 @@ private:
 	int rockCount = { 4 };
 
 	LineModel rockModels[4];
-	LineModel dotModel;
+	vector<Vector3> dotModel;
 	Sound Explode;
 
 	void CreateRocks(void);

@@ -20,9 +20,9 @@ bool UFOControl::Initialize()
 	return false;
 }
 
-void UFOControl::LoadModel(string ship)
+void UFOControl::LoadModel(string ship, vector<Vector3> dotModel)
 {
-	ufo->LoadModel(ship);
+	ufo->LoadModel(ship, dotModel);
 }
 
 void UFOControl::LoadSound(Sound exp, Sound big, Sound small, Sound fire)

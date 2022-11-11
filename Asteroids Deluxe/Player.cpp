@@ -16,16 +16,15 @@ Player::Player(float windowWidth, float windowHeight)
 	}
 }
 
-void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel)
+void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, vector<Vector3> dotModel)
 {
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
 	shield->LoadModel(shieldmodel);
-	dotModel.LoadModel("Models/Dot.vec");
 
 	for (int i = 0; i < 4; i++)
 	{
-		shots[i]->SetModel(dotModel.GetModel());
+		shots[i]->SetModel(dotModel);
 	}
 }
 

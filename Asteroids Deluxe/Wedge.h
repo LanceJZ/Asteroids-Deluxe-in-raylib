@@ -25,7 +25,7 @@ private:
 	int score = 200;
 	float rotateMagnitude = PI / 2;
 	Player* player;
-	//Color color = {175, 175, 255};
+	UFO* ufo;
 
 	bool CheckCollision();
 	void Collision();
