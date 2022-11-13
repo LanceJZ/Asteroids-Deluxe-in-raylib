@@ -53,6 +53,10 @@ bool Game::Initialise()
 	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 
+	highscores = new HighScore();
+	highscores->Load();
+	player->highScore = highscores->highScore;
+
 	return false;
 }
 
@@ -96,8 +100,8 @@ void Game::ProcessInput()
 		player->NewGame();
 		rockControl->NewGame();
 		ufoControl->NewGame();
-		//PlayerShipDisplay();
-		//highscores->gameOver = false;
+		PlayerShipDisplay();
+		highscores->gameOver = false;
 	}
 
 	if (IsKeyPressed(KEY_PAUSE) && !player->gameOver)
@@ -120,6 +124,63 @@ void Game::Update(float deltaTime)
 	rockControl->Update(deltaTime);
 	ufoControl->Update(deltaTime);
 	wedgeControl->Update(deltaTime);
+
+	for (auto line : player->lines)
+	{
+		line->Update(deltaTime);
+	}
+
+	if (player->Enabled)
+	{
+		playerClear.Enabled = false;
+
+		if (player->newLife)
+		{
+			player->newLife = false;
+			PlayerShipDisplay();
+		}
+	}
+	else
+	{
+		if (player->exploding)
+		{
+			bool done = true;
+
+			for (auto line : player->lines)
+			{
+				if (line->Enabled)
+				{
+					done = false;
+					return;
+				}
+			}
+
+			if (done)
+			{
+				player->exploding = false;
+			}
+		}
+
+		if (player->lives > 0)
+		{
+			playerClear.Enabled = true;
+			rockControl->Update(deltaTime);
+			CheckPlayerClear();
+			PlayerShipDisplay();
+		}
+		else if (!player->gameOver)
+		{
+			PlayerShipDisplay();
+			highscores->highScore = player->highScore;
+			highscores->CheckForNewHighScore(player->score);
+			player->gameOver = true;
+			highscores->gameOver = true;
+		}
+		else
+		{
+			highscores->Update(deltaTime);
+		}
+	}
 }
 
 void Game::Draw()
@@ -135,8 +196,44 @@ void Game::Draw()
 
 	EndMode3D();
 	//2D drawing, fonts go here.
+	highscores->Draw();
+
+	if (player->paused)
+	{
+		DrawText("Paused", (GetScreenWidth() / 2) - 80, (GetScreenHeight() / 2) - 20, 50, WHITE);
+	}
+
+	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, WHITE);
+	DrawText(const_cast<char*>(to_string(player->highScore).c_str()), GetScreenWidth() / 2, 4, 20, WHITE);
+	DrawText("(C) 1979 ATARI INC", (GetScreenWidth() / 2) - 15, GetScreenHeight() - 12, 8, WHITE);
 
 	EndDrawing();
+}
+
+void Game::PlayerShipDisplay()
+{
+	float line = player->WindowHeight - player->Radius - 2.5f;
+	float column = 20.0f;
+
+	if (player->lives > playerShips.size())
+	{
+		playerShips.push_back(new LineModel());
+		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
+	}
+
+	for (int i = 0; i < playerShips.size(); i++)
+	{
+		playerShips[i]->Y(line);
+		playerShips[i]->X(column);
+		playerShips[i]->RotationZ = PI / 2;
+		playerShips[i]->Enabled = false;
+		column += 1.125f;
+	}
+
+	for (int i = 0; i < player->lives; i++)
+	{
+		playerShips[i]->Enabled = true;
+	}
 }
 
 void Game::CheckPlayerClear()

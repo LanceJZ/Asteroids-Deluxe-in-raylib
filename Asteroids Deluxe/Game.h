@@ -5,6 +5,7 @@
 #include "RockControl.h"
 #include "UFOControl.h"
 #include "WedgeControl.h"
+#include "HighScore.h"
 #include "CrossCom.h"
 using namespace std;
 
@@ -41,11 +42,14 @@ private:
 	UFOControl* ufoControl;
 	WedgeControl* wedgeControl;
 	CrossCom* crossCom;
+	HighScore* highscores;
+	vector<LineModel*> playerShips;
 
 	void ProcessInput();
 	void Update(float deltaTime);
 	void Draw();
 
+	void PlayerShipDisplay();
 	void CheckPlayerClear();
 };
 
