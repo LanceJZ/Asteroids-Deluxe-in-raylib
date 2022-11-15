@@ -11,6 +11,7 @@ public:
 	bool newLife = false;
 	bool exploding = false;
 	bool gameOver = true;
+	bool debug = false;
 	int wave { 0 };
 	int score { 0 };
 	int highScore{ 0 };

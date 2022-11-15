@@ -60,6 +60,7 @@ bool Wedge::CheckCollision()
 {
 	if (CirclesIntersect(player))
 	{
+		player->Hit();
 		return true;
 	}
 

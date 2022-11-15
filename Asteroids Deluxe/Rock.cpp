@@ -137,7 +137,7 @@ bool Rock::CheckCollision()
 		}
 		else
 		{
-			//player->Hit();
+			player->Hit();
 			GiveScore();
 			return true;
 		}

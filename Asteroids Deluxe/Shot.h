@@ -14,6 +14,6 @@ public:
 private:
 	float windowWidth;
 	float windowHeight;
-	Color color{ RAYWHITE };
+	//Color color{ RAYWHITE };
 	Timer* timer;
 };

@@ -143,6 +143,7 @@
     <ClCompile Include="Exploder.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="AsteroidsDeluxe.cpp" />
+    <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LineModel.cpp" />
     <ClCompile Include="LineModelManager.cpp">
@@ -184,6 +185,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exploder.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HighScore.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineModel.h" />
     <ClInclude Include="LineModelManager.h">

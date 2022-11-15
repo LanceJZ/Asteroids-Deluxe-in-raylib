@@ -86,6 +86,14 @@ bool Game::BeginRun()
 	rockControl->NewGame();
 	wedgeControl->Initialise();
 
+	for (int i = 0; i < 4; i++)
+	{
+		playerShips.push_back(new LineModel());
+		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
+		playerShips[i]->Scale = player->Scale;
+		playerShips[i]->Enabled = false;
+	}
+
 	return false;
 }
 
@@ -107,6 +115,11 @@ void Game::ProcessInput()
 	if (IsKeyPressed(KEY_PAUSE) && !player->gameOver)
 	{
 		player->paused = !player->paused;
+	}
+
+	if (IsKeyPressed(KEY_PRINT_SCREEN) && !player->gameOver)
+	{
+		player->debug = true;
 	}
 }
 
@@ -194,6 +207,11 @@ void Game::Draw()
 	ufoControl->Draw();
 	wedgeControl->Draw();
 
+	for (auto ship : playerShips)
+	{
+		ship->Draw();
+	}
+
 	EndMode3D();
 	//2D drawing, fonts go here.
 	highscores->Draw();
@@ -201,6 +219,11 @@ void Game::Draw()
 	if (player->paused)
 	{
 		DrawText("Paused", (GetScreenWidth() / 2) - 80, (GetScreenHeight() / 2) - 20, 50, WHITE);
+	}
+
+	if (player->debug)//TODO: Not working.
+	{
+		DrawText("Debug Mode Active!", (GetScreenWidth() / 2), (GetScreenHeight() / 2), 10, WHITE);
 	}
 
 	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, WHITE);

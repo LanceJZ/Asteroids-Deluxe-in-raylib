@@ -7,6 +7,7 @@ Shot::Shot(float windowWidth, float windowHeight)
 	WindowHeight = windowHeight;
 	Radius = 0.05f;
 	timer = new Timer();
+	Scale = 1.25f;
 }
 
 void Shot::Draw()

@@ -165,13 +165,16 @@ void Player::Hit()
 {
 	//PlaySound(Sound03);
 	//StopSound(Sound02);
-
 	BeenHit = true;
 	Enabled = false;
 	thrustOff = true;
-	lives--;
 	exploding = true;
-
+#ifdef _DEBUG
+	if (!debug)
+		lives--;
+#else
+	lives--;
+#endif
 	flame->Enabled = false;
 
 	for (auto line : lines)

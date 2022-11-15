@@ -214,7 +214,7 @@ bool UFO::CheckCollision()
 		}
 		else
 		{
-			//player->Hit();
+			player->Hit();
 		}
 
 		shot->Enabled = false;

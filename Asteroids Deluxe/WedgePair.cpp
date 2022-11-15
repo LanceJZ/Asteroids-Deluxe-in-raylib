@@ -115,7 +115,7 @@ bool WedgePair::CheckCollision()
 {
 	if (CirclesIntersect(player))
 	{
-
+		player->Hit();
 		return true;
 	}
 
