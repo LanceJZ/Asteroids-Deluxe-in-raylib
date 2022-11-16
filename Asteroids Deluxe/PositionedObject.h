@@ -38,6 +38,9 @@ public:
 	void CheckScreenEdge();
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();
+	bool OffScreen();
+	bool OffScreenSide();
+	bool OffScreenTopBottom();
 
 private:
 

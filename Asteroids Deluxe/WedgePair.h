@@ -2,6 +2,7 @@
 #include "Wedge.h"
 #include "Player.h"
 #include "UFO.h"
+#include "CrossCom.h"
 
 class WedgePair : public Entity
 {
@@ -12,7 +13,7 @@ public:
 
 	Wedge* wedges[2];
 
-	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo);
+	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom);
 	virtual ~WedgePair();
 
 	bool Initialize();
@@ -30,6 +31,7 @@ private:
 	LineModel wedgeModel;
 	Player* player;
 	UFO* ufo;
+	CrossCom* crossCom;
 
 	bool CheckCollision();
 	void Collision();

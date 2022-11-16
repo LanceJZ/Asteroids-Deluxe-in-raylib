@@ -10,7 +10,7 @@ void LineModel::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
-	modelColor.a = Alpha;
+	modelColor.a = (char)Alpha;
 }
 
 void LineModel::Draw()

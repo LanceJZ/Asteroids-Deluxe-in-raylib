@@ -1,17 +1,18 @@
 #include "WedgeGroup.h"
 #include "raymath.h"
 
-WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo)
+WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		wedgePairs[i] = new WedgePair(windowWidth, windowHeight, player, ufo);
+		wedgePairs[i] = new WedgePair(windowWidth, windowHeight, player, ufo, crossCom);
 	}
 
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	WedgeGroup::player = player;
 	WedgeGroup::ufo = ufo;
+	WedgeGroup::crossCom = crossCom;
 
 	Radius = 1.6f;
 }
@@ -28,7 +29,7 @@ bool WedgeGroup::Initialize()
 	}
 
 	Enabled = false;
-
+	crossCom->newWave = false;
 	Position = { 30, 30, 0 };
 
 	return false;
@@ -77,7 +78,17 @@ void WedgeGroup::Update(float deltaTime)
 		wedgePairs[2]->Position = { Position.x - wX, Position.y - wYlower, 0 };
 		wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
 
-		CheckScreenEdge();
+		if (!crossCom->newWave)
+		{
+			CheckScreenEdge();
+		}
+		else
+		{
+			if (OffScreen())
+			{
+				Initialize();
+			}
+		}
 	}
 
 	for (auto wedgePair : wedgePairs)

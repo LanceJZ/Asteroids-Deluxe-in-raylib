@@ -1,16 +1,17 @@
 #include "WedgePair.h"
 
-WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo)
+WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		wedges[i] = new Wedge(windowWidth, windowHeight, player, ufo);
+		wedges[i] = new Wedge(windowWidth, windowHeight, player, ufo, crossCom);
 	}
 
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	WedgePair::player = player;
 	WedgePair::ufo = ufo;
+	WedgePair::crossCom = crossCom;
 
 	Radius = 0.95f;
 }
@@ -73,11 +74,24 @@ void WedgePair::Update(float deltaTime)
 
 	if (!docked && wedgeDocked)
 	{
-		ChasePlayer();
+		if (player->Enabled && !crossCom->newWave)
+			ChasePlayer();
 
 		if (CheckCollision())
 		{
 			Collision();
+		}
+	}
+
+	if (!crossCom->newWave)
+	{
+		CheckScreenEdge();
+	}
+	else
+	{
+		if (OffScreen())
+		{
+			Initialize();
 		}
 	}
 

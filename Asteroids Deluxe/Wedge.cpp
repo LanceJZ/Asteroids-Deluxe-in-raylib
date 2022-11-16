@@ -1,11 +1,12 @@
 #include "Wedge.h"
 
-Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo)
+Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
 {
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	Wedge::player = player;
 	Wedge::ufo = ufo;
+	Wedge::crossCom = crossCom;
 	Radius = 0.72f;
 }
 
@@ -41,7 +42,20 @@ void Wedge::Update(float deltaTime)
 			Collision();
 		}
 
-		ChasePlayer();
+		if (player->Enabled && !crossCom->newWave)
+			ChasePlayer();
+
+		if (!crossCom->newWave)
+		{
+			CheckScreenEdge();
+		}
+		else
+		{
+			if (OffScreen())
+			{
+				Initialize();
+			}
+		}
 	}
 }
 

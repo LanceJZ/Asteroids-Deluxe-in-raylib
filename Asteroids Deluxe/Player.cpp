@@ -291,7 +291,7 @@ void Player::ShieldOn()
 	if (shieldPower > 0)
 	{
 		shield->Enabled = true;
-		shield->Alpha = 2.55 * shieldPower;
+		shield->Alpha = 2.55f * shieldPower;
 	}
 }
 

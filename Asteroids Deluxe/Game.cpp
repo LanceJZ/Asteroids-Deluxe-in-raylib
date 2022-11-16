@@ -117,7 +117,7 @@ void Game::ProcessInput()
 		player->paused = !player->paused;
 	}
 
-	if (IsKeyPressed(KEY_PRINT_SCREEN) && !player->gameOver)
+	if (IsKeyPressed(KEY_HOME) && !player->gameOver)
 	{
 		player->debug = true;
 	}
@@ -223,7 +223,7 @@ void Game::Draw()
 
 	if (player->debug)//TODO: Not working.
 	{
-		DrawText("Debug Mode Active!", (GetScreenWidth() / 2), (GetScreenHeight() / 2), 10, WHITE);
+		DrawText("Debug Mode Active!", (int)(GetScreenWidth() / 1.1f), (int)(GetScreenHeight() / 40), 10, WHITE);
 	}
 
 	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, WHITE);

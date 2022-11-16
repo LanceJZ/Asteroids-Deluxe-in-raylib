@@ -104,3 +104,29 @@ void PositionedObject::CheckScreenEdgeY()
 		Y(WindowHeight);
 	}
 }
+
+bool PositionedObject::OffScreen()
+{
+	return OffScreenSide() || OffScreenTopBottom();
+}
+
+bool PositionedObject::OffScreenSide()
+{
+	if (X() > WindowWidth || X() < -WindowWidth)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool PositionedObject::OffScreenTopBottom()
+{
+	if (Y() > WindowHeight || Y() < -WindowHeight)
+	{
+		return true;
+	}
+
+	return false;
+}
+

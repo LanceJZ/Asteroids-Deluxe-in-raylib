@@ -7,7 +7,7 @@ WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player,
 	WedgeControl::player = player;
 	WedgeControl::crossCom = crosscom;
 	spawnTimer = new Timer();
-	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo);
+	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo, crossCom);
 }
 
 WedgeControl::~WedgeControl()

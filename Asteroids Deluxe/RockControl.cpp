@@ -76,6 +76,7 @@ void RockControl::NewGame(void)
 
 void RockControl::NewWave(void)
 {
+	crossCom->newWave = true;
 	player->wave++;
 	SpawnNewWave(rockCount);
 
