@@ -16,7 +16,7 @@ Wedge::~Wedge()
 
 bool Wedge::Initialize()
 {
-	Enabled = false;
+	TurnOff();
 
 	return false;
 }
@@ -43,7 +43,14 @@ void Wedge::Update(float deltaTime)
 		}
 
 		if (player->Enabled && !crossCom->newWave)
+		{
 			ChasePlayer();
+		}
+		else
+		{
+			RotationVelocity.z = 0;
+			Velocity = VelocityFromAngleZ(RotationZ, 5);
+		}
 
 		if (!crossCom->newWave)
 		{
@@ -104,14 +111,19 @@ bool Wedge::CheckCollision()
 
 void Wedge::Collision()
 {
-	Enabled = false;
-	RotationVelocity.z = 0;
-	Velocity = { 0 };
-	Position = { 30, 30, 0 };
+	TurnOff();
 }
 
 void Wedge::ChasePlayer()
 {
 	RotationVelocity.z = PositionedObject::RotateTowardsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
+}
+
+void Wedge::TurnOff()
+{
+	Enabled = false;
+	Velocity = { 0 };
+	RotationVelocity.z = 0;
+	Position = { 30, 30, 0 };
 }

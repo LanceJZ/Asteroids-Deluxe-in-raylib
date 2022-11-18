@@ -23,6 +23,11 @@ WedgeGroup::~WedgeGroup()
 
 bool WedgeGroup::Initialize()
 {
+	float rot = 0.333f;
+	wedgePairs[0]->RotationZ = 0;
+	wedgePairs[1]->RotationZ = (float)PI * rot;
+	wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
+
 	for (auto wedgePair : wedgePairs)
 	{
 		wedgePair->Initialize();
@@ -109,11 +114,13 @@ void WedgeGroup::Draw()
 
 void WedgeGroup::Spawn(Vector3 position, Vector3 velocity)
 {
+	Initialize();
+
 	Enabled = true;
 	wedgepairsDocked = true;
 	Position = position;
 	Velocity = velocity;
-	float rot = 0.333f;
+	float rot = 0.333333f;
 	wedgePairs[0]->RotationZ = 0;
 	wedgePairs[1]->RotationZ = (float)PI * rot;
 	wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;

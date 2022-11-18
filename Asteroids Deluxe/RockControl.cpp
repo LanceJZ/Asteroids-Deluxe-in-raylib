@@ -127,7 +127,10 @@ void RockControl::RockHit(Rock* rockHit)
 	{
 		crossCom->rocksUnderFour = true;
 	}
-
+	else
+	{
+		crossCom->rocksUnderFour = false;
+	}
 }
 
 void RockControl::SpawnNewWave(int numberOfRocks)

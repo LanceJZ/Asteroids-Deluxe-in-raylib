@@ -249,6 +249,11 @@ bool UFO::CheckCollision()
 
 float UFO::AimedShot()
 {
+	if (!player->Enabled)
+	{
+		return GetRandomRadian();
+	}
+
 	float percentChance = 0.2f - (player->score * 0.00001f);
 
 	if (percentChance < 0)
@@ -257,11 +262,6 @@ float UFO::AimedShot()
 	}
 
 	percentChance += GetRandomFloat(0.0, 0.05f);
-
-	if (!player->Enabled)
-	{
-		return GetRandomRadian();
-	}
 
 	return AngleFromVectorZ(player->Position) +
 		GetRandomFloat(-percentChance, percentChance);

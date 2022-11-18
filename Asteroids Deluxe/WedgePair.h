@@ -36,5 +36,6 @@ private:
 	bool CheckCollision();
 	void Collision();
 	void ChasePlayer();
+	void TurnOff();
 };
 

@@ -46,6 +46,9 @@ void WedgeControl::Update(float deltaTime)
 	{
 		spawnTimer->Reset();
 
+		if (wedgeGroup->Enabled)
+			return;
+
 		if (crossCom->rocksUnderFour && ready)
 		{
 			SpawnGroup();
@@ -90,7 +93,6 @@ void WedgeControl::Draw()
 void WedgeControl::SpawnGroup() //TODO: See why not spawning a third time.
 {
 	ready = false;
-	crossCom->rocksUnderFour = false;
 
 	wedgeGroup->Spawn({ GameScreenWidth,
 		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(3));

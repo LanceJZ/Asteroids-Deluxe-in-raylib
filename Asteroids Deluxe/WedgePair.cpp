@@ -32,12 +32,15 @@ void WedgePair::LoadWedgeModel(vector<Vector3> model)
 
 bool WedgePair::Initialize()
 {
+	wedges[0]->RotationZ = RotationZ;
+	wedges[1]->RotationZ = (float)PI + RotationZ;
+
 	for (auto wedge : wedges)
 	{
 		wedge->Initialize();
 	}
 
-	Enabled = false;
+	TurnOff();
 
 	return false;
 }
@@ -75,7 +78,14 @@ void WedgePair::Update(float deltaTime)
 	if (!docked && wedgeDocked)
 	{
 		if (player->Enabled && !crossCom->newWave)
+		{
 			ChasePlayer();
+		}
+		else
+		{
+			RotationVelocity.z = 0;
+			Velocity = VelocityFromAngleZ(RotationZ, 5);
+		}
 
 		if (CheckCollision())
 		{
@@ -116,8 +126,8 @@ void WedgePair::Spawn()
 	Enabled = true;
 	wedgeDocked = true;
 	docked = true;
-	wedges[1]->RotationZ = (float)PI + RotationZ;
 	wedges[0]->RotationZ = RotationZ;
+	wedges[1]->RotationZ = (float)PI + RotationZ;
 
 	for (auto wedge : wedges)
 	{
@@ -160,9 +170,7 @@ bool WedgePair::CheckCollision()
 void WedgePair::Collision()
 {
 	wedgeDocked = false;
-	Enabled = false;
-	Velocity = { 0 };
-	RotationVelocity.z = 0;
+	TurnOff();
 
 	for (auto wedge : wedges)
 	{
@@ -174,4 +182,12 @@ void WedgePair::ChasePlayer()
 {
 	RotationVelocity.z = RotateTowardsTargetZ(player->Position, 5.0f);
 	Velocity = VelocityFromAngleZ(RotationZ, 5);
+}
+
+void WedgePair::TurnOff()
+{
+	Enabled = false;
+	Velocity = { 0 };
+	RotationVelocity.z = 0;
+	Position = { 30, 30, 0 };
 }
