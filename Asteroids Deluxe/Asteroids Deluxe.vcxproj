@@ -195,6 +195,8 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionedObject.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="RockControl.h" />
     <ClInclude Include="Shot.h" />
@@ -217,6 +219,9 @@
       <SubType>
       </SubType>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Asteroids Deluxe.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
