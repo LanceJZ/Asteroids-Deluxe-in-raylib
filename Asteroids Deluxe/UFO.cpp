@@ -253,27 +253,14 @@ bool UFO::CheckCollision()
 {
 	if (shot->CirclesIntersect(player))
 	{
-		if (player->GetShieldIsOn())
-		{
-			player->ShieldHit(shot->Position, shot->Velocity);
-		}
-		else
-		{
-			player->Hit();
-		}
-
+		player->ShieldHit(shot->Position, shot->Velocity);
 		shot->Enabled = false;
 	}
 
 	if (CirclesIntersect(player))
 	{
-		if (player->GetShieldIsOn())
+		if (!player->ShieldHit(Position, Velocity))
 		{
-			player->ShieldHit(Position, Velocity);
-		}
-		else
-		{
-			//player->Hit();
 			GiveScore();
 			return true;
 		}

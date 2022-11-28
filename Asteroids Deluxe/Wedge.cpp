@@ -83,8 +83,11 @@ bool Wedge::CheckCollision()
 {
 	if (CirclesIntersect(player))
 	{
-		player->Hit();
-		return true;
+		if (!player->ShieldHit(Position, Velocity))
+		{
+			player->ScoreUpdate(200);
+			return true;
+		}
 	}
 
 	for (auto shot : player->shots)

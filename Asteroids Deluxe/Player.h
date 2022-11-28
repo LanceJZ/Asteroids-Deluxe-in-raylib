@@ -35,7 +35,7 @@ public:
 	void NewGame();
 	void Reset();
 	bool GetShieldIsOn();
-	Vector3 ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel);
+	bool ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel);
 
 private:
 	bool thrustOff = true;

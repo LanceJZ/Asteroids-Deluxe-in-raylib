@@ -187,6 +187,7 @@ void Player::Hit()
 	thrustOn = false;
 	exploding = true;
 	flame->Enabled = false;
+	shield->Enabled = false;
 	Acceleration = { 0 };
 	Velocity = { 0 };
 
@@ -286,22 +287,27 @@ void Player::Fire()
 	}
 }
 
-Vector3 Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
+bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 {
 	if (IsSoundPlaying(Sound05))
 	{
 		StopSound(Sound05);
 	}
 
+	if (shieldPower == 0 || !shield->Enabled)
+	{
+		Hit();
+		return false;
+	}
+
 	PlaySound(Sound05);
 
-	Vector3 velOut = Velocity;
 	Acceleration = { 0 };
 	Velocity.x = (Velocity.x * 0.1f) * -1;
 	Velocity.y = (Velocity.y * 0.1f) * -1;
 	Velocity.x = hitbyVel.x * 0.95f;
 	Velocity.y = hitbyVel.y * 0.95f;
-	Vector3 vel = VelocityFromAngleZ(AngleFromVectorsZ(hitbyPos, Position), 3.5f);
+	Vector3 vel = VelocityFromAngleZ(AngleFromVectorsZ(hitbyPos, Position), 4.5f);
 	Velocity.x += vel.x;
 	Velocity.y += vel.y;
 
@@ -314,7 +320,7 @@ Vector3 Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 		shieldPower = 0;
 	}
 
-	return velOut;
+	return true;
 }
 
 void Player::ShieldOn()
