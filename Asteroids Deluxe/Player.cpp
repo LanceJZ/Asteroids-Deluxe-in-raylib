@@ -16,6 +16,17 @@ Player::Player(float windowWidth, float windowHeight)
 	}
 }
 
+Player::~Player()
+{
+	UnloadSound(Sound01);
+	UnloadSound(Sound02);
+	UnloadSound(Sound03);
+	UnloadSound(Sound04);
+	UnloadSound(Sound05);
+	UnloadSound(Sound06);
+	UnloadSound(Sound07);
+}
+
 void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, vector<Vector3> dotModel)
 {
 	LineModel::LoadModel(shipmodel);
@@ -28,17 +39,24 @@ void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, 
 	}
 }
 
-void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus)
+void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus, Sound shieldHit, Sound shieldOn,
+	Sound spawn)
 {
 	Sound01 = fireS;
 	Sound02 = thrustS;
 	Sound03 = exp;
 	Sound04 = bonus;
+	Sound05 = shieldHit;
+	Sound06 = shieldOn;
+	Sound07 = spawn;
 
 	SetSoundVolume(Sound01, 0.25f);
 	SetSoundVolume(Sound02, 0.5f);
-	SetSoundVolume(Sound03, 0.5f);
+	SetSoundVolume(Sound03, 0.95f);
 	SetSoundVolume(Sound04, 0.75f);
+	SetSoundVolume(Sound05, 0.75f);
+	SetSoundVolume(Sound06, 0.75f);
+	SetSoundVolume(Sound07, 0.75f);
 }
 
 void Player::Initialize()
@@ -114,8 +132,7 @@ void Player::Update(float deltaTime)
 	{
 		ThrustOff(deltaTime);
 	}
-
-	if (thrustOn)
+	else if (thrustOn && Enabled)
 	{
 		ThrustOn(deltaTime);
 	}
@@ -163,24 +180,28 @@ void Player::Draw()
 
 void Player::Hit()
 {
-	//PlaySound(Sound03);
-	//StopSound(Sound02);
-	BeenHit = true;
+	StopSound(Sound02);
+	PlaySound(Sound03);
 	Enabled = false;
 	thrustOff = true;
+	thrustOn = false;
 	exploding = true;
+	flame->Enabled = false;
+	Acceleration = { 0 };
+	Velocity = { 0 };
+
+	for (auto line : lines)
+	{
+		line->Spawn(Position);
+	}
+
+
 #ifdef _DEBUG
 	if (!debug)
 		lives--;
 #else
 	lives--;
 #endif
-	flame->Enabled = false;
-
-	for (auto line : lines)
-	{
-		line->Spawn(Position);
-	}
 }
 
 void Player::ScoreUpdate(int addToScore)
@@ -194,7 +215,7 @@ void Player::ScoreUpdate(int addToScore)
 
 	if (score > nextNewLifeScore)
 	{
-		//PlaySound(Sound04);
+		PlaySound(Sound04);
 		nextNewLifeScore += 10000;
 		lives++;
 		newLife = true;
@@ -213,9 +234,10 @@ void Player::NewGame()
 
 void Player::Reset()
 {
+	PlaySound(Sound07);
+
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
-	BeenHit = false;
 	Enabled = true;
 
 	for (auto line : lines)
@@ -226,10 +248,10 @@ void Player::Reset()
 
 void Player::ThrustOn(float deltaTime)
 {
-	//if (!IsSoundPlaying(Sound02))
-	//{
-	//	PlaySound(Sound02);
-	//}
+	if (!IsSoundPlaying(Sound02))
+	{
+		PlaySound(Sound02);
+	}
 
 	float acceleration = 10.666f;
 	float topaccel = 0.05f;
@@ -241,6 +263,8 @@ void Player::ThrustOn(float deltaTime)
 
 void Player::ThrustOff(float deltaTime)
 {
+	StopSound(Sound02);
+
 	float deceleration = 0.5f;
 	Acceleration.x = (-Velocity.x * deceleration) * deltaTime;
 	Acceleration.y = (-Velocity.y * deceleration) * deltaTime;
@@ -255,7 +279,7 @@ void Player::Fire()
 	{
 		if (!shot->Enabled)
 		{
-			//PlaySound(Sound01);
+			PlaySound(Sound01);
 			shot->Spawn(Position, VelocityFromAngleZ(speed), 1.5f);
 			break;
 		}
@@ -264,6 +288,13 @@ void Player::Fire()
 
 Vector3 Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 {
+	if (IsSoundPlaying(Sound05))
+	{
+		StopSound(Sound05);
+	}
+
+	PlaySound(Sound05);
+
 	Vector3 velOut = Velocity;
 	Acceleration = { 0 };
 	Velocity.x = (Velocity.x * 0.1f) * -1;
@@ -290,6 +321,11 @@ void Player::ShieldOn()
 {
 	if (shieldPower > 0)
 	{
+		if (!IsSoundPlaying(Sound06))
+		{
+			PlaySound(Sound06);
+		}
+
 		shield->Enabled = true;
 		shield->Alpha = 2.55f * shieldPower;
 	}
@@ -297,6 +333,8 @@ void Player::ShieldOn()
 
 void Player::ShieldOff()
 {
+	StopSound(Sound06);
+
 	shield->Enabled = false;
 }
 

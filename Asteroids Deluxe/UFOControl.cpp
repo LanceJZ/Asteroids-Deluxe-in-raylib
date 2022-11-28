@@ -1,13 +1,13 @@
 #include "UFOControl.h"
 #include "raymath.h"
 
-UFOControl::UFOControl(float playScreenW, float playScreenH, Player* player)
+UFOControl::UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom)
 {
 	GameScreenWidth = playScreenW;
 	GameScreenHeight = playScreenH;
 	UFOControl::player = player;
 
-	ufo = new UFO(playScreenW, playScreenH, player);
+	ufo = new UFO(playScreenW, playScreenH, player, crossCom);
 
 	timer = new Timer();
 }

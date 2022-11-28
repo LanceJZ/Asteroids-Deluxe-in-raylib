@@ -16,7 +16,7 @@ public:
 	virtual ~WedgeControl();
 
 	bool Initialise();
-	void Load();
+	void LoadSound(Sound explode, Sound spawn);
 	void LoadModel(string model);
 
 	virtual void Input();
@@ -27,6 +27,8 @@ private:
 	Player* player;
 	Timer* spawnTimer;
 	CrossCom* crossCom;
+
+	Sound spawn;
 
 	void SpawnGroup();
 };

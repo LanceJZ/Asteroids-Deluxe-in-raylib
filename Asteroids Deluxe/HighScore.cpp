@@ -234,7 +234,7 @@ void HighScore::DisplayHighScoreList()
 		center - 180, (GetScreenHeight() / 2) + 250, 40, WHITE);
 
 
-	DrawText("High Scores", center - space * 2.25f, start - 50, font, WHITE);
+	DrawText("High Scores", (int)((center - space) * 2.25f), start - 50, font, WHITE);
 
 	for (int i = 0; i < 10; i++)
 	{

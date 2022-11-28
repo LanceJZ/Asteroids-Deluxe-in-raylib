@@ -19,6 +19,7 @@ WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UF
 
 WedgeGroup::~WedgeGroup()
 {
+	UnloadSound(Sound01);
 }
 
 bool WedgeGroup::Initialize()
@@ -40,9 +41,15 @@ bool WedgeGroup::Initialize()
 	return false;
 }
 
-void WedgeGroup::Load()
+void WedgeGroup::LoadSound(Sound explode)
 {
+	Sound01 = explode;
+	SetSoundVolume(Sound01, 0.75f);
 
+	for (auto wedgePair : wedgePairs)
+	{
+		wedgePair->LoadSound(explode);
+	}
 }
 
 void WedgeGroup::LoadModel(string model)
@@ -75,6 +82,7 @@ void WedgeGroup::Update(float deltaTime)
 		float rot = 0.333f;
 
 		Entity::Update(deltaTime);
+		crossCom->wedgeGroupPos = Position;
 
 		wedgePairs[0]->Position.y = Position.y + wY;
 		wedgePairs[0]->Position.x = Position.x;
@@ -116,6 +124,7 @@ void WedgeGroup::Spawn(Vector3 position, Vector3 velocity)
 {
 	Initialize();
 
+	crossCom->wedgeGroupActive = true;
 	Enabled = true;
 	wedgepairsDocked = true;
 	Position = position;
@@ -165,6 +174,7 @@ bool WedgeGroup::CheckCollision()
 
 void WedgeGroup::Collision()
 {
+	PlaySound(Sound01);
 	Undock();
 }
 
@@ -173,6 +183,7 @@ void WedgeGroup::Undock()
 	wedgepairsDocked = false;
 	Velocity = { 0 };
 	Enabled = false;
+	crossCom->wedgeGroupActive = false;
 
 	for (auto wedgePair : wedgePairs)
 	{

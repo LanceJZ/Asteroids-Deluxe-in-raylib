@@ -21,8 +21,10 @@ public:
 	vector<Line*> lines;
 
 	Player(float windowWidth, float windowHeight);
+	~Player();
 	void LoadModel(string shipmodel, string flamemodel, string shieldmodel, vector<Vector3> dotModel);
-	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus);
+	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus, Sound shieldHit, Sound shieldOn,
+	Sound spawn);
 	virtual void Initialize(); //initialize
 	virtual void Input();
 	virtual void Update(float deltaTime);
@@ -36,12 +38,15 @@ public:
 	Vector3 ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel);
 
 private:
-	int nextNewLifeScore = 10000;
 	bool thrustOff = true;
 	bool thrustOn = false;
+	int nextNewLifeScore = 10000;
 	float thrustSoundTime = 0;
 	float shieldPower = 100;
 	Color color{ RAYWHITE };
+	Sound Sound05;
+	Sound Sound06;
+	Sound Sound07;
 
 	LineModel* flame;
 	LineModel* shield;

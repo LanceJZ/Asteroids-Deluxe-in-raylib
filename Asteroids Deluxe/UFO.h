@@ -4,6 +4,7 @@
 #include "Shot.h"
 #include "Exploder.h"
 #include "Timer.h"
+#include "CrossCom.h"
 
 class UFO : public LineModel
 {
@@ -21,7 +22,8 @@ public:
 	Timer* vectorTimer;
 	Exploder* exploder;
 
-	UFO(float windowWidth, float windowHeight, Player* player);
+	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom);
+	~UFO();
 	void LoadModel(string ship, vector<Vector3> dotModel);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
 	bool Initialise();
@@ -36,14 +38,16 @@ private:
 	float radius{ 0.9f };
 
 	Player* player;
+	CrossCom* crossCom;
 
 	void GiveScore();
 	void ResetFireTimer();
 	void ResetVectorTimer();
 	void ChangeVector();
 	void FireShot();
-	bool CheckCollision();
 	float AimedShot();
+	float AimedShotAtWGroup();
+	bool CheckCollision();
 	bool CheckReachedSide();
 };
 

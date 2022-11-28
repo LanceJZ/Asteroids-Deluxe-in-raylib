@@ -1,14 +1,23 @@
 #include "UFO.h"
 #include "raymath.h"
 
-UFO::UFO(float windowWidth, float windowHeight, Player* player)
+UFO::UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom)
 {
 	UFO::player = player;
+	UFO::crossCom = crossCom;
 	shot = new Shot(windowWidth, windowHeight);
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 	fireTimer = new Timer();
 	vectorTimer = new Timer();
+}
+
+UFO::~UFO()
+{
+	UnloadSound(Sound01);
+	UnloadSound(Sound02);
+	UnloadSound(Sound03);
+	UnloadSound(Sound04);
 }
 
 void UFO::LoadModel(string ship, vector<Vector3> dotModel)
@@ -172,7 +181,14 @@ void UFO::FireShot()
 		}
 		else
 		{
-			ang = AimedShot();
+			if (crossCom->wedgeGroupActive)
+			{
+				ang = AimedShotAtWGroup();
+			}
+			else
+			{
+				ang = AimedShot();
+			}
 		}
 		break;
 	case UFO::Small:
@@ -188,7 +204,36 @@ void UFO::FireShot()
 		}
 
 		Vector3 offset = Vector3Add(VelocityFromAngleZ(Radius), Position);
-		shot->Spawn(offset,	VelocityFromAngleZ(ang, shotSpeed), 1.75f);	}
+		shot->Spawn(offset,	VelocityFromAngleZ(ang, shotSpeed), 1.75f);
+	}
+}
+
+float UFO::AimedShot()
+{
+	if (!player->Enabled)
+	{
+		return GetRandomRadian();
+	}
+
+	float percentChance = 0.2f - (player->score * 0.00001f);
+
+	if (percentChance < 0)
+	{
+		percentChance = 0;
+	}
+
+	percentChance += GetRandomFloat(0.0f, 0.05f);
+
+	return AngleFromVectorZ(player->Position) +
+		GetRandomFloat(-percentChance, percentChance);
+}
+
+float UFO::AimedShotAtWGroup()
+{
+	float percentChance = GetRandomFloat(0.0f, 0.05f);
+
+	return AngleFromVectorZ(crossCom->wedgeGroupPos) +
+		GetRandomFloat(-percentChance, percentChance);
 }
 
 void UFO::GiveScore()
@@ -245,26 +290,6 @@ bool UFO::CheckCollision()
 	}
 
 	return false;
-}
-
-float UFO::AimedShot()
-{
-	if (!player->Enabled)
-	{
-		return GetRandomRadian();
-	}
-
-	float percentChance = 0.2f - (player->score * 0.00001f);
-
-	if (percentChance < 0)
-	{
-		percentChance = 0;
-	}
-
-	percentChance += GetRandomFloat(0.0, 0.05f);
-
-	return AngleFromVectorZ(player->Position) +
-		GetRandomFloat(-percentChance, percentChance);
 }
 
 bool UFO::CheckReachedSide()

@@ -17,7 +17,7 @@ public:
 
 	void NewGame();
 
-	UFOControl(float playScreenW, float playScreenH, Player* player);
+	UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom);
 	UFO* ufo;
 
 private:
@@ -25,6 +25,7 @@ private:
 
 	Timer* timer;
 	Player* player;
+	CrossCom* crossCom;
 
 	void SpawnUFO();
 	void ResetTimer();

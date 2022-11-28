@@ -27,7 +27,7 @@ bool Game::Initialise()
 	int windowHeight = 960; //height
 	int windowWidth = 1280; //width
 
-	InitWindow(windowWidth, windowHeight, "Game");
+	InitWindow(windowWidth, windowHeight, "Asteroids Deluxe");
 	InitAudioDevice();
 	SetTargetFPS(60);
 
@@ -47,9 +47,9 @@ bool Game::Initialise()
 
 	playerClear.Radius = 10.0f;
 	playerClear.Enabled = false;
-	player = new Player(playScreenW, playScreenH);
-	ufoControl = new UFOControl(playScreenW, playScreenH, player);
 	crossCom = new CrossCom();
+	player = new Player(playScreenW, playScreenH);
+	ufoControl = new UFOControl(playScreenW, playScreenH, player, crossCom);
 	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
 
@@ -69,11 +69,30 @@ bool Game::Load()
 	LineModel dotModel;
 	dotModel.LoadModel("Models/Dot.vec");
 
+	Sound fireS = LoadSound("sounds/playerfire.wav");
+	Sound thrustS = LoadSound("sounds/thrust2.wav");
+	Sound playerExpS = LoadSound("sounds/PlayerExplode.wav");
+	Sound playerBonusS = LoadSound("sounds/BonusShip.wav");
+	Sound rockExpS = LoadSound("sounds/RockExplosion.wav");
+	Sound ufoExpS = LoadSound("sounds/UFOExplosion.wav");
+	Sound ufoBigS = LoadSound("sounds/UFOLarge.wav");
+	Sound ufoSmallS = LoadSound("sounds/UFOSmall.wav");
+	Sound ufoFire = LoadSound("sounds/UFOFire.wav");
+	Sound playerShieldOn = LoadSound("sounds/PlayerShieldOn.wav");
+	Sound playerShieldHit = LoadSound("sounds/PlayerShieldHit.wav");
+	Sound playerSpawn = LoadSound("sounds/PlayerSpawn.wav");
+	Sound wedgeExplode = LoadSound("sounds/WedgeExplode.wav");
+	Sound wedgeGroupSpawn = LoadSound("sounds/WedgeGroupSpawn.wav");
+
 	player->LoadModel("Models/PlayerShip.vec", "Models/PlayerFlame.vec",
 		"Models/PlayerShield.vec", dotModel.GetModel());
+	player->LoadSound(fireS, thrustS, playerExpS, playerBonusS, playerShieldHit, playerShieldOn, playerSpawn);
 	rockControl->LoadModel(rockOne, rockTwo, rockThree, rockFour, dotModel.GetModel());
+	rockControl->LoadSound(rockExpS);
 	ufoControl->LoadModel("Models/UFO.vec", dotModel.GetModel());
 	wedgeControl->LoadModel("Models/Wedge.vec");
+	wedgeControl->LoadSound(wedgeExplode, wedgeGroupSpawn);
+	ufoControl->LoadSound(ufoExpS, ufoBigS, ufoSmallS, ufoFire);
 
 	return 0;
 }
@@ -112,12 +131,12 @@ void Game::ProcessInput()
 		highscores->gameOver = false;
 	}
 
-	if (IsKeyPressed(KEY_PAUSE) && !player->gameOver)
+	if (IsKeyPressed(KEY_P) && !player->gameOver)
 	{
 		player->paused = !player->paused;
 	}
 
-	if (IsKeyPressed(KEY_HOME) && !player->gameOver)
+	if (IsKeyPressed(KEY_D) && !player->gameOver)
 	{
 		player->debug = true;
 	}

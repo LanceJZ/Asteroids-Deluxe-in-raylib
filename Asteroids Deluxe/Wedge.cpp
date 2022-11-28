@@ -12,6 +12,7 @@ Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, Cr
 
 Wedge::~Wedge()
 {
+	UnloadSound(Sound01);
 }
 
 bool Wedge::Initialize()
@@ -21,9 +22,10 @@ bool Wedge::Initialize()
 	return false;
 }
 
-void Wedge::Load()
+void Wedge::LoadSound(Sound explode)
 {
-
+	Sound01 = explode;
+	SetSoundVolume(Sound01, 0.75f);
 }
 
 void Wedge::Input()
@@ -111,6 +113,7 @@ bool Wedge::CheckCollision()
 
 void Wedge::Collision()
 {
+	PlaySound(Sound01);
 	TurnOff();
 }
 

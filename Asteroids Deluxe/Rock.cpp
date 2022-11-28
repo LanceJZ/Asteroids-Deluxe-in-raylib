@@ -9,6 +9,11 @@ Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
 	Rock::ufo = ufo;
 }
 
+Rock::~Rock()
+{
+	UnloadSound(Sound01);
+}
+
 void Rock::SetDotModel(vector<Vector3> dotModel)
 {
 	Rock::dotModel = dotModel;

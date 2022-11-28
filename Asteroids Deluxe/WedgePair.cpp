@@ -18,11 +18,13 @@ WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO*
 
 WedgePair::~WedgePair()
 {
+	UnloadSound(Sound01);
 }
 
 void WedgePair::LoadWedgeModel(vector<Vector3> model)
 {
 	wedgeModel.SetModel(model);
+	SetSoundVolume(Sound01, 0.75f);
 
 	for (auto wedge : wedges)
 	{
@@ -45,9 +47,14 @@ bool WedgePair::Initialize()
 	return false;
 }
 
-void WedgePair::Load()
+void WedgePair::LoadSound(Sound explode)
 {
+	Sound01 = explode;
 
+	for (auto wedge : wedges)
+	{
+		wedge->LoadSound(explode);
+	}
 }
 
 void WedgePair::LoadModel(string model)
@@ -169,6 +176,8 @@ bool WedgePair::CheckCollision()
 
 void WedgePair::Collision()
 {
+	PlaySound(Sound01);
+
 	wedgeDocked = false;
 	TurnOff();
 

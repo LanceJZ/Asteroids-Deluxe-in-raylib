@@ -12,6 +12,7 @@ WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player,
 
 WedgeControl::~WedgeControl()
 {
+	UnloadSound(spawn);
 }
 
 bool WedgeControl::Initialise()
@@ -23,9 +24,10 @@ bool WedgeControl::Initialise()
 	return false;
 }
 
-void WedgeControl::Load()
+void WedgeControl::LoadSound(Sound explode, Sound spawn)
 {
-
+	WedgeControl::spawn = spawn;
+	wedgeGroup->LoadSound(explode);
 }
 
 void WedgeControl::LoadModel(string model)
@@ -90,8 +92,10 @@ void WedgeControl::Draw()
 	wedgeGroup->Draw();
 }
 
-void WedgeControl::SpawnGroup() //TODO: See why not spawning a third time.
+void WedgeControl::SpawnGroup()
 {
+	PlaySound(spawn);
+
 	ready = false;
 
 	wedgeGroup->Spawn({ GameScreenWidth,

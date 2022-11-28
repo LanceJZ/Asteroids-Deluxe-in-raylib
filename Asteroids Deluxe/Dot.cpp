@@ -4,6 +4,7 @@
 bool Dot::Initialise()
 {
 	timer = new Timer();
+	Scale = 0.5f;
 
 	return false;
 }

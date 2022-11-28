@@ -17,7 +17,7 @@ public:
 	virtual ~WedgePair();
 
 	bool Initialize();
-	void Load();
+	void LoadSound(Sound explode);
 	void LoadModel(string model);
 	void LoadWedgeModel(vector<Vector3> model);
 

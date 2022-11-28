@@ -16,7 +16,7 @@ public:
 	WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom);
 	virtual ~WedgeGroup();
 	bool Initialize();
-	void Load();
+	void LoadSound(Sound explode);
 	void LoadModel(string model);
 
 	virtual void Input();

@@ -7,7 +7,7 @@ using namespace std;
 struct ScoreList
 {
 	string Name;
-	int Score;
+	int Score = 0;
 };
 
 class HighScore

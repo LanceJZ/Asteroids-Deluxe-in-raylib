@@ -14,7 +14,7 @@ public:
 	virtual ~Wedge();
 
 	bool Initialize();
-	void Load();
+	void LoadSound(Sound explode);
 
 	virtual void Input();
 	virtual void Update(float deltaTime);

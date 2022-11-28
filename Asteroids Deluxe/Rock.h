@@ -18,6 +18,7 @@ public:
 	Exploder* exploder;
 
 	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo);
+	~Rock();
 	void LoadSound(Sound exp);
 	void SetDotModel(vector<Vector3> dotModel);
 	bool Initialise();
