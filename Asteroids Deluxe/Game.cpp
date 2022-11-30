@@ -27,7 +27,7 @@ bool Game::Initialise()
 	int windowHeight = 960; //height
 	int windowWidth = 1280; //width
 
-	InitWindow(windowWidth, windowHeight, "Asteroids Deluxe");
+	InitWindow(windowWidth, windowHeight, "Asteroids Deluxe - Beta");
 	InitAudioDevice();
 	SetTargetFPS(60);
 
@@ -240,14 +240,14 @@ void Game::Draw()
 		DrawText("Paused", (GetScreenWidth() / 2) - 80, (GetScreenHeight() / 2) - 20, 50, WHITE);
 	}
 
-	if (player->debug)//TODO: Not working.
+	if (player->debug)
 	{
 		DrawText("Debug Mode Active!", (int)(GetScreenWidth() / 1.1f), (int)(GetScreenHeight() / 40), 10, WHITE);
 	}
 
 	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, WHITE);
 	DrawText(const_cast<char*>(to_string(player->highScore).c_str()), GetScreenWidth() / 2, 4, 20, WHITE);
-	DrawText("(C) 1979 ATARI INC", (GetScreenWidth() / 2) - 15, GetScreenHeight() - 12, 8, WHITE);
+	DrawText("(C) 1980 ATARI INC", (GetScreenWidth() / 2) - 15, GetScreenHeight() - 12, 8, WHITE);
 
 	EndDrawing();
 }

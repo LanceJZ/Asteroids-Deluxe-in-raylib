@@ -26,6 +26,8 @@ public:
 	void Spawn(Vector3 position, Vector3 velocity);
 
 private:
+	int score = 50;
+
 	LineModel wedgeModel;
 	Player* player;
 	UFO* ufo;

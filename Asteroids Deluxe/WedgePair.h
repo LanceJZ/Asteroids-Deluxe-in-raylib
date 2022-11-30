@@ -28,6 +28,10 @@ public:
 	void Spawn();
 
 private:
+	int score = 100;
+	float speed = 3.25f;
+	float turnSpeed = 0.5f;
+
 	LineModel wedgeModel;
 	Player* player;
 	UFO* ufo;
@@ -36,6 +40,7 @@ private:
 	bool CheckCollision();
 	void Collision();
 	void ChasePlayer();
+	void ChaseUFO();
 	void TurnOff();
 };
 

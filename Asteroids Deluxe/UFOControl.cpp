@@ -62,8 +62,7 @@ void UFOControl::SpawnUFO()
 {
 	spawnCount++;
 	ResetTimer();
-	float spawnPercent = (float)(pow(0.915, spawnCount /
-		(player->wave + 1)) * 100);
+	float spawnPercent = (powf(0.915f, (float)spawnCount / (float)(player->wave + 1)) * 100);
 
 	if (GetRandomFloat(0, 99) < spawnPercent - player->score / 500)
 	{

@@ -24,7 +24,10 @@ public:
 
 private:
 	int score = 200;
+	float speed = 3.75f;
+	float turnSpeed = 0.75f;
 	float rotateMagnitude = PI / 2;
+
 	Player* player;
 	UFO* ufo;
 	CrossCom* crossCom;
@@ -32,6 +35,7 @@ private:
 	bool CheckCollision();
 	void Collision();
 	void ChasePlayer();
+	void ChaseUFO();
 	void TurnOff();
 };
 

@@ -5,6 +5,7 @@
 #include "Exploder.h"
 #include "Timer.h"
 #include "CrossCom.h"
+#include "RockData.h"
 
 class UFO : public LineModel
 {
@@ -15,12 +16,13 @@ public:
 		Large
 	};
 
-	Size size;
+	Size size = Large;
 
 	Shot* shot;
 	Timer* fireTimer;
 	Timer* vectorTimer;
 	Exploder* exploder;
+	std::vector<RockData*> rocks;
 
 	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom);
 	~UFO();
@@ -47,6 +49,7 @@ private:
 	void FireShot();
 	float AimedShot();
 	float AimedShotAtWGroup();
+	float AimedShotAtRock();
 	bool CheckCollision();
 	bool CheckReachedSide();
 };

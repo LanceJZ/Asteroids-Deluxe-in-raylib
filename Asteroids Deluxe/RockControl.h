@@ -25,18 +25,18 @@ public:
 
 
 private:
+	bool noRocks = false;
 	int rockCount = { 4 };
 
 	LineModel rockModels[4];
 	vector<Vector3> dotModel;
 	Sound Explode;
 
-	void CreateRocks(void);
-	void ClearAllRocks(void);
-	void SpawnNewWave(int NumberOfRocks);
+	//void CreateRocks(void);
+	//void ClearAllRocks(void);
 	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
-	void SpawnRock(int rock, float scale, int points, Vector3 position,
-		float speed, Rock::RockSize size);
+	//void SpawnRock(int rock, float scale, int points, Vector3 position,
+	//	float speed, Rock::RockSize size);
 	Player* player;
 	UFO* ufo;
 	CrossCom* crossCom;

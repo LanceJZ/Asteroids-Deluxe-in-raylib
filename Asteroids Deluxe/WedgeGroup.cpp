@@ -146,7 +146,7 @@ bool WedgeGroup::CheckCollision()
 	{
 		if (!player->ShieldHit(Position, Velocity))
 		{
-			player->ScoreUpdate(50);
+			player->ScoreUpdate(score);
 			return true;
 		}
 	}
@@ -155,7 +155,7 @@ bool WedgeGroup::CheckCollision()
 	{
 		if (CirclesIntersect(shot))
 		{
-			player->ScoreUpdate(50);
+			player->ScoreUpdate(score);
 			shot->Enabled = false;
 			return true;
 		}
@@ -178,7 +178,9 @@ bool WedgeGroup::CheckCollision()
 
 void WedgeGroup::Collision()
 {
-	PlaySound(Sound01);
+	if (!player->gameOver)
+		PlaySound(Sound01);
+
 	Undock();
 }
 

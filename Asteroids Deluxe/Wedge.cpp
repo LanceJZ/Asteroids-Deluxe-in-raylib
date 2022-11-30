@@ -48,6 +48,10 @@ void Wedge::Update(float deltaTime)
 		{
 			ChasePlayer();
 		}
+		else if (ufo->Enabled && !crossCom->newWave)
+		{
+			ChaseUFO();
+		}
 		else
 		{
 			RotationVelocity.z = 0;
@@ -85,7 +89,7 @@ bool Wedge::CheckCollision()
 	{
 		if (!player->ShieldHit(Position, Velocity))
 		{
-			player->ScoreUpdate(200);
+			player->ScoreUpdate(score);
 			return true;
 		}
 	}
@@ -94,6 +98,7 @@ bool Wedge::CheckCollision()
 	{
 		if (CirclesIntersect(shot))
 		{
+			player->ScoreUpdate(score);
 			shot->Enabled = false;
 			return true;
 		}
@@ -116,14 +121,22 @@ bool Wedge::CheckCollision()
 
 void Wedge::Collision()
 {
-	PlaySound(Sound01);
+	if (!player->gameOver)
+		PlaySound(Sound01);
+
 	TurnOff();
 }
 
 void Wedge::ChasePlayer()
 {
-	RotationVelocity.z = PositionedObject::RotateTowardsTargetZ(player->Position, 5.0f);
-	Velocity = VelocityFromAngleZ(RotationZ, 5);
+	RotationVelocity.z = PositionedObject::RotateTowardsTargetZ(player->Position, turnSpeed);
+	Velocity = VelocityFromAngleZ(RotationZ, speed);
+}
+
+void Wedge::ChaseUFO()
+{
+	RotationVelocity.z = RotateTowardsTargetZ(ufo->Position, turnSpeed);
+	Velocity = VelocityFromAngleZ(RotationZ, speed);
 }
 
 void Wedge::TurnOff()

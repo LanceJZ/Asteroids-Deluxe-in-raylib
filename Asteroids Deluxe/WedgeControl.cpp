@@ -42,28 +42,19 @@ void WedgeControl::Input()
 
 void WedgeControl::Update(float deltaTime)
 {
+	wedgeGroup->Update(deltaTime);
 	spawnTimer->Update(deltaTime);
-
-	if (spawnTimer->Elapsed())
-	{
-		spawnTimer->Reset();
-
-		if (wedgeGroup->Enabled)
-			return;
-
-		if (crossCom->rocksUnderFour && ready)
-		{
-			SpawnGroup();
-		}
-		else if (!ready)
-		{
-			ready = true;
-		}
-	}
 
 	if (!crossCom->rocksUnderFour)
 	{
 		spawnTimer->Reset();
+		return;
+	}
+
+	if (wedgeGroup->Enabled)
+	{
+		spawnTimer->Reset();
+		return;
 	}
 
 	bool resetTimer = false;
@@ -82,9 +73,22 @@ void WedgeControl::Update(float deltaTime)
 	if (resetTimer)
 	{
 		spawnTimer->Reset();
+		return;
 	}
 
-	wedgeGroup->Update(deltaTime);
+	if (spawnTimer->Elapsed())
+	{
+		spawnTimer->Reset();
+
+		if (ready)
+		{
+			SpawnGroup();
+		}
+		else if (!ready)
+		{
+			ready = true;
+		}
+	}
 }
 
 void WedgeControl::Draw()
@@ -94,10 +98,11 @@ void WedgeControl::Draw()
 
 void WedgeControl::SpawnGroup()
 {
-	PlaySound(spawn);
+	if (!player->gameOver)
+		PlaySound(spawn);
 
 	ready = false;
 
 	wedgeGroup->Spawn({ GameScreenWidth,
-		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(3));
+		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(1.5f));
 }

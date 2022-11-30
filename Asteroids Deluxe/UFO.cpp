@@ -137,12 +137,12 @@ void UFO::Collision()
 
 void UFO::ResetFireTimer()
 {
-	fireTimer->Reset(2.75f);
+	fireTimer->Reset(GetRandomFloat(0.75f, 2.75f));
 }
 
 void UFO::ResetVectorTimer()
 {
-	vectorTimer->Reset(3.15f);
+	vectorTimer->Reset(GetRandomFloat(1.25f, 3.15f));
 }
 
 void UFO::ChangeVector()
@@ -162,38 +162,54 @@ void UFO::ChangeVector()
 		}
 		else
 		{
-			Velocity.y = 0;
+			if (Position.y < WindowHeight - (radius * 3) && Position.y > -WindowHeight - (radius * 3))
+			{
+				Velocity.y = 0;
+			}
 		}
 	}
 }
 
 void UFO::FireShot()
 {
-	float ang = 0;
+	float angle = 0;
 	float shotSpeed = 15;
+	bool shootRocks = false;
 
 	switch (size)
 	{
 	case UFO::Large:
 		if (GetRandomValue(1, 10) < 5)
 		{
-			ang = GetRandomRadian();
+			angle = GetRandomRadian();
 		}
 		else
 		{
 			if (crossCom->wedgeGroupActive)
 			{
-				ang = AimedShotAtWGroup();
+				angle = AimedShotAtWGroup();
 			}
 			else
 			{
-				ang = AimedShot();
+				angle = AimedShot();
 			}
 		}
 		break;
 	case UFO::Small:
-		ang = AimedShot();
+		if (crossCom->wedgeGroupActive)
+		{
+			angle = AimedShotAtWGroup();
+		}
+		else
+		{
+			angle = AimedShot();
+		}
 		break;
+	}
+
+	if (!player->Enabled && !crossCom->wedgeGroupActive)
+	{
+		angle = AimedShotAtRock();
 	}
 
 	if (!shot->Enabled)
@@ -204,7 +220,7 @@ void UFO::FireShot()
 		}
 
 		Vector3 offset = Vector3Add(VelocityFromAngleZ(Radius), Position);
-		shot->Spawn(offset,	VelocityFromAngleZ(ang, shotSpeed), 1.75f);
+		shot->Spawn(offset,	VelocityFromAngleZ(angle, shotSpeed), 2.5f);
 	}
 }
 
@@ -224,16 +240,63 @@ float UFO::AimedShot()
 
 	percentChance += GetRandomFloat(0.0f, 0.05f);
 
-	return AngleFromVectorZ(player->Position) +
-		GetRandomFloat(-percentChance, percentChance);
+	return AngleFromVectorZ(player->Position) + GetRandomFloat(-percentChance, percentChance);
 }
 
 float UFO::AimedShotAtWGroup()
 {
 	float percentChance = GetRandomFloat(0.0f, 0.05f);
 
-	return AngleFromVectorZ(crossCom->wedgeGroupPos) +
-		GetRandomFloat(-percentChance, percentChance);
+	return AngleFromVectorZ(crossCom->wedgeGroupPos) + GetRandomFloat(-percentChance, percentChance);
+}
+
+float UFO::AimedShotAtRock()
+{
+	bool noRocks = true;
+	Vector3 closestRockPos = { 0 };
+	Vector3 closestRockVel = { 0 };
+	float shortistDistance = 200;
+
+	for (auto rock : rocks)
+	{
+		if (rock->Enabled)
+		{
+			noRocks = false;
+
+			float rockDistance = Vector3Distance(Position, rock->Position);
+
+			if (rockDistance < shortistDistance)
+			{
+				closestRockPos = rock->Position;
+				closestRockVel = rock->Velocity;
+				shortistDistance = rockDistance;
+			}
+		}
+	}
+
+	if (noRocks)
+	{
+		return GetRandomRadian();
+	}
+
+	//float spawnPercent = (float)(pow(0.915, spawnCount / (player->wave + 1)) * 100);
+
+	float aimCurrection = AngleFromVectorZ(closestRockVel) * 0.002f;
+
+	float adjustedCurrection = powf(aimCurrection, shortistDistance * 0.00175f);
+
+	//if ((closestRockVel.y > 0 && closestRockPos.y < Y()) || (closestRockVel.x > 0 && closestRockPos.x < X()) ||
+	//	(closestRockVel.x > 0 && closestRockPos.y < Y()) || (closestRockVel.y > 0 && closestRockPos.x < X()))
+	//{
+	//	adjustedCurrection *= -1;
+	//}
+
+	//if (closestRockVel.y > 0 && closestRockPos.y > Y())
+	//{
+	//	adjustedCurrection *= -1;
+	//}
+
+	return AngleFromVectorZ(closestRockPos) + aimCurrection;
 }
 
 void UFO::GiveScore()

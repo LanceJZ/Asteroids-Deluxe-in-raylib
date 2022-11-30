@@ -49,9 +49,23 @@ void RockControl::Update(float deltaTime)
 		rock->Update(deltaTime);
 	}
 
+	for (int i = 0; i < rocks.size(); i++)
+	{
+		ufo->rocks[i]->Update(rocks[i]->Position, rocks[i]->Enabled);
+	}
+
 	if (rockHit)
 	{
 		RockHit(rockWasHit);
+	}
+
+	if (noRocks)
+	{
+		if (!ufo->Enabled)
+		{
+			NewWave();
+			noRocks = false;
+		}
 	}
 }
 
@@ -78,9 +92,10 @@ void RockControl::NewWave(void)
 {
 	crossCom->newWave = true;
 	player->wave++;
-	SpawnNewWave(rockCount);
+	SpawnRocks({ 0, 0, 0 }, rockCount, Rock::Large);
 
-	if (rockCount < 12 && !player->gameOver) //TODO: Check at home, let run while in Game Over with this checked.
+
+	if (rockCount < 12)
 		rockCount++;
 }
 
@@ -99,16 +114,17 @@ void RockControl::RockHit(Rock* rockHit)
 		break;
 
 	case Rock::Small:
-		bool spawnWave = true;
+		bool rocksGone = true;
 
 		for (auto rock: rocks)
 		{
 			if (rock->Enabled)
-				spawnWave = false;
+				rocksGone = false;
 		}
 
-		if (spawnWave)
-			NewWave();
+		if (rocksGone)
+			noRocks = true;
+;
 		break;
 	}
 
@@ -120,7 +136,6 @@ void RockControl::RockHit(Rock* rockHit)
 		{
 			rockCount++;
 		}
-
 	}
 
 	if (rockCount < 4)
@@ -131,11 +146,6 @@ void RockControl::RockHit(Rock* rockHit)
 	{
 		crossCom->rocksUnderFour = false;
 	}
-}
-
-void RockControl::SpawnNewWave(int numberOfRocks)
-{
-	SpawnRocks({ 0, 0, 0 }, numberOfRocks, Rock::Large);
 }
 
 void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
@@ -163,6 +173,8 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 			rocks[rockN]->SetDotModel(dotModel);
 			rocks[rockN]->LoadSound(Explode);
 			rocks[rockN]->Initialise();
+
+			ufo->rocks.push_back(new RockData());
 		}
 
 		switch (size)
@@ -184,5 +196,7 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 			rocks[rockN]->Spawn(pos, speed, size);
 			break;
 		}
+
+		ufo->rocks[rockN]->SetVelocity(rocks[rockN]->Velocity);
 	}
 }

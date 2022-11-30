@@ -155,6 +155,7 @@
     <ClCompile Include="PositionedObject.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="RockControl.cpp" />
+    <ClCompile Include="RockData.cpp" />
     <ClCompile Include="Shot.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UFO.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="RockControl.h" />
+    <ClInclude Include="RockData.h" />
     <ClInclude Include="Shot.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UFO.h" />
