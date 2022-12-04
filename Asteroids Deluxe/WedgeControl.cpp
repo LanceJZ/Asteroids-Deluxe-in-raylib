@@ -45,7 +45,7 @@ void WedgeControl::Update(float deltaTime)
 	wedgeGroup->Update(deltaTime);
 	spawnTimer->Update(deltaTime);
 
-	if (!crossCom->rocksUnderFour)
+	if (!crossCom->spawnWedgeGroup)
 	{
 		spawnTimer->Reset();
 		return;
@@ -98,7 +98,7 @@ void WedgeControl::Draw()
 
 void WedgeControl::SpawnGroup()
 {
-	if (!player->gameOver)
+	//if (!player->gameOver)
 		PlaySound(spawn);
 
 	ready = false;

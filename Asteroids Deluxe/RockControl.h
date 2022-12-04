@@ -26,7 +26,7 @@ public:
 
 private:
 	bool noRocks = false;
-	int rockCount = { 4 };
+	int newRockCount = { 4 };
 
 	LineModel rockModels[4];
 	vector<Vector3> dotModel;

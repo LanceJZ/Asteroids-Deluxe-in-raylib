@@ -70,7 +70,12 @@ void WedgePair::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
-	if (wedgeDocked)
+	for (auto wedge : wedges)
+	{
+		wedge->Update(deltaTime);
+	}
+
+	if (wedgeDocked) //Still together in a pair.
 	{
 		Vector3 pos = VelocityFromAngleZ(RotationZ, 0.65f);
 
@@ -80,45 +85,36 @@ void WedgePair::Update(float deltaTime)
 		wedges[0]->Y(pos.y + Position.y);
 		wedges[1]->RotationZ = (float)PI + RotationZ;
 		wedges[0]->RotationZ = RotationZ;
-	}
 
-	if (!docked && wedgeDocked)
-	{
-		if (player->Enabled && !crossCom->newWave)
+		if (!groupDocked) //Not in the group.
 		{
-			ChasePlayer();
-		}
-		else if (ufo->Enabled && !crossCom->newWave)
-		{
-			ChaseUFO();
-		}
-		else
-		{
-			RotationVelocity.z = 0;
-			Velocity = VelocityFromAngleZ(RotationZ, 5);
-		}
+			if (!crossCom->newWave)
+			{
+				if (player->Enabled)
+				{
+					ChasePlayer();
+				}
+				else if (ufo->Enabled)
+				{
+					ChaseUFO();
+				}
+				else
+				{
+					LeavePlay();
+				}
 
-		if (CheckCollision())
-		{
-			Collision();
-		}
-	}
+				CheckScreenEdge();
+			}
+			else
+			{
+				LeavePlay();
+			}
 
-	if (!crossCom->newWave)
-	{
-		CheckScreenEdge();
-	}
-	else
-	{
-		if (OffScreen())
-		{
-			Initialize();
+			if (CheckCollision())
+			{
+				Collision();
+			}
 		}
-	}
-
-	for (auto wedge : wedges)
-	{
-		wedge->Update(deltaTime);
 	}
 }
 
@@ -136,7 +132,7 @@ void WedgePair::Spawn()
 {
 	Enabled = true;
 	wedgeDocked = true;
-	docked = true;
+	groupDocked = true;
 	wedges[0]->RotationZ = RotationZ;
 	wedges[1]->RotationZ = (float)PI + RotationZ;
 
@@ -196,22 +192,30 @@ void WedgePair::Collision()
 	}
 }
 
-void WedgePair::ChasePlayer()
-{
-	RotationVelocity.z = RotateTowardsTargetZ(player->Position, turnSpeed);
-	Velocity = VelocityFromAngleZ(RotationZ, speed);
-}
-
-void WedgePair::ChaseUFO()
-{
-	RotationVelocity.z = RotateTowardsTargetZ(ufo->Position, turnSpeed);
-	Velocity = VelocityFromAngleZ(RotationZ, speed);
-}
-
 void WedgePair::TurnOff()
 {
 	Enabled = false;
 	Velocity = { 0 };
 	RotationVelocity.z = 0;
 	Position = { 30, 30, 0 };
+}
+
+void WedgePair::ChasePlayer()
+{
+	RotateVelocity(player->Position, turnSpeed, speed);
+}
+
+void WedgePair::ChaseUFO()
+{
+	RotateVelocity(ufo->Position, turnSpeed, speed);
+}
+
+void WedgePair::LeavePlay()
+{
+	PositionedObject::LeavePlay(turnSpeed, speed);
+
+	if (OffScreen())
+	{
+		Initialize();
+	}
 }

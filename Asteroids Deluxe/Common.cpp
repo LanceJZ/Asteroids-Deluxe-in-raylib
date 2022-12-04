@@ -67,16 +67,10 @@ Vector3 Common::GetRandomVelocity(float speed)
 
 Vector3 Common::GetRandomVelocity(float speed, float radianDirection)
 {
-	//  float amt = Core.RandomMinMax(speed * 0.15f, speed);
-	//	return VelocityFromAngleZ(radianDirection, amt);
-
 	return GetVelocityFromAngleZ(radianDirection, GetRandomFloat(speed * 0.15f, speed));
 }
 
 Vector3 Common::GetVelocityFromAngleZ(float rotation, float magnitude)
 {
-	//  return new Vector3(MathF.Cos(rotation) * magnitude,
-	//	MathF.Sin(rotation)* magnitude, 0);
-
 	return { cosf(rotation) * magnitude, sinf(rotation) * magnitude, 0 };
 }

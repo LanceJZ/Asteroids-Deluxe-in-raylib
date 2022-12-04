@@ -12,6 +12,12 @@ public:
 	float Radius = { 0 };
 	float WindowWidth = { 0 };
 	float WindowHeight = { 0 };
+	float Chase(PositionedObject Chasing);
+	float RotateTowardsTargetZ(Vector3 target, float magnitude);
+	float AngleFromVectorsZ(Vector3 target);
+	float AngleFromVectorsZ(Vector3 origin, Vector3 target);
+	float AngleFromVectorZ(Vector3 target);
+	Vector3 RandomVelocity(float magnitude);
 	Vector2 Acceleration2 = { 0 };
 	Vector2 Velocity2 = { 0 };
 	Vector2 Position2 = { 0 };
@@ -23,10 +29,8 @@ public:
 	Vector3 Rotation = { 0 };
 	Vector3 RotationVelocity = { 0 };
 	Vector3 RotationAcceleration = { 0 };
-
-	float Chase(PositionedObject Chasing);
-	float RotateTowardsTargetZ(Vector3 target, float magnitude);
-	float AngleFromVectorsZ(Vector3 target);
+	Vector3 VelocityFromAngleZ(float magnitude);
+	Vector3 VelocityFromAngleZ(float angle, float magnitude);
 
 	virtual float X();
 	virtual float Y();
@@ -41,6 +45,8 @@ public:
 	bool OffScreen();
 	bool OffScreenSide();
 	bool OffScreenTopBottom();
+	void LeavePlay(float turnSpeed, float speed);
+	void RotateVelocity(Vector3 position, float turnSpeed, float speed);
 
 private:
 

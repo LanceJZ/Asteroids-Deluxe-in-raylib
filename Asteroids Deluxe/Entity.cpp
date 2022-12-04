@@ -76,32 +76,3 @@ bool Entity::CirclesIntersect(Entity* target)
 
 	return false;
 }
-
-float Entity::AngleFromVectorZ(Vector3 target)
-{
-	return (float)atan2(target.y - Y(), target.x - X());
-}
-
-Vector3 Entity::VelocityFromAngleZ(float angle, float magnitude)
-{
-	return { (float)cos(angle) * magnitude,
-				(float)sin(angle) * magnitude, 0 };
-}
-
-Vector3 Entity::VelocityFromAngleZ(float magnitude)
-{
-	return { (float)cos(RotationZ) * magnitude,
-				(float)sin(RotationZ) * magnitude, 0 };
-}
-
-Vector3 Entity::RandomeVelocity(float magnitude)
-{
-	float ang = GetRandomFloat(0, PI * 2);
-
-	return VelocityFromAngleZ(ang, magnitude);
-}
-
-float Entity::AngleFromVectorsZ(Vector3 origin, Vector3 target)
-{
-	return (atan2(target.y - origin.y, target.x - origin.x));
-}

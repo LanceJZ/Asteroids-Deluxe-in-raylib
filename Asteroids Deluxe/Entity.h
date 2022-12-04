@@ -25,11 +25,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	bool CirclesIntersect(Entity* target);
-	float AngleFromVectorZ(Vector3 target);
-	Vector3 VelocityFromAngleZ(float magnitude);
-	Vector3 VelocityFromAngleZ(float angle, float magnitude);
-	Vector3 RandomeVelocity(float magnitude);
-	float AngleFromVectorsZ(Vector3 origin, Vector3 target);
+
 private:
 };
 

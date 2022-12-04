@@ -84,19 +84,20 @@ void RockControl::NewGame(void)
 		rock->Enabled = false;
 	}
 
-	rockCount = 4;
+	newRockCount = 4;
 	NewWave();
 }
 
 void RockControl::NewWave(void)
 {
 	crossCom->newWave = true;
+	crossCom->spawnWedgeGroup = false;
 	player->wave++;
-	SpawnRocks({ 0, 0, 0 }, rockCount, Rock::Large);
+	SpawnRocks({ 0, 0, 0 }, newRockCount, Rock::Large);
 
 
-	if (rockCount < 12)
-		rockCount++;
+	if (newRockCount < 12)
+		newRockCount++;
 }
 
 void RockControl::RockHit(Rock* rockHit)
@@ -128,23 +129,23 @@ void RockControl::RockHit(Rock* rockHit)
 		break;
 	}
 
-	int rockCount = 0;
+	int activeRockCount = 0;
 
 	for (auto rock : rocks)
 	{
 		if (rock->Enabled)
 		{
-			rockCount++;
+			activeRockCount++;
 		}
 	}
 
-	if (rockCount < 4)
+	if (activeRockCount < (newRockCount - 1))
 	{
-		crossCom->rocksUnderFour = true;
+		crossCom->spawnWedgeGroup = true;
 	}
 	else
 	{
-		crossCom->rocksUnderFour = false;
+		crossCom->spawnWedgeGroup = false;
 	}
 }
 

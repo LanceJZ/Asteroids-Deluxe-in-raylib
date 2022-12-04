@@ -7,7 +7,7 @@
 class WedgePair : public Entity
 {
 public:
-	bool docked = true;
+	bool groupDocked = true;
 	bool wedgeDocked = true;
 	bool newWave = false;
 
@@ -30,7 +30,7 @@ public:
 private:
 	int score = 100;
 	float speed = 3.25f;
-	float turnSpeed = 0.5f;
+	float turnSpeed = 0.25f;
 
 	LineModel wedgeModel;
 	Player* player;
@@ -42,5 +42,6 @@ private:
 	void ChasePlayer();
 	void ChaseUFO();
 	void TurnOff();
+	void LeavePlay();
 };
 

@@ -25,7 +25,7 @@ public:
 private:
 	int score = 200;
 	float speed = 3.75f;
-	float turnSpeed = 0.75f;
+	float turnSpeed = 0.5f;
 	float rotateMagnitude = PI / 2;
 
 	Player* player;
@@ -37,5 +37,6 @@ private:
 	void ChasePlayer();
 	void ChaseUFO();
 	void TurnOff();
+	void LeavePlay();
 };
 

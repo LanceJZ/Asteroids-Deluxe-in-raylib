@@ -39,35 +39,31 @@ void Wedge::Update(float deltaTime)
 
 	if (!docked)
 	{
-		if (CheckCollision())
-		{
-			Collision();
-		}
-
-		if (player->Enabled && !crossCom->newWave)
-		{
-			ChasePlayer();
-		}
-		else if (ufo->Enabled && !crossCom->newWave)
-		{
-			ChaseUFO();
-		}
-		else
-		{
-			RotationVelocity.z = 0;
-			Velocity = VelocityFromAngleZ(RotationZ, 5);
-		}
-
 		if (!crossCom->newWave)
 		{
+			if (player->Enabled)
+			{
+				ChasePlayer();
+			}
+			else if (ufo->Enabled)
+			{
+				ChaseUFO();
+			}
+			else
+			{
+				LeavePlay();
+			}
+
 			CheckScreenEdge();
 		}
 		else
 		{
-			if (OffScreen())
-			{
-				Initialize();
-			}
+			LeavePlay();
+		}
+
+		if (CheckCollision())
+		{
+			Collision();
 		}
 	}
 }
@@ -129,14 +125,12 @@ void Wedge::Collision()
 
 void Wedge::ChasePlayer()
 {
-	RotationVelocity.z = PositionedObject::RotateTowardsTargetZ(player->Position, turnSpeed);
-	Velocity = VelocityFromAngleZ(RotationZ, speed);
+	RotateVelocity(player->Position, turnSpeed, speed);
 }
 
 void Wedge::ChaseUFO()
 {
-	RotationVelocity.z = RotateTowardsTargetZ(ufo->Position, turnSpeed);
-	Velocity = VelocityFromAngleZ(RotationZ, speed);
+	RotateVelocity(ufo->Position, turnSpeed, speed);
 }
 
 void Wedge::TurnOff()
@@ -145,4 +139,14 @@ void Wedge::TurnOff()
 	Velocity = { 0 };
 	RotationVelocity.z = 0;
 	Position = { 30, 30, 0 };
+}
+
+void Wedge::LeavePlay()
+{
+	PositionedObject::LeavePlay(turnSpeed, speed);
+
+	if (OffScreen())
+	{
+		Initialize();
+	}
 }

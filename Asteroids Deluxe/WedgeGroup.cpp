@@ -81,7 +81,6 @@ void WedgeGroup::Update(float deltaTime)
 		float wX = 0.65f;
 		float rot = 0.333f;
 
-		Entity::Update(deltaTime);
 		crossCom->wedgeGroupPos = Position;
 
 		wedgePairs[0]->Position.y = Position.y + wY;
@@ -193,6 +192,6 @@ void WedgeGroup::Undock()
 
 	for (auto wedgePair : wedgePairs)
 	{
-		wedgePair->docked = false;
+		wedgePair->groupDocked = false;
 	}
 }

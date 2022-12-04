@@ -5,7 +5,7 @@
 class CrossCom
 {
 public:
-	bool rocksUnderFour = false;
+	bool spawnWedgeGroup = false;
 	bool newWave = false;
 	bool wedgeGroupActive = false;
 	Vector3 wedgeGroupPos = {0};

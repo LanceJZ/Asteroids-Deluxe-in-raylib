@@ -41,6 +41,33 @@ float PositionedObject::AngleFromVectorsZ(Vector3 target)
 	return (atan2f(target.y - Position.y, target.x - Position.x));
 }
 
+float PositionedObject::AngleFromVectorsZ(Vector3 origin, Vector3 target)
+{
+	return (atan2(target.y - origin.y, target.x - origin.x));
+}
+
+float PositionedObject::AngleFromVectorZ(Vector3 target)
+{
+	return (float)atan2(target.y - Y(), target.x - X());
+}
+
+Vector3 PositionedObject::RandomVelocity(float magnitude)
+{
+	float ang = GetRandomFloat(0, PI * 2);
+
+	return VelocityFromAngleZ(ang, magnitude);
+}
+
+Vector3 PositionedObject::VelocityFromAngleZ(float magnitude)
+{
+	return { (float)cos(RotationZ) * magnitude,	(float)sin(RotationZ) * magnitude, 0 };
+}
+
+Vector3 PositionedObject::VelocityFromAngleZ(float angle, float magnitude)
+{
+	return { (float)cos(angle) * magnitude, (float)sin(angle) * magnitude, 0 };
+}
+
 float PositionedObject::X()
 {
 	return Position.x;
@@ -128,5 +155,27 @@ bool PositionedObject::OffScreenTopBottom()
 	}
 
 	return false;
+}
+
+void PositionedObject::LeavePlay(float turnSpeed, float speed)
+{
+	float stageLeft = 0;
+
+	if (Position.x > 0)
+	{
+		stageLeft = 60;
+	}
+	else
+	{
+		stageLeft = -60;
+	}
+
+	RotateVelocity({ stageLeft, Position.y, 0 }, turnSpeed, speed);
+}
+
+void PositionedObject::RotateVelocity(Vector3 position, float turnSpeed, float speed)
+{
+	RotationVelocity.z = RotateTowardsTargetZ(position, turnSpeed);
+	Velocity = VelocityFromAngleZ(RotationZ, speed);
 }
 
