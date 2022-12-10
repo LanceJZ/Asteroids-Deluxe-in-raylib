@@ -98,7 +98,7 @@ void WedgeControl::Draw()
 
 void WedgeControl::SpawnGroup()
 {
-	//if (!player->gameOver)
+	if (!player->gameOver)
 		PlaySound(spawn);
 
 	ready = false;
