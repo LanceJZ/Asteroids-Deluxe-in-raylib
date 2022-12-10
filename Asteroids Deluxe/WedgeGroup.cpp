@@ -36,7 +36,7 @@ bool WedgeGroup::Initialize()
 
 	Enabled = false;
 	crossCom->newWave = false;
-	Position = { 30, 30, 0 };
+	Position = { 50, 50, 0 };
 
 	return false;
 }
@@ -92,7 +92,8 @@ void WedgeGroup::Update(float deltaTime)
 
 		if (!crossCom->newWave)
 		{
-			CheckScreenEdge();
+			if (Enabled)
+				CheckScreenEdge();
 		}
 		else
 		{

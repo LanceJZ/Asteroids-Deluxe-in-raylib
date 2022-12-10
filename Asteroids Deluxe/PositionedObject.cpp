@@ -23,7 +23,6 @@ void PositionedObject::Update(float deltaTime)
 	{
 		RotationZ = PI * 4;
 	}
-
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)
