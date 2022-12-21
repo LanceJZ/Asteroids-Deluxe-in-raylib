@@ -13,7 +13,7 @@ public:
 
 	Wedge* wedges[2];
 
-	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom);
+	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color);
 	virtual ~WedgePair();
 
 	bool Initialize();
@@ -31,6 +31,7 @@ private:
 	int score = 100;
 	float speed = 3.25f;
 	float turnSpeed = 0.25f;
+	Color color = WHITE;
 
 	LineModel wedgeModel;
 	Player* player;

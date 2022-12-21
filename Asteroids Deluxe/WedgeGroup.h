@@ -13,7 +13,7 @@ public:
 
 	WedgePair* wedgePairs[3];
 
-	WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom);
+	WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color);
 	virtual ~WedgeGroup();
 	bool Initialize();
 	void LoadSound(Sound explode);
@@ -27,6 +27,7 @@ public:
 
 private:
 	int score = 50;
+	Color color = WHITE;
 
 	LineModel wedgeModel;
 	Player* player;

@@ -10,7 +10,7 @@ public:
 	bool docked = true;
 	bool newWave = false;
 
-	Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom);
+	Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color);
 	virtual ~Wedge();
 
 	bool Initialize();

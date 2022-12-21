@@ -1,12 +1,13 @@
 #include "Wedge.h"
 
-Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
+Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color)
 {
 	WindowHeight = windowHeight;
 	WindowWidth = windowWidth;
 	Wedge::player = player;
 	Wedge::ufo = ufo;
 	Wedge::crossCom = crossCom;
+	Wedge::modelColor = color;
 	Radius = 0.72f;
 }
 

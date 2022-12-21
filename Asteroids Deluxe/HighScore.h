@@ -16,6 +16,8 @@ public:
 	bool gameOver = true;
 	int highScore = { 0 };
 	ScoreList scores[10];
+	HighScore(Color color);
+	virtual ~HighScore();
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -28,14 +30,14 @@ public:
 	void CheckForNewHighScore(int score);
 	void NewHighScoreEntry();
 
-	HighScore();
-	virtual ~HighScore();
 
 private:
 	bool newHighScore = false;
 	bool showHighScores = false;
 	int newHighScoreRank = 0;
 	int highScoreSelectedLetter = 0;
+	Color color = WHITE;
+
 	string highScoreEntryText = "";
 	string highScoreListRaw = "";
 	Timer* highScoretimer;

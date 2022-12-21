@@ -24,7 +24,7 @@ public:
 	Exploder* exploder;
 	std::vector<RockData*> rocks;
 
-	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom);
+	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom, Color color);
 	~UFO();
 	void LoadModel(string ship, vector<Vector3> dotModel);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
@@ -41,6 +41,7 @@ private:
 
 	Player* player;
 	CrossCom* crossCom;
+	Color color = WHITE;
 
 	void GiveScore();
 	void ResetFireTimer();

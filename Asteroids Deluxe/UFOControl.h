@@ -17,7 +17,7 @@ public:
 
 	void NewGame();
 
-	UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom);
+	UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom, Color color);
 	UFO* ufo;
 
 private:

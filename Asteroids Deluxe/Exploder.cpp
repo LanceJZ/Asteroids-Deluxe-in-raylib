@@ -1,8 +1,9 @@
 #include "Exploder.h"
 
-Exploder::Exploder(vector<Vector3> dotModel)
+Exploder::Exploder(vector<Vector3> dotModel, Color color)
 {
 	Exploder::dotModel.SetModel(dotModel);
+	Exploder::color = color;
 }
 
 void Exploder::Update(float deltaTime)
@@ -48,6 +49,7 @@ void Exploder::Spawn(Vector3 position, int count, float radius)
 			dots.push_back(new Dot());
 			dots[dot]->Initialise();
 			dots[dot]->SetModel(dotModel.GetModel());
+			dots[dot]->modelColor = color;
 		}
 
 		dots[dot]->Spawn(position, count / 10.0f, radius / 2.0f);

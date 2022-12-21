@@ -1,10 +1,10 @@
 #include "WedgePair.h"
 
-WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
+WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		wedges[i] = new Wedge(windowWidth, windowHeight, player, ufo, crossCom);
+		wedges[i] = new Wedge(windowWidth, windowHeight, player, ufo, crossCom, color);
 	}
 
 	WindowHeight = windowHeight;
@@ -12,6 +12,7 @@ WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO*
 	WedgePair::player = player;
 	WedgePair::ufo = ufo;
 	WedgePair::crossCom = crossCom;
+	WedgePair::color = color;
 
 	Radius = 0.95f;
 }

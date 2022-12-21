@@ -6,7 +6,7 @@
 class Exploder
 {
 public:
-	Exploder(vector<Vector3> dotModel);
+	Exploder(vector<Vector3> dotModel, Color color);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	bool Initialise();
@@ -15,6 +15,8 @@ public:
 	void Clear();
 
 private:
+	Color color = WHITE;
+
 	vector<Dot*> dots;
 	LineModel dotModel;
 };

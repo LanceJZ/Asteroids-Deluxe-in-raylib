@@ -12,7 +12,7 @@ public:
 	bool rockCountUnderFour = false;
 	vector<Rock*> rocks;
 
-	RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo, CrossCom* crosscom);
+	RockControl(float screenWidth, float screenHeight, Player* player, UFO* ufo, CrossCom* crosscom, Color color);
 	bool Initialize();
 	virtual void LoadModel(string modelOne, string modelTwo, string modelThree,
 		string modelFour, vector<Vector3> dotModel);
@@ -27,6 +27,8 @@ public:
 private:
 	bool noRocks = false;
 	int newRockCount = { 4 };
+	Color color = WHITE;
+
 
 	LineModel rockModels[4];
 	vector<Vector3> dotModel;

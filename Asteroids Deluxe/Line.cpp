@@ -1,6 +1,16 @@
 #include "Line.h"
 #include "raymath.h"
 
+Line::Line(Color color)
+{
+	timer = new Timer();
+	Enabled = false;
+	Line::color = color;
+}
+
+Line::~Line()
+{
+}
 void Line::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
@@ -18,7 +28,7 @@ void Line::Update(float deltaTime)
 void Line::Draw()
 {
 	if (Enabled)
-		DrawLine3D(posStart, posEnd, WHITE);
+		DrawLine3D(posStart, posEnd, color);
 }
 
 void Line::Load()
@@ -46,14 +56,4 @@ void Line::Spawn(Vector3 pos)
 void Line::Clear()
 {
 	Enabled = false;
-}
-
-Line::Line()
-{
-	timer = new Timer();
-	Enabled = false;
-}
-
-Line::~Line()
-{
 }

@@ -35,6 +35,7 @@ public:
 
 
 private:
+	Color color{ 160, 160, 255, 255 };
 	Model playerShipModel;
 	Entity playerClear;
 	Player* player;

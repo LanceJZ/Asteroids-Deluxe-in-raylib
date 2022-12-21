@@ -12,7 +12,7 @@ public:
 	bool ready = false;
 	WedgeGroup* wedgeGroup;
 
-	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom);
+	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom, Color color);
 	virtual ~WedgeControl();
 
 	bool Initialise();
@@ -24,10 +24,10 @@ public:
 	virtual void Draw();
 
 private:
+	Color color = WHITE;
 	Player* player;
 	Timer* spawnTimer;
 	CrossCom* crossCom;
-
 	Sound spawn;
 
 	void SpawnGroup();

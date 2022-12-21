@@ -11,6 +11,8 @@ public:
 	Vector3 posStart = { 0 };
 	Vector3 posEnd = { 0 };
 
+	Line(Color color);
+	virtual ~Line();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
@@ -19,10 +21,9 @@ public:
 	void Spawn(Vector3 pos);
 	void Clear();
 
-	Line();
-	virtual ~Line();
-
 private:
+
+	Color color = WHITE;
 	Timer* timer;
 };
 

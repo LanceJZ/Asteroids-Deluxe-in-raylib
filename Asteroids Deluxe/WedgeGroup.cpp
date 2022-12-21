@@ -1,11 +1,11 @@
 #include "WedgeGroup.h"
 #include "raymath.h"
 
-WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom)
+WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		wedgePairs[i] = new WedgePair(windowWidth, windowHeight, player, ufo, crossCom);
+		wedgePairs[i] = new WedgePair(windowWidth, windowHeight, player, ufo, crossCom, color);
 	}
 
 	WindowHeight = windowHeight;
@@ -13,6 +13,7 @@ WedgeGroup::WedgeGroup(float windowWidth, float windowHeight, Player* player, UF
 	WedgeGroup::player = player;
 	WedgeGroup::ufo = ufo;
 	WedgeGroup::crossCom = crossCom;
+	WedgeGroup::color = color;
 
 	Radius = 1.6f;
 }

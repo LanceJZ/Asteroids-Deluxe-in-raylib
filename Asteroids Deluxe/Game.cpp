@@ -48,12 +48,12 @@ bool Game::Initialise()
 	playerClear.Radius = 10.0f;
 	playerClear.Enabled = false;
 	crossCom = new CrossCom();
-	player = new Player(playScreenW, playScreenH);
-	ufoControl = new UFOControl(playScreenW, playScreenH, player, crossCom);
-	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
-	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom);
+	player = new Player(playScreenW, playScreenH, color);
+	ufoControl = new UFOControl(playScreenW, playScreenH, player, crossCom, color);
+	rockControl = new RockControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom, color);
+	wedgeControl = new WedgeControl(playScreenW, playScreenH, player, ufoControl->ufo, crossCom, color);
 
-	highscores = new HighScore();
+	highscores = new HighScore(color);
 	highscores->Load();
 	player->highScore = highscores->highScore;
 
@@ -111,6 +111,7 @@ bool Game::BeginRun()
 		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
 		playerShips[i]->Scale = player->Scale;
 		playerShips[i]->Enabled = false;
+		playerShips[i]->modelColor = color;
 	}
 
 	return false;
@@ -237,17 +238,17 @@ void Game::Draw()
 
 	if (player->paused)
 	{
-		DrawText("Paused", (GetScreenWidth() / 2) - 80, (GetScreenHeight() / 2) - 20, 50, WHITE);
+		DrawText("Paused", (GetScreenWidth() / 2) - 80, (GetScreenHeight() / 2) - 20, 50, color);
 	}
 
 	if (player->debug)
 	{
-		DrawText("Debug Mode Active!", (int)(GetScreenWidth() / 1.1f), (int)(GetScreenHeight() / 40), 10, WHITE);
+		DrawText("Debug Mode Active!", (int)(GetScreenWidth() / 1.1f), (int)(GetScreenHeight() / 40), 10, color);
 	}
 
-	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, WHITE);
-	DrawText(const_cast<char*>(to_string(player->highScore).c_str()), GetScreenWidth() / 2, 4, 20, WHITE);
-	DrawText("(C) 1980 ATARI INC", (GetScreenWidth() / 2) - 15, GetScreenHeight() - 12, 8, WHITE);
+	DrawText(const_cast<char*>(to_string(player->score).c_str()), 200, 5, 45, color);
+	DrawText(const_cast<char*>(to_string(player->highScore).c_str()), GetScreenWidth() / 2, 4, 20, color);
+	DrawText("(C) 1980 ATARI INC", (GetScreenWidth() / 2) - 15, GetScreenHeight() - 12, 8, color);
 
 	EndDrawing();
 }
@@ -261,6 +262,7 @@ void Game::PlayerShipDisplay()
 	{
 		playerShips.push_back(new LineModel());
 		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
+		playerShips[playerShips.size() - 1]->modelColor = color;
 	}
 
 	for (int i = 0; i < playerShips.size(); i++)

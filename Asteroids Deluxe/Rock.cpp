@@ -1,12 +1,14 @@
 #include "Rock.h"
 #include "raymath.h"
 
-Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo)
+Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo, Color color)
 {
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
+	Rock::color = color;
 	Rock::player = player;
 	Rock::ufo = ufo;
+	LineModel::modelColor = color;
 }
 
 Rock::~Rock()
@@ -27,7 +29,7 @@ void Rock::LoadSound(Sound exp)
 
 bool Rock::Initialise()
 {
-	exploder = new Exploder(dotModel);
+	exploder = new Exploder(dotModel, color);
 
 	return false;
 }

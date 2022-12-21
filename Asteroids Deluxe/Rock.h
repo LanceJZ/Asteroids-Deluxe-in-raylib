@@ -17,7 +17,7 @@ public:
 	RockSize size = Large;
 	Exploder* exploder;
 
-	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo);
+	Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo, Color color);
 	~Rock();
 	void LoadSound(Sound exp);
 	void SetDotModel(vector<Vector3> dotModel);
@@ -29,10 +29,11 @@ public:
 
 
 private:
-	void GiveScore();
-	bool CheckCollision();
+	Color color = WHITE;
 	Player* player;
 	UFO* ufo;
+	void GiveScore();
+	bool CheckCollision();
 	vector<Vector3> dotModel;
 };
 

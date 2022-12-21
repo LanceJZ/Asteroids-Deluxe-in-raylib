@@ -3,10 +3,11 @@
 #include "raymath.h"
 #include <string>
 
-Player::Player(float windowWidth, float windowHeight)
+Player::Player(float windowWidth, float windowHeight, Color color)
 {
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
+	Player::color = color;
 	flame = new LineModel();
 	shield = new LineModel();
 
@@ -32,6 +33,9 @@ void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, 
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
 	shield->LoadModel(shieldmodel);
+	modelColor = color;
+	flame->modelColor = color;
+	shield->modelColor = color;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -72,7 +76,7 @@ void Player::Initialize()
 
 	for (int i = 0; i < 6; i++)
 	{
-		lines.push_back(new Line());
+		lines.push_back(new Line(color));
 	}
 }
 

@@ -1,11 +1,14 @@
 #include "UFO.h"
 #include "raymath.h"
 
-UFO::UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom)
+UFO::UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom, Color color)
 {
 	UFO::player = player;
 	UFO::crossCom = crossCom;
+	UFO::color = color;
+	LineModel::modelColor = color;
 	shot = new Shot(windowWidth, windowHeight);
+	shot->modelColor = color;
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 	fireTimer = new Timer();
@@ -24,7 +27,7 @@ void UFO::LoadModel(string ship, vector<Vector3> dotModel)
 {
 	LineModel::LoadModel(ship);
 	shot->SetModel(dotModel);
-	exploder = new Exploder(dotModel);
+	exploder = new Exploder(dotModel, color);
 }
 
 void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)

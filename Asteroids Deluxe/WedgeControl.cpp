@@ -1,13 +1,14 @@
 #include "WedgeControl.h"
 
-WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom)
+WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom, Color color)
 {
 	GameScreenWidth = playScreenW;
 	GameScreenHeight = playScreenH;
 	WedgeControl::player = player;
 	WedgeControl::crossCom = crosscom;
+	WedgeControl::color = color;
 	spawnTimer = new Timer();
-	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo, crossCom);
+	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo, crossCom, color);
 }
 
 WedgeControl::~WedgeControl()

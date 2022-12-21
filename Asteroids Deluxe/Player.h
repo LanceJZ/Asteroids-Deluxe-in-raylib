@@ -20,7 +20,7 @@ public:
 	Shot* shots[4];
 	vector<Line*> lines;
 
-	Player(float windowWidth, float windowHeight);
+	Player(float windowWidth, float windowHeight, Color color);
 	~Player();
 	void LoadModel(string shipmodel, string flamemodel, string shieldmodel, vector<Vector3> dotModel);
 	void LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus, Sound shieldHit, Sound shieldOn,
@@ -43,7 +43,7 @@ private:
 	int nextNewLifeScore = 10000;
 	float thrustSoundTime = 0;
 	float shieldPower = 100;
-	Color color{ RAYWHITE };
+	Color color = WHITE;
 	Sound Sound05;
 	Sound Sound06;
 	Sound Sound07;
