@@ -33,9 +33,9 @@ void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, 
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
 	shield->LoadModel(shieldmodel);
-	modelColor = color;
-	flame->modelColor = color;
-	shield->modelColor = color;
+	ModelColor = color;
+	flame->ModelColor = color;
+	shield->ModelColor = color;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -86,12 +86,12 @@ void Player::Input()
 
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		RotationZ += velocityRotZ;
+		Rotation += velocityRotZ;
 	}
 
 	if (IsKeyDown(KEY_LEFT))
 	{
-		RotationZ -= velocityRotZ;
+		Rotation -= velocityRotZ;
 	}
 
 	if (IsKeyDown(KEY_UP))
@@ -126,7 +126,7 @@ void Player::Update(float deltaTime)
 	Entity::CheckScreenEdge();
 
 	flame->Position = Position;
-	flame->RotationZ = RotationZ;
+	flame->Rotation = Rotation;
 	flame->Update(deltaTime);
 
 	shield->Position = Position;
@@ -260,8 +260,8 @@ void Player::ThrustOn(float deltaTime)
 
 	float acceleration = 10.666f;
 	float topaccel = 0.05f;
-	Acceleration.x = ((cos(RotationZ) - (Velocity.x * topaccel)) * acceleration) * deltaTime;
-	Acceleration.y = ((sin(RotationZ) - (Velocity.y * topaccel)) * acceleration) * deltaTime;
+	Acceleration.x = ((cos(Rotation) - (Velocity.x * topaccel)) * acceleration) * deltaTime;
+	Acceleration.y = ((sin(Rotation) - (Velocity.y * topaccel)) * acceleration) * deltaTime;
 	thrustOff = false;
 	flame->Enabled = true;
 }

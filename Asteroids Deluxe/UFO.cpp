@@ -6,9 +6,9 @@ UFO::UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossC
 	UFO::player = player;
 	UFO::crossCom = crossCom;
 	UFO::color = color;
-	LineModel::modelColor = color;
+	LineModel::ModelColor = color;
 	shot = new Shot(windowWidth, windowHeight);
-	shot->modelColor = color;
+	shot->ModelColor = color;
 	WindowWidth = windowWidth;
 	WindowHeight = windowHeight;
 	fireTimer = new Timer();

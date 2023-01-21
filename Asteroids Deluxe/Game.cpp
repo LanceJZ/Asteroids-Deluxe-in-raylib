@@ -111,7 +111,7 @@ bool Game::BeginRun()
 		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
 		playerShips[i]->Scale = player->Scale;
 		playerShips[i]->Enabled = false;
-		playerShips[i]->modelColor = color;
+		playerShips[i]->ModelColor = color;
 	}
 
 	return false;
@@ -262,14 +262,14 @@ void Game::PlayerShipDisplay()
 	{
 		playerShips.push_back(new LineModel());
 		playerShips[playerShips.size() - 1]->SetModel(player->GetModel());
-		playerShips[playerShips.size() - 1]->modelColor = color;
+		playerShips[playerShips.size() - 1]->ModelColor = color;
 	}
 
 	for (int i = 0; i < playerShips.size(); i++)
 	{
 		playerShips[i]->Y(line);
 		playerShips[i]->X(column);
-		playerShips[i]->RotationZ = PI / 2;
+		playerShips[i]->Rotation = PI / 2;
 		playerShips[i]->Enabled = false;
 		column += 1.125f;
 	}

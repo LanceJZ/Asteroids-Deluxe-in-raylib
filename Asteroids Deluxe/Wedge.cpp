@@ -7,7 +7,7 @@ Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, Cr
 	Wedge::player = player;
 	Wedge::ufo = ufo;
 	Wedge::crossCom = crossCom;
-	Wedge::modelColor = color;
+	Wedge::ModelColor = color;
 	Radius = 0.72f;
 }
 
@@ -138,7 +138,7 @@ void Wedge::TurnOff()
 {
 	Enabled = false;
 	Velocity = { 0 };
-	RotationVelocity.z = 0;
+	RotationVelocity = 0;
 	Position = { 30, 30, 0 };
 }
 

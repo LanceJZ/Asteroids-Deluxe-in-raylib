@@ -10,7 +10,7 @@ void QuadModel::Update(float deltaTime)
 	if (Enabled)
 	{
 		Entity::Update(deltaTime);
-		TheModel.transform = MatrixRotateZ(RotationZ);	// Rotate 3D model
+		TheModel.transform = MatrixRotateZ(Rotation);	// Rotate 3D model
 	}
 }
 

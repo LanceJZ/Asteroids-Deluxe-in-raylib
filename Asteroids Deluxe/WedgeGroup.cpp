@@ -26,9 +26,9 @@ WedgeGroup::~WedgeGroup()
 bool WedgeGroup::Initialize()
 {
 	float rot = 0.333f;
-	wedgePairs[0]->RotationZ = 0;
-	wedgePairs[1]->RotationZ = (float)PI * rot;
-	wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
+	wedgePairs[0]->Rotation = 0;
+	wedgePairs[1]->Rotation = (float)PI * rot;
+	wedgePairs[2]->Rotation = ((float)PI * 2) * rot;
 
 	for (auto wedgePair : wedgePairs)
 	{
@@ -87,9 +87,9 @@ void WedgeGroup::Update(float deltaTime)
 		wedgePairs[0]->Position.y = Position.y + wY;
 		wedgePairs[0]->Position.x = Position.x;
 		wedgePairs[1]->Position = { Position.x + wX, Position.y - wYlower, 0 };
-		wedgePairs[1]->RotationZ = (float)PI * rot;
+		wedgePairs[1]->Rotation = (float)PI * rot;
 		wedgePairs[2]->Position = { Position.x - wX, Position.y - wYlower, 0 };
-		wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
+		wedgePairs[2]->Rotation = ((float)PI * 2) * rot;
 
 		if (!crossCom->newWave)
 		{
@@ -131,9 +131,9 @@ void WedgeGroup::Spawn(Vector3 position, Vector3 velocity)
 	Position = position;
 	Velocity = velocity;
 	float rot = 0.333333f;
-	wedgePairs[0]->RotationZ = 0;
-	wedgePairs[1]->RotationZ = (float)PI * rot;
-	wedgePairs[2]->RotationZ = ((float)PI * 2) * rot;
+	wedgePairs[0]->Rotation = 0;
+	wedgePairs[1]->Rotation = (float)PI * rot;
+	wedgePairs[2]->Rotation = ((float)PI * 2) * rot;
 
 	for (auto wedgePair : wedgePairs)
 	{

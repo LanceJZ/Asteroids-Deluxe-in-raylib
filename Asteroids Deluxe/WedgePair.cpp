@@ -35,8 +35,8 @@ void WedgePair::LoadWedgeModel(vector<Vector3> model)
 
 bool WedgePair::Initialize()
 {
-	wedges[0]->RotationZ = RotationZ;
-	wedges[1]->RotationZ = (float)PI + RotationZ;
+	wedges[0]->Rotation = Rotation;
+	wedges[1]->Rotation = (float)PI + Rotation;
 
 	for (auto wedge : wedges)
 	{
@@ -78,14 +78,14 @@ void WedgePair::Update(float deltaTime)
 
 	if (wedgeDocked) //Still together in a pair.
 	{
-		Vector3 pos = VelocityFromAngleZ(RotationZ, 0.65f);
+		Vector3 pos = VelocityFromAngleZ(Rotation, 0.65f);
 
 		wedges[1]->X(Position.x - pos.x);
 		wedges[1]->Y(Position.y - pos.y);
 		wedges[0]->X(pos.x + Position.x);
 		wedges[0]->Y(pos.y + Position.y);
-		wedges[1]->RotationZ = (float)PI + RotationZ;
-		wedges[0]->RotationZ = RotationZ;
+		wedges[1]->Rotation = (float)PI + Rotation;
+		wedges[0]->Rotation = Rotation;
 
 		if (!groupDocked) //Not in the group.
 		{
@@ -134,8 +134,8 @@ void WedgePair::Spawn()
 	Enabled = true;
 	wedgeDocked = true;
 	groupDocked = true;
-	wedges[0]->RotationZ = RotationZ;
-	wedges[1]->RotationZ = (float)PI + RotationZ;
+	wedges[0]->Rotation = Rotation;
+	wedges[1]->Rotation = (float)PI + Rotation;
 
 	for (auto wedge : wedges)
 	{
@@ -197,7 +197,7 @@ void WedgePair::TurnOff()
 {
 	Enabled = false;
 	Velocity = { 0 };
-	RotationVelocity.z = 0;
+	RotationVelocity = 0;
 	Position = { 30, 30, 0 };
 }
 

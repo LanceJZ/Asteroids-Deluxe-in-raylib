@@ -8,7 +8,7 @@ Rock::Rock(float windowWidth, float windowHeight, Player* player, UFO* ufo, Colo
 	Rock::color = color;
 	Rock::player = player;
 	Rock::ufo = ufo;
-	LineModel::modelColor = color;
+	LineModel::ModelColor = color;
 }
 
 Rock::~Rock()
@@ -102,7 +102,7 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 	}
 
 	float rotVelSpeed = GetRandomFloat(-maxVS, maxVS);
-	RotationVelocity = { 0, 0, rotVelSpeed };
+	RotationVelocity = rotVelSpeed;
 	Enabled = true;
 	BeenHit = false;
 }

@@ -7,21 +7,18 @@ PositionedObject::PositionedObject()
 
 void PositionedObject::Update(float deltaTime)
 {
-	Velocity.x += Acceleration.x;
-	Velocity.y += Acceleration.y;
-	X(X() + Velocity.x * deltaTime);
-	Y(Y() + Velocity.y * deltaTime);
+	Velocity = Vector3Add(Velocity, Acceleration);
+	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime }, Velocity), Position);
+	RotationVelocity += RotationAcceleration * deltaTime;
+	Rotation += RotationVelocity * deltaTime;
 
-	RotationVelocity.z += RotationAcceleration.z;
-	RotationZ += RotationVelocity.z * deltaTime;
-
-	if (RotationZ > PI * 4)
+	if (Rotation > PI * 4)
 	{
-		RotationZ = 0;
+		Rotation = 0;
 	}
-	else if (RotationZ < 0)
+	else if (Rotation < 0)
 	{
-		RotationZ = PI * 4;
+		Rotation = PI * 4;
 	}
 }
 
@@ -32,7 +29,7 @@ float PositionedObject::Chase(PositionedObject Chasing)
 
 float PositionedObject::RotateTowardsTargetZ(Vector3 target, float magnitude)
 {
-	return Common::RotateTowardsTargetZ(Position, target, RotationZ, magnitude);
+	return Common::RotateTowardsTargetZ(Position, target, Rotation, magnitude);
 }
 
 float PositionedObject::AngleFromVectorsZ(Vector3 target)
@@ -59,7 +56,7 @@ Vector3 PositionedObject::RandomVelocity(float magnitude)
 
 Vector3 PositionedObject::VelocityFromAngleZ(float magnitude)
 {
-	return { (float)cos(RotationZ) * magnitude,	(float)sin(RotationZ) * magnitude, 0 };
+	return { (float)cos(Rotation) * magnitude,	(float)sin(Rotation) * magnitude, 0 };
 }
 
 Vector3 PositionedObject::VelocityFromAngleZ(float angle, float magnitude)
@@ -174,7 +171,7 @@ void PositionedObject::LeavePlay(float turnSpeed, float speed)
 
 void PositionedObject::RotateVelocity(Vector3 position, float turnSpeed, float speed)
 {
-	RotationVelocity.z = RotateTowardsTargetZ(position, turnSpeed);
-	Velocity = VelocityFromAngleZ(RotationZ, speed);
+	RotationVelocity = RotateTowardsTargetZ(position, turnSpeed);
+	Velocity = VelocityFromAngleZ(Rotation, speed);
 }
 
