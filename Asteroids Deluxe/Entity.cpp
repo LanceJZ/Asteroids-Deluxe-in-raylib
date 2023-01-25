@@ -8,7 +8,7 @@ void Entity::Update(float deltaTime)
 void Entity::Draw()
 {
 #ifdef _DEBUG
-	if(Enabled)
+	if(Enabled && hasCollusion)
 		DrawCircle3D(Position, Radius, { 0 }, 0, { 150, 50, 200, 200 });
 #endif
 }

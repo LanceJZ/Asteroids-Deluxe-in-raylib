@@ -6,6 +6,7 @@ class Entity : public PositionedObject
 public:
 	bool Enabled = true;
 	bool BeenHit = false;
+	bool hasCollusion = true;
 	float Scale = 1;
 
 	Sound Sound01;

@@ -33,9 +33,6 @@ void Player::LoadModel(string shipmodel, string flamemodel, string shieldmodel, 
 	LineModel::LoadModel(shipmodel);
 	flame->LoadModel(flamemodel);
 	shield->LoadModel(shieldmodel);
-	ModelColor = color;
-	flame->ModelColor = color;
-	shield->ModelColor = color;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -65,6 +62,10 @@ void Player::LoadSound(Sound fireS, Sound thrustS, Sound exp, Sound bonus, Sound
 
 void Player::Initialize()
 {
+	ModelColor = color;
+	flame->ModelColor = color;
+	shield->ModelColor = color;
+
 	MaxSpeed = 20;
 	Radius = 0.6f;
 	Enabled = false;
@@ -73,6 +74,9 @@ void Player::Initialize()
 	flame->Scale = Scale;
 	flame->Radius = 0.1f;
 	flame->Enabled = false;
+	flame->hasCollusion = false;
+	AddChild(flame);
+	AddChild(shield);
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -125,11 +129,7 @@ void Player::Update(float deltaTime)
 	PositionedObject::Update(deltaTime);
 	Entity::CheckScreenEdge();
 
-	flame->Position = Position;
-	flame->Rotation = Rotation;
 	flame->Update(deltaTime);
-
-	shield->Position = Position;
 	shield->Update(deltaTime);
 
 	if (thrustOff)

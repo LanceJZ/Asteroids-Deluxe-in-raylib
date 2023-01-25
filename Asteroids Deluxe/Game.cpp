@@ -27,7 +27,7 @@ bool Game::Initialise()
 	int windowHeight = 960; //height
 	int windowWidth = 1280; //width
 
-	InitWindow(windowWidth, windowHeight, "Asteroids Deluxe - Beta");
+	InitWindow(windowWidth, windowHeight, "Asteroids Deluxe");
 	InitAudioDevice();
 	SetTargetFPS(60);
 
@@ -320,6 +320,11 @@ void Game::CheckPlayerClear()
 					clear = false;
 				}
 			}
+		}
+
+		if (ufoControl->ufo->Enabled)
+		{
+			clear = false;
 		}
 	}
 

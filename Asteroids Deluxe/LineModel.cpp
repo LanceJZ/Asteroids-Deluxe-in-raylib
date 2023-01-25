@@ -19,6 +19,8 @@ void LineModel::Draw()
 		return;
 	}
 
+	Entity::Draw();
+
 	rlPushMatrix();
 
 	for (auto parent : parents)
