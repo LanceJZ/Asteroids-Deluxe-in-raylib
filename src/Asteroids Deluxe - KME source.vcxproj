@@ -150,22 +150,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="ContentManager.cpp" />
     <ClCompile Include="CrossCom.cpp" />
+    <ClCompile Include="Dot.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="ExplosionControl.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="LineModel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model3D.cpp" />
+    <ClCompile Include="ParticleCube.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PositionedObject.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="ContentManager.h" />
     <ClInclude Include="CrossCom.h" />
+    <ClInclude Include="Dot.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="ExplosionControl.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="LineModel.h" />
+    <ClInclude Include="LineModelManager.h" />
+    <ClInclude Include="Model3D.h" />
+    <ClInclude Include="ParticleCube.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PositionedObject.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Timer.h" />

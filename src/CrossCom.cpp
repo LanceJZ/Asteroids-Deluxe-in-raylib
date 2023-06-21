@@ -2,7 +2,6 @@
 
 CrossCom::CrossCom()
 {
-
 }
 
 CrossCom::~CrossCom()
