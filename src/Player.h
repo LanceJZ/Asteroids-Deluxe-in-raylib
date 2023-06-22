@@ -1,8 +1,7 @@
 #pragma once
+#include <vector>
 #include "Common.h"
 #include "LineModel.h"
-#include <vector>
-#include <string>
 
 class Player : public LineModel
 {

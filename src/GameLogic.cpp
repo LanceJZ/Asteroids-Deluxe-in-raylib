@@ -2,6 +2,8 @@
 
 GameLogic::GameLogic()
 {
+	ThePlayer = std::make_shared<Player>();
+	ThePlayer->Flame = std::make_shared<LineModel>();
 }
 
 GameLogic::~GameLogic()
@@ -10,9 +12,7 @@ GameLogic::~GameLogic()
 
 void GameLogic::Initialize()
 {
-	ThePlayer = std::make_shared<Player>();
-	ThePlayer->Flame = std::make_shared<LineModel>();
-	ThePlayer->Flame->AddParent(ThePlayer);
+	ThePlayer->Flame->SetParent(ThePlayer);
 
 	EM.AddLineModel(ThePlayer);
 	EM.AddLineModel(ThePlayer->Flame);

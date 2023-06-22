@@ -30,13 +30,7 @@
     <ClCompile Include="CrossCom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HighScore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Line.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,13 +53,7 @@
     <ClInclude Include="CrossCom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HighScore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
