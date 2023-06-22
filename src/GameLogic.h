@@ -34,6 +34,6 @@ public:
 private:
 	std::shared_ptr<Player> ThePlayer;
 
-	ContentManager Content;
-	EntityManager Entities;
+	ContentManager CM;
+	EntityManager EM;
 };

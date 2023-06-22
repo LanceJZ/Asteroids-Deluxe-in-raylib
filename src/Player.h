@@ -7,21 +7,20 @@
 class Player : public LineModel
 {
 public:
-	bool paused = false;
-	bool newLife = false;
-	bool exploding = false;
-	bool gameOver = true;
-	bool debug = false;
+	bool Paused = false;
+	bool NewLife = false;
+	bool Exploding = false;
+	bool GameOver = true;
+	bool Debug = false;
 	int wave { 0 };
 	int score { 0 };
 	int highScore{ 0 };
 	int lives { 0 };
+	std::shared_ptr<LineModel> Flame;
 
-	//Shot* shots[4];
+	//Shot shots[4];
 	//std::vector<Line*> lines;
 
-	Player();
-	~Player();
 	bool Initialize(); //initialize
 	void Input();
 	void Update(float deltaTime);
@@ -35,13 +34,11 @@ public:
 	bool ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel);
 
 private:
-	bool thrustOff = true;
-	bool thrustOn = false;
-	int nextNewLifeScore = 10000;
-	float thrustSoundTime = 0;
-	float shieldPower = 100;
-	Color color = WHITE;
-
+	bool ThrustIsOn = false;
+	int NextNewLifeScore = 10000;
+	float ThrustSoundTime = 0;
+	float ShieldPower = 100;
+	Color TheColor = WHITE;
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

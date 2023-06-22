@@ -1,17 +1,12 @@
 #include "Player.h"
 
-Player::Player()
-{
-}
-
-Player::~Player()
-{
-}
-
-
 bool Player::Initialize()
 {
+	Entity::Initialize();
+
 	Scale = 30;
+	Flame->Scale = 30;
+	Flame->Enabled = false;
 
 	return true;
 }
@@ -32,13 +27,11 @@ void Player::Input()
 
 	if (IsKeyDown(KEY_UP))
 	{
-		thrustOn = true;
-		thrustOff = false;
+		ThrustIsOn = true;
 	}
 	else
 	{
-		thrustOn = false;
-		thrustOff = true;
+		ThrustIsOn = false;
 	}
 
 	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_SPACE))
@@ -60,6 +53,17 @@ void Player::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
 
+
+	if (!ThrustIsOn)
+	{
+		ThrustOff(deltaTime);
+	}
+	else if (ThrustIsOn && Enabled)
+	{
+		ThrustOn(deltaTime);
+	}
+
+	CheckScreenEdge();
 }
 
 void Player::Draw()
@@ -71,9 +75,8 @@ void Player::Draw()
 void Player::Hit()
 {
 	Enabled = false;
-	thrustOff = true;
-	thrustOn = false;
-	exploding = true;
+	ThrustIsOn = false;
+	Exploding = true;
 	//flame->Enabled = false;
 	//shield->Enabled = false;
 	Acceleration = { 0 };
@@ -86,7 +89,7 @@ void Player::Hit()
 
 
 #ifdef _DEBUG
-	if (!debug)
+	if (!Debug)
 		lives--;
 #else
 	lives--;
@@ -102,21 +105,21 @@ void Player::ScoreUpdate(int addToScore)
 		highScore = score;
 	}
 
-	if (score > nextNewLifeScore)
+	if (score > NextNewLifeScore)
 	{
-		nextNewLifeScore += 10000;
+		NextNewLifeScore += 10000;
 		lives++;
-		newLife = true;
+		NewLife = true;
 	}
 }
 
 void Player::NewGame()
 {
 	lives = 4;
-	nextNewLifeScore = 10000;
+	NextNewLifeScore = 10000;
 	score = 0;
 	wave = 0;
-	gameOver = false;
+	GameOver = false;
 	Reset();
 }
 
@@ -135,22 +138,19 @@ void Player::Reset()
 
 void Player::ThrustOn(float deltaTime)
 {
-
-	float acceleration = 10.666f;
-	float topaccel = 0.05f;
-	Acceleration.x = ((cos(Rotation) - (Velocity.x * topaccel)) * acceleration) * deltaTime;
-	Acceleration.y = ((sin(Rotation) - (Velocity.y * topaccel)) * acceleration) * deltaTime;
-	thrustOff = false;
-	//flame->Enabled = true;
+	Flame->Enabled = true;
+	float acceleration = 240.666f;
+	float topAccel = 0.001f;
+	Acceleration.x = ((cos(Rotation) - (Velocity.x * topAccel)) * acceleration) * deltaTime;
+	Acceleration.y = ((sin(Rotation) - (Velocity.y * topAccel)) * acceleration) * deltaTime;
 }
 
 void Player::ThrustOff(float deltaTime)
 {
-
-	float deceleration = 0.5f;
+	Flame->Enabled = false;
+	float deceleration = 0.45f;
 	Acceleration.x = (-Velocity.x * deceleration) * deltaTime;
 	Acceleration.y = (-Velocity.y * deceleration) * deltaTime;
-	//flame->Enabled = false;
 }
 
 void Player::Fire()
@@ -174,7 +174,7 @@ bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 	//	StopSound(Thrust);
 	//}
 
-	if (shieldPower == 0)// || !shield->Enabled)
+	if (ShieldPower == 0)// || !shield->Enabled)
 	{
 		Hit();
 		return false;
@@ -190,13 +190,13 @@ bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 	Velocity.x += vel.x;
 	Velocity.y += vel.y;
 
-	if (shieldPower > 20)
+	if (ShieldPower > 20)
 	{
-		shieldPower -= 20;
+		ShieldPower -= 20;
 	}
 	else
 	{
-		shieldPower = 0;
+		ShieldPower = 0;
 	}
 
 	return true;
@@ -204,7 +204,7 @@ bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 
 void Player::ShieldOn()
 {
-	if (shieldPower > 0)
+	if (ShieldPower > 0)
 	{
 		//if (!IsSoundPlaying(ShieldSound))
 		//{

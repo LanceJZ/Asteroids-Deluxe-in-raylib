@@ -11,20 +11,24 @@ GameLogic::~GameLogic()
 void GameLogic::Initialize()
 {
 	ThePlayer = std::make_shared<Player>();
+	ThePlayer->Flame = std::make_shared<LineModel>();
+	ThePlayer->Flame->AddParent(ThePlayer);
 
-	Entities.AddLineModel(ThePlayer);
+	EM.AddLineModel(ThePlayer);
+	EM.AddLineModel(ThePlayer->Flame);
 
-	Entities.Initialize();
+	EM.Initialize();
 }
 
 void GameLogic::Load()
 {
-	ThePlayer->SetModel(Content.LoadAndGetLineModel("PlayerShip"));
+	ThePlayer->SetModel(CM.LoadAndGetLineModel("PlayerShip"));
+	ThePlayer->Flame->SetModel(CM.LoadAndGetLineModel("PlayerFlame"));
 }
 
 bool GameLogic::BeginRun()
 {
-	Entities.BeginRun();
+	EM.BeginRun();
 
 
 	return true;
@@ -32,17 +36,17 @@ bool GameLogic::BeginRun()
 
 void GameLogic::Input()
 {
-	Entities.Input();
+	EM.Input();
 }
 
 void GameLogic::Update(float deltaTime)
 {
-	Entities.Update(deltaTime);
+	EM.Update(deltaTime);
 }
 
 void GameLogic::Draw3D()
 {
-	Entities.Draw();
+	EM.Draw();
 }
 
 void GameLogic::Draw2D()
