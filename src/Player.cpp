@@ -139,18 +139,14 @@ void Player::Reset()
 void Player::ThrustOn(float deltaTime)
 {
 	Flame->Enabled = true;
-	float acceleration = 240.666f;
-	float topAccel = 0.001f;
-	Acceleration.x = ((cos(Rotation) - (Velocity.x * topAccel)) * acceleration) * deltaTime;
-	Acceleration.y = ((sin(Rotation) - (Velocity.y * topAccel)) * acceleration) * deltaTime;
+	Acceleration = AccelerationToMaxAtRotation(240.666f, 0.001f, deltaTime);
 }
 
 void Player::ThrustOff(float deltaTime)
 {
 	Flame->Enabled = false;
-	float deceleration = 0.45f;
-	Acceleration.x = (-Velocity.x * deceleration) * deltaTime;
-	Acceleration.y = (-Velocity.y * deceleration) * deltaTime;
+
+	Acceleration = DeaccelerationToZero(0.45f, deltaTime);
 }
 
 void Player::Fire()

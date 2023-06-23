@@ -16,8 +16,6 @@ void GameLogic::Initialize()
 
 	EM.AddLineModel(ThePlayer);
 	EM.AddLineModel(ThePlayer->Flame);
-
-	EM.Initialize();
 }
 
 void GameLogic::Load()
@@ -29,7 +27,6 @@ void GameLogic::Load()
 bool GameLogic::BeginRun()
 {
 	EM.BeginRun();
-
 
 	return true;
 }
