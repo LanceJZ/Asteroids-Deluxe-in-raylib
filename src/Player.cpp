@@ -146,7 +146,7 @@ void Player::ThrustOff(float deltaTime)
 {
 	Flame->Enabled = false;
 
-	Acceleration = DeaccelerationToZero(0.45f, deltaTime);
+	Acceleration = DecelerationToZero(0.45f, deltaTime);
 }
 
 void Player::Fire()
