@@ -10,8 +10,10 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::Initialize()
+void GameLogic::Initialize(Camera &camera)
 {
+	TheCamera = camera;
+
 	ThePlayer->Flame->SetParent(ThePlayer);
 
 	EM.AddLineModel(ThePlayer);
@@ -48,5 +50,4 @@ void GameLogic::Draw3D()
 
 void GameLogic::Draw2D()
 {
-
 }

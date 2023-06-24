@@ -13,16 +13,19 @@ bool Player::Initialize()
 
 void Player::Input()
 {
-	float velocityRotZ = 0.07666f;
+	float velocityRotZ = 3.666f;
 
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		Rotation += velocityRotZ;
+		RotationVelocity = velocityRotZ;
 	}
-
-	if (IsKeyDown(KEY_LEFT))
+	else if (IsKeyDown(KEY_LEFT))
 	{
-		Rotation -= velocityRotZ;
+		RotationVelocity = -velocityRotZ;
+	}
+	else
+	{
+		RotationVelocity = 0;
 	}
 
 	if (IsKeyDown(KEY_UP))
@@ -34,7 +37,8 @@ void Player::Input()
 		ThrustIsOn = false;
 	}
 
-	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) ||
+		IsKeyPressed(KEY_SPACE))
 	{
 		Fire();
 	}
@@ -64,12 +68,6 @@ void Player::Update(float deltaTime)
 	}
 
 	CheckScreenEdge();
-}
-
-void Player::Draw()
-{
-	LineModel::Draw();
-
 }
 
 void Player::Hit()

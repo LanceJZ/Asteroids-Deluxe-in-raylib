@@ -19,10 +19,12 @@ class GameLogic
 {
 
 public:
+	Camera TheCamera = { 0 };
+
 	GameLogic();
 	virtual ~GameLogic();
 
-	void Initialize();
+	void Initialize(Camera &camera);
 	void Load();
 	bool BeginRun();
 

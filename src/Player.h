@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "Common.h"
 #include "LineModel.h"
 
@@ -23,7 +22,6 @@ public:
 	bool Initialize(); //initialize
 	void Input();
 	void Update(float deltaTime);
-	void Draw();
 
 	void Hit();
 	void ScoreUpdate(int addToScore);

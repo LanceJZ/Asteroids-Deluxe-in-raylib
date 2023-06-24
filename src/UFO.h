@@ -26,7 +26,7 @@ public:
 
 	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom, Color color);
 	~UFO();
-	void LoadModel(string ship, vector<Vector3> dotModel);
+	void LoadModel(std::string ship, std::vector<Vector3> dotModel);
 	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
 	bool Initialise();
 	virtual void Update(float deltaTime);

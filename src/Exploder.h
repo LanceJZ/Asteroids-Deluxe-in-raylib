@@ -1,12 +1,11 @@
 #pragma once
 #include <vector>
 #include "raylib.h"
-#include "Dot.h"
 
 class Exploder
 {
 public:
-	Exploder(vector<Vector3> dotModel, Color color);
+	//Exploder(vector<Vector3> dotModel, Color color);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	bool Initialise();
@@ -17,7 +16,7 @@ public:
 private:
 	Color color = WHITE;
 
-	vector<Dot*> dots;
+	//vector<Dot*> dots;
 	LineModel dotModel;
 };
 

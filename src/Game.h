@@ -7,23 +7,17 @@
 class Game
 {
 public:
-	Game();
-	~Game();
-
-	void GameLoop();
-	bool Initialize();
-	bool Load();
-	bool BeginRun();
-
 	Camera TheCamera = { 0 };
 
-
-private:
-	GameLogic TheGameLogic;
-
+	bool Initialize(Camera &camera);
+	bool Load();
+	bool BeginRun();
 	void ProcessInput();
 	void Update(float deltaTime);
 	void Draw();
 	void Shutdown();
+
+private:
+	GameLogic TheGameLogic;
 };
 

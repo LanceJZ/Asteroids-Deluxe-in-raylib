@@ -1,19 +1,33 @@
 #pragma once
 #include "LineModel.h"
+#include "Player.h"
+//#include "Exploder.h"
+//#include "UFO.h"
 
 class Rock : public LineModel
 {
 public:
-	Rock();
-	virtual ~Rock();
+	enum RockSize
+	{
+		Small,
+		Medium,
+		Large
+	};
+
+	RockSize Size = Large;
 
 	bool Initialize();
-	bool BeginRun();
-
-	void Input();
+	void SetReferences(std::shared_ptr<Player> thePlayer);
 	void Update(float deltaTime);
-	void Draw();
+
+	void Spawn(Vector3 pos, float speed, RockSize size);
+
 
 private:
+	std::shared_ptr<Player> ThePlayer;
+	//std::shared_ptr<UFO> TheUFO;
 
+	void GiveScore();
+	bool CheckCollision();
 };
+
