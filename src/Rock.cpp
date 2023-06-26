@@ -7,9 +7,10 @@ bool Rock::Initialize()
 	return true;
 }
 
-void Rock::SetReferences(std::shared_ptr<Player> thePlayer)
+void Rock::SetReferences(CrossCom& crossCom, std::shared_ptr<Player> thePlayer)
 {
 	ThePlayer = thePlayer;
+	Com = &crossCom;
 	//TheUFO = ufo;
 }
 
@@ -20,45 +21,37 @@ void Rock::Update(float deltaTime)
 
 	if (CheckCollision())
 	{
-		BeenHit = true;
-		Enabled = false;
-
-		if (!ThePlayer->GameOver)
-		{
-			//PlaySound(Sound01);
-		}
-
-		//TheExploder.Spawn(Position, 15, Radius);
+		Hit();
 	}
 }
 
-void Rock::Spawn(Vector3 pos, float speed, RockSize size)
+void Rock::Spawn(Vector3 pos, RockSize size)
 {
-	float magnitude = GetRandomFloat(1.1f, 5.1f);
+	float magnitude = GetRandomFloat(30.1f, 50.1f);
 	float angle = GetRandomRadian();
-	Vector3 dir = {cos(angle) * magnitude, sin(angle) * magnitude};
 	float maxVS = 0;
 
 	Position = pos;
-	Velocity = dir;
+	Velocity = GetVelocityFromAngleZ(angle, magnitude);
 	Rock::Size = size;
-	float scale = 1.00666f;
+	float scale = 30;
+	float radius = 58.25f;
 
 	switch (size)
 	{
 	case Small:
 		Scale = scale / 3.5f;
-		Radius = 2.10f / 3.5f;
+		Radius = radius / 3.5f;
 		maxVS = 3;
 		break;
 	case Medium:
 		Scale =  scale / 2;
-		Radius = 2.10f / 2;
+		Radius = radius / 2;
 		maxVS = 2;
 		break;
 	case Large:
 		Scale = scale;
-		Radius = 2.10f;
+		Radius = radius;
 		maxVS = 1;
 
 		if (Velocity.x > 0)
@@ -73,8 +66,18 @@ void Rock::Spawn(Vector3 pos, float speed, RockSize size)
 		break;
 	}
 
-	float rotVelSpeed = GetRandomFloat(-maxVS, maxVS);
-	RotationVelocity = rotVelSpeed;
+	float rVel = GetRandomFloat(-maxVS, maxVS);
+
+	if (rVel < 0.1)
+	{
+		rVel++;
+	}
+	else if (rVel > -0.1)
+	{
+		rVel--;
+	}
+
+	RotationVelocity = rVel;
 	Enabled = true;
 	BeenHit = false;
 }
@@ -132,4 +135,17 @@ bool Rock::CheckCollision()
 	//}
 
 	return false;
+}
+
+void Rock::Hit()
+{
+	Com->RockHit = true;
+	Enabled = false;
+
+	//TheExploder.Spawn(Position, 15, Radius);
+
+	if (!ThePlayer->GameOver)
+	{
+		//PlaySound(Sound01);
+	}
 }

@@ -1,31 +1,35 @@
 #pragma once
+#include <algorithm>
 #include "raylib.h"
 #include "Common.h"
 #include "Rock.h"
 #include "CrossCom.h"
+#include "EntityManager.h"
 
 class RockControl : public Common
 {
 public:
-	bool rockCountUnderFour = false;
-	//vector<Rock*> rocks;
-
 	bool Initialize();
+	void SetEMRef(EntityManager& em);
+	void SetCMRef(ContentManager& cm);
+	void SetComRef(CrossCom& com);
 	void SetSound(Sound exp);
+	void SetRockModels(size_t rockModelRefs[4]);
 	void Update(float deltaTime);
 	void NewGame(void);
 	void NewWave(void);
-	void RockHit(Rock* rockHit);
 
 private:
-	bool noRocks = false;
-	int newRockCount = { 4 };
-	Color color = WHITE;
-
-	//LineModel rockModels[4];
-	//vector<Vector3> dotModel;
+	bool NoRocks = false;
+	int NewRockCount = { 4 };
+	size_t RockModelRefs[4];
+	std::vector<size_t> RocksIDs;
+	std::vector<std::shared_ptr<Rock>> RockRefs;
 	Sound Explode;
 
-	CrossCom* crossCom;
-};
+	CrossCom* Com;
+	EntityManager* EM;
+	ContentManager* CM;
 
+	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
+};

@@ -1,4 +1,5 @@
 #pragma once
+#include "CrossCom.h"
 #include "LineModel.h"
 #include "Player.h"
 //#include "Exploder.h"
@@ -17,17 +18,19 @@ public:
 	RockSize Size = Large;
 
 	bool Initialize();
-	void SetReferences(std::shared_ptr<Player> thePlayer);
+	void SetReferences(CrossCom& crossCom, std::shared_ptr<Player> thePlayer);
 	void Update(float deltaTime);
 
-	void Spawn(Vector3 pos, float speed, RockSize size);
+	void Spawn(Vector3 pos, RockSize size);
 
 
 private:
 	std::shared_ptr<Player> ThePlayer;
 	//std::shared_ptr<UFO> TheUFO;
+	CrossCom* Com;
 
 	void GiveScore();
 	bool CheckCollision();
+	void Hit();
 };
 

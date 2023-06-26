@@ -7,6 +7,7 @@ bool Player::Initialize()
 	Scale = 30;
 	Flame->Scale = 30;
 	Flame->Enabled = false;
+	Radius = 17.0f;
 
 	return true;
 }

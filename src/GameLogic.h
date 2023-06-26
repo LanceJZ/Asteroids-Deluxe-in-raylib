@@ -4,6 +4,8 @@
 #include "ContentManager.h"
 #include "EntityManager.h"
 #include "Player.h"
+#include "RockControl.h"
+#include "CrossCom.h"
 
 enum GameState
 {
@@ -38,4 +40,6 @@ private:
 
 	ContentManager CM;
 	EntityManager EM;
+	CrossCom Com;
+	RockControl RC;
 };
