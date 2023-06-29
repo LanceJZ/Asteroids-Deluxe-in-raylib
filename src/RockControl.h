@@ -18,12 +18,10 @@ public:
 	void SetSoundID(size_t explodeID);
 	void SetRockModels(size_t rockModelRefs[4]);
 	void Update(float deltaTime);
-	void NewGame(void);
-	void NewWave(void);
+	void NewGame();
 	void Debug(bool debugOn);
 
 private:
-	bool NoRocks = false;
 	int NewRockCount = { 4 };
 	size_t RockModelRefs[4];
 	size_t ExplodeSoundID = 0;
@@ -35,4 +33,7 @@ private:
 	std::shared_ptr<Player> ThePlayer;
 
 	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
+	void RockHit();
+	void CheckEndOfWave();
+	void NewWave();
 };

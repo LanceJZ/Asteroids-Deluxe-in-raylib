@@ -39,15 +39,19 @@ void RockControl::SetRockModels(size_t rockModelRefs[4])
 
 void RockControl::Update(float deltaTime)
 {
-
+	if (CC->RockHit)
+	{
+		RockHit();
+	}
 }
 
-void RockControl::NewGame(void)
+void RockControl::NewGame()
 {
+	NewRockCount = 4;
 	NewWave();
 }
 
-void RockControl::NewWave(void)
+void RockControl::NewWave()
 {
 	CC->NewWave = true;
 	CC->SpawnWedgeGroup = false;
@@ -93,5 +97,59 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		}
 
 		RockRefs[rockNumber]->Spawn(pos, size);
+	}
+}
+
+void RockControl::RockHit()
+{
+	Vector3 pos = {};
+	Rock::RockSize size = {};
+
+	for (auto rock : RockRefs)
+	{
+		if (rock->BeenHit)
+		{
+			size = rock->Size;
+			pos = rock->Position;
+			rock->BeenHit = false;
+
+			break;
+		}
+	}
+
+	switch (size)
+	{
+	case Rock::Large:
+		SpawnRocks(pos, 2, Rock::Medium);
+		break;
+
+	case Rock::Medium:
+		SpawnRocks(pos, 2, Rock::Small);
+		break;
+
+	case Rock::Small:
+		CheckEndOfWave();
+		break;
+	default:
+		break;
+	}
+}
+
+void RockControl::CheckEndOfWave()
+{
+	bool endOfWave = true;
+
+	for (auto rock : RockRefs)
+	{
+		if (rock->Enabled)
+		{
+			endOfWave = false;
+			break;
+		}
+	}
+
+	if (endOfWave)
+	{
+		NewWave();
 	}
 }

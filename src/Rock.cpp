@@ -32,30 +32,39 @@ void Rock::Spawn(Vector3 pos, RockSize size)
 	float maxVS = 0;
 
 	Position = pos;
-	Velocity = GetVelocityFromAngleZ(angle, magnitude);
 	Rock::Size = size;
 	float scale = 30;
 	float radius = 58.25f;
+	float change = 0;
 	Enabled = true;
 	BeenHit = false;
 
 	switch (size)
 	{
 	case Small:
-		Scale = scale / 3.5f;
-		Radius = radius / 3.5f;
+		change = 4.5f;
+		Scale = scale / change;
+		Radius = radius / change;
 		maxVS = 3;
+		magnitude = GetRandomFloat(40.1f, 60.1f);
+		Velocity = GetVelocityFromAngleZ(angle, magnitude);
 		break;
 	case Medium:
-		Scale =  scale / 2;
-		Radius = radius / 2;
+		change = 1.85f;
+		Scale =  scale / change;
+		Radius = radius / change;
 		maxVS = 2;
+		magnitude = GetRandomFloat(30.1f, 50.1f);
+		Velocity = GetVelocityFromAngleZ(angle, magnitude);
 		break;
 	case Large:
 		Y(GetRandomFloat(-WindowHeight, WindowHeight));
 		Scale = scale;
 		Radius = radius;
 		maxVS = 1;
+
+		magnitude = GetRandomFloat(20.1f, 40.1f);
+		Velocity = GetVelocityFromAngleZ(angle, magnitude);
 
 		if (Velocity.x > 0)
 		{
@@ -143,6 +152,7 @@ void Rock::Hit()
 {
 	CC->RockHit = true;
 	Enabled = false;
+	BeenHit = true;
 
 	//TheExploder.Spawn(Position, 15, Radius);
 

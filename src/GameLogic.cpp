@@ -123,6 +123,7 @@ void GameLogic::Input()
 void GameLogic::Update(float deltaTime)
 {
 	Man.EM.Update(deltaTime);
+	RC.Update(deltaTime);
 }
 
 void GameLogic::Draw3D()
