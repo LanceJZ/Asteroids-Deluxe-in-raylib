@@ -1,6 +1,8 @@
 #pragma once
+#include "Managers.h"
 #include "Common.h"
 #include "LineModel.h"
+#include "Shot.h"
 
 class Player : public LineModel
 {
@@ -15,10 +17,9 @@ public:
 	int highScore{ 0 };
 	int lives { 0 };
 	std::shared_ptr<LineModel> Flame;
+	std::vector<std::shared_ptr<Shot>> Shots;
 
-	//Shot shots[4];
-	//std::vector<Line*> lines;
-
+	void SetManagerRef(Managers& man);
 	bool Initialize(); //initialize
 	void Input();
 	void Update(float deltaTime);
@@ -36,6 +37,7 @@ private:
 	float ThrustSoundTime = 0;
 	float ShieldPower = 100;
 	Color TheColor = WHITE;
+	Managers* Man = {};
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

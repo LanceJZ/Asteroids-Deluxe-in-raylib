@@ -163,6 +163,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="RockControl.cpp" />
+    <ClCompile Include="Shot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrossCom.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="RockControl.h" />
+    <ClInclude Include="Shot.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Asteroids Deluxe.rc" />

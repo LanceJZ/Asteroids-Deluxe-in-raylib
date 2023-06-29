@@ -1,35 +1,38 @@
 #pragma once
 #include <algorithm>
-#include "raylib.h"
 #include "Common.h"
+#include "Managers.h"
 #include "Rock.h"
 #include "CrossCom.h"
-#include "EntityManager.h"
+#include "Player.h"
 
 class RockControl : public Common
 {
 public:
+	RockControl();
+	virtual ~RockControl();
+
 	bool Initialize();
-	void SetEMRef(EntityManager& em);
-	void SetCMRef(ContentManager& cm);
-	void SetComRef(CrossCom& com);
-	void SetSound(Sound exp);
+	void SetManagerRef(Managers& man);
+	void SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer);
+	void SetSoundID(size_t explodeID);
 	void SetRockModels(size_t rockModelRefs[4]);
 	void Update(float deltaTime);
 	void NewGame(void);
 	void NewWave(void);
+	void Debug(bool debugOn);
 
 private:
 	bool NoRocks = false;
 	int NewRockCount = { 4 };
 	size_t RockModelRefs[4];
-	std::vector<size_t> RocksIDs;
+	size_t ExplodeSoundID = 0;
 	std::vector<std::shared_ptr<Rock>> RockRefs;
-	Sound Explode;
 
-	CrossCom* Com;
-	EntityManager* EM;
-	ContentManager* CM;
+	CrossCom* CC = {};
+	Managers* Man = {};
+	size_t PlayerID = 0;
+	std::shared_ptr<Player> ThePlayer;
 
 	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
 };

@@ -7,10 +7,10 @@ bool Rock::Initialize()
 	return true;
 }
 
-void Rock::SetReferences(CrossCom& crossCom, std::shared_ptr<Player> thePlayer)
+void Rock::SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer)
 {
 	ThePlayer = thePlayer;
-	Com = &crossCom;
+	CC = &com;
 	//TheUFO = ufo;
 }
 
@@ -36,6 +36,8 @@ void Rock::Spawn(Vector3 pos, RockSize size)
 	Rock::Size = size;
 	float scale = 30;
 	float radius = 58.25f;
+	Enabled = true;
+	BeenHit = false;
 
 	switch (size)
 	{
@@ -50,6 +52,7 @@ void Rock::Spawn(Vector3 pos, RockSize size)
 		maxVS = 2;
 		break;
 	case Large:
+		Y(GetRandomFloat(-WindowHeight, WindowHeight));
 		Scale = scale;
 		Radius = radius;
 		maxVS = 1;
@@ -78,11 +81,9 @@ void Rock::Spawn(Vector3 pos, RockSize size)
 	}
 
 	RotationVelocity = rVel;
-	Enabled = true;
-	BeenHit = false;
 }
 
-void Rock::GiveScore()
+void Rock::SendScoreToPlayer()
 {
 	switch (Size)
 	{
@@ -100,22 +101,23 @@ void Rock::GiveScore()
 
 bool Rock::CheckCollision()
 {
-	//for (auto &shot : ThePlayer->Shots)
-	//{
-	//	if (CirclesIntersect(&shot))
-	//	{
-	//		shot.Enabled = false;
-	//		GiveScore();
+	for (auto shot : ThePlayer->Shots)
+	{
+		if (CirclesIntersect(*shot))
+		{
+			shot->Enabled = false;
+			Hit();
+			SendScoreToPlayer();
 
-	//		return true;
-	//	}
-	//}
+			return true;
+		}
+	}
 
 	//if (CirclesIntersect(ThePlayer))
 	//{
 	//	if (!ThePlayer->ShieldHit(Position, Velocity))
 	//	{
-	//		GiveScore();
+	//		SendScoreToPlayer();
 	//		return true;
 	//	}
 	//}
@@ -139,7 +141,7 @@ bool Rock::CheckCollision()
 
 void Rock::Hit()
 {
-	Com->RockHit = true;
+	CC->RockHit = true;
 	Enabled = false;
 
 	//TheExploder.Spawn(Position, 15, Radius);

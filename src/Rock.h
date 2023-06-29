@@ -17,8 +17,10 @@ public:
 
 	RockSize Size = Large;
 
+	bool Debug = false;
+
 	bool Initialize();
-	void SetReferences(CrossCom& crossCom, std::shared_ptr<Player> thePlayer);
+	void SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer);
 	void Update(float deltaTime);
 
 	void Spawn(Vector3 pos, RockSize size);
@@ -27,9 +29,9 @@ public:
 private:
 	std::shared_ptr<Player> ThePlayer;
 	//std::shared_ptr<UFO> TheUFO;
-	CrossCom* Com;
+	CrossCom* CC;
 
-	void GiveScore();
+	void SendScoreToPlayer();
 	bool CheckCollision();
 	void Hit();
 };

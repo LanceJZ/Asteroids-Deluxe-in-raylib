@@ -1,4 +1,14 @@
- #include "RockControl.h"
+#include "RockControl.h"
+
+RockControl::RockControl()
+{
+	RockRefs = {};
+}
+
+RockControl::~RockControl()
+{
+	RockRefs.clear();
+}
 
 bool RockControl::Initialize()
 {
@@ -6,34 +16,25 @@ bool RockControl::Initialize()
 	return false;
 }
 
-void RockControl::SetEMRef(EntityManager& em)
+void RockControl::SetManagerRef(Managers& man)
 {
-	EM = &em;
+	Man = &man;
 }
 
-void RockControl::SetCMRef(ContentManager& cm)
+void RockControl::SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer)
 {
-	CM = &cm;
+	CC = &com;
+	ThePlayer = thePlayer;
 }
 
-void RockControl::SetComRef(CrossCom& com)
+void RockControl::SetSoundID(size_t explodeID)
 {
-	Com = &com;
-}
-
-void RockControl::SetSound(Sound exp)
-{
-	Explode = exp;
+	ExplodeSoundID = explodeID;
 }
 
 void RockControl::SetRockModels(size_t rockModelRefs[4])
 {
 	std::copy(rockModelRefs, rockModelRefs + 4, RockModelRefs);
-
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	RockModelRefs[i] = rockModelRefs[i];
-	//}
 }
 
 void RockControl::Update(float deltaTime)
@@ -48,8 +49,8 @@ void RockControl::NewGame(void)
 
 void RockControl::NewWave(void)
 {
-	Com->NewWave = true;
-	Com->SpawnWedgeGroup = false;
+	CC->NewWave = true;
+	CC->SpawnWedgeGroup = false;
 
 	SpawnRocks({ 0, 0, 0 }, NewRockCount, Rock::Large);
 
@@ -57,16 +58,24 @@ void RockControl::NewWave(void)
 		NewRockCount++;
 }
 
+void RockControl::Debug(bool debugOn)
+{
+	for (auto rock : RockRefs)
+	{
+		rock->Debug = true;
+	}
+}
+
 void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 {
 	for (int rock = 0; rock < count; rock++)
 	{
 		bool spawnNewRock = true;
-		size_t rockNumber = RocksIDs.size();
+		size_t rockNumber = RockRefs.size();
 
 		for (size_t rockCheck = 0; rockCheck < rockNumber; rockCheck++)
 		{
-			if (!EM->LineModels[RocksIDs[rockCheck]].get()->Enabled)
+			if (!RockRefs[rockCheck].get()->Enabled)
 			{
 				spawnNewRock = false;
 				rockNumber = rockCheck;
@@ -77,10 +86,10 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		if (spawnNewRock)
 		{
 			size_t rockType = GetRandomValue(0, 3);
-			size_t rock = RocksIDs.size();
 			RockRefs.push_back(std::make_shared<Rock>());
-			RocksIDs.push_back(EM->AddLineModel(RockRefs[RockRefs.size() - 1]));
-			EM->LineModels[RocksIDs[rock]].get()->SetModel(CM->GetLineModel(RockModelRefs[rockType]));
+			Man->EM.AddLineModel(RockRefs[rockNumber]);
+			RockRefs[rockNumber].get()->SetModel(Man->CM.GetLineModel(RockModelRefs[rockType]));
+			RockRefs[rockNumber].get()->SetReferences(*CC, ThePlayer);
 		}
 
 		RockRefs[rockNumber]->Spawn(pos, size);

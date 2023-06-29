@@ -1,11 +1,8 @@
 #pragma once
 #include <memory>
-#include "LineModel.h"
-#include "ContentManager.h"
-#include "EntityManager.h"
+#include "Managers.h"
 #include "Player.h"
 #include "RockControl.h"
-#include "CrossCom.h"
 
 enum GameState
 {
@@ -26,6 +23,7 @@ public:
 	GameLogic();
 	virtual ~GameLogic();
 
+	bool MuteBackgroundMusic;
 	void Initialize(Camera &camera);
 	void Load();
 	bool BeginRun();
@@ -37,9 +35,9 @@ public:
 
 private:
 	std::shared_ptr<Player> ThePlayer;
-
-	ContentManager CM;
-	EntityManager EM;
-	CrossCom Com;
+	CrossCom CC;
 	RockControl RC;
+	Managers Man;
+
+	void NewGame();
 };

@@ -1,5 +1,10 @@
 #include "Player.h"
 
+void Player::SetManagerRef(Managers& man)
+{
+	Man = &man;
+}
+
 bool Player::Initialize()
 {
 	Entity::Initialize();
@@ -58,7 +63,6 @@ void Player::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
 
-
 	if (!ThrustIsOn)
 	{
 		ThrustOff(deltaTime);
@@ -76,15 +80,10 @@ void Player::Hit()
 	Enabled = false;
 	ThrustIsOn = false;
 	Exploding = true;
-	//flame->Enabled = false;
-	//shield->Enabled = false;
+	Flame->Enabled = false;
+	//Shield->Enabled = false;
 	Acceleration = { 0 };
 	Velocity = { 0 };
-
-	//for (auto line : lines)
-	//{
-	//	line->Spawn(Position);
-	//}
 
 
 #ifdef _DEBUG
@@ -150,19 +149,20 @@ void Player::ThrustOff(float deltaTime)
 
 void Player::Fire()
 {
-	float speed = 25.5f;
+	float speed = 765.0f;
+	float timer = 1.5f;
 
-	//for (auto shot : shots)
-	//{
-	//	if (!shot->Enabled)
-	//	{
-	//		shot->Spawn(Position, VelocityFromAngleZ(speed), 1.5f);
-	//		break;
-	//	}
-	//}
+	for (auto shot : Shots)
+	{
+		if (!shot->Enabled)
+		{
+			shot->Spawn(Position, VelocityFromAngleZ(speed), timer);
+			break;
+		}
+	}
 }
 
-bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
+bool Player::ShieldHit(Vector3 hitByPos, Vector3 hitByVel)
 {
 	//if (IsSoundPlaying(Thrust))
 	//{
@@ -179,9 +179,9 @@ bool Player::ShieldHit(Vector3 hitbyPos, Vector3 hitbyVel)
 	Acceleration = { 0 };
 	Velocity.x = (Velocity.x * 0.1f) * -1;
 	Velocity.y = (Velocity.y * 0.1f) * -1;
-	Velocity.x = hitbyVel.x * 0.95f;
-	Velocity.y = hitbyVel.y * 0.95f;
-	Vector3 vel = VelocityFromAngleZ(GetAngleFromVectorsZ(hitbyPos, Position), 4.5f);
+	Velocity.x = hitByVel.x * 0.95f;
+	Velocity.y = hitByVel.y * 0.95f;
+	Vector3 vel = VelocityFromAngleZ(GetAngleFromVectorsZ(hitByPos, Position), 4.5f);
 	Velocity.x += vel.x;
 	Velocity.y += vel.y;
 
