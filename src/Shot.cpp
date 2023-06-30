@@ -1,5 +1,10 @@
 #include "Shot.h"
 
+Shot::~Shot()
+{
+	delete Man;
+}
+
 void Shot::SetManagerRef(Managers& man)
 {
 	Man = &man;
@@ -11,7 +16,7 @@ bool Shot::Initialize()
 
 	Enabled = false;
 	Radius = 2.0f;
-	Scale = 10;
+	Scale = 20;
 
 	return true;
 }

@@ -37,7 +37,7 @@ void RockControl::SetRockModels(size_t rockModelRefs[4])
 	std::copy(rockModelRefs, rockModelRefs + 4, RockModelRefs);
 }
 
-void RockControl::Update(float deltaTime)
+void RockControl::Update()
 {
 	if (CC->RockHit)
 	{
@@ -130,6 +130,7 @@ void RockControl::RockHit()
 	case Rock::Small:
 		CheckEndOfWave();
 		break;
+
 	default:
 		break;
 	}

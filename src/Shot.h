@@ -6,6 +6,8 @@
 class Shot : public LineModel
 {
 public:
+	virtual ~Shot();
+
 	void SetManagerRef(Managers& man);
 	bool Initialize();
 	void BeginRun();

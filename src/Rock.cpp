@@ -1,8 +1,14 @@
 #include "Rock.h"
 
+Rock::~Rock()
+{
+}
+
 bool Rock::Initialize()
 {
 	LineModel::Initialize();
+
+	ModelColor = { 170, 170, 245, 255 };
 
 	return true;
 }

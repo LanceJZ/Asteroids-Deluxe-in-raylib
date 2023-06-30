@@ -16,8 +16,8 @@ enum GameState
 
 class GameLogic
 {
-
 public:
+	GameState State = MainMenu;
 	Camera TheCamera = { 0 };
 
 	GameLogic();
@@ -35,8 +35,8 @@ public:
 
 private:
 	std::shared_ptr<Player> ThePlayer;
+	std::shared_ptr<RockControl> RC;
 	CrossCom CC;
-	RockControl RC;
 	Managers Man;
 
 	void NewGame();

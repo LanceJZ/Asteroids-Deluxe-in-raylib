@@ -45,8 +45,11 @@ void Game::Draw()
 	EndMode3D();
 
 	//2D drawing, fonts go here.
+
 	TheGameLogic.Draw2D();
+#ifdef _DEBUG
 	DrawFPS(5, 5);
+#endif
 
 	EndDrawing();
 }

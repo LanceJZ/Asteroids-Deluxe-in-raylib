@@ -15,6 +15,8 @@ public:
 		Large
 	};
 
+	virtual ~Rock();
+
 	RockSize Size = Large;
 
 	bool Debug = false;

@@ -7,7 +7,8 @@
 class Player : public LineModel
 {
 public:
-	bool Paused = false;
+	virtual ~Player();
+
 	bool NewLife = false;
 	bool Exploding = false;
 	bool GameOver = true;
@@ -36,7 +37,6 @@ private:
 	int NextNewLifeScore = 10000;
 	float ThrustSoundTime = 0;
 	float ShieldPower = 100;
-	Color TheColor = WHITE;
 	Managers* Man = {};
 
 	void ThrustOn(float deltaTime);
@@ -44,5 +44,7 @@ private:
 	void Fire();
 	void ShieldOn();
 	void ShieldOff();
+	void Gamepad();
+	void Keyboard();
 };
 

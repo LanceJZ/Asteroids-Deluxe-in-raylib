@@ -17,7 +17,9 @@ public:
 	void SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer);
 	void SetSoundID(size_t explodeID);
 	void SetRockModels(size_t rockModelRefs[4]);
-	void Update(float deltaTime);
+
+	void Update();
+
 	void NewGame();
 	void Debug(bool debugOn);
 

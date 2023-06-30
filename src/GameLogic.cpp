@@ -4,6 +4,7 @@ GameLogic::GameLogic()
 {
 	ThePlayer = std::make_shared<Player>();
 	ThePlayer->Flame = std::make_shared<LineModel>();
+	RC = std::make_shared<RockControl>();
 }
 
 GameLogic::~GameLogic()
@@ -17,6 +18,7 @@ void GameLogic::Initialize(Camera &camera)
 	ThePlayer->Flame->SetParent(ThePlayer);
 	ThePlayer->SetManagerRef(Man);
 
+	Man.EM.AddCommon(RC);
 	Man.EM.AddLineModel(ThePlayer);
 	Man.EM.AddLineModel(ThePlayer->Flame);
 
@@ -27,11 +29,9 @@ void GameLogic::Initialize(Camera &camera)
 		ThePlayer->Shots[i]->SetManagerRef(Man);
 	}
 
-	RC.SetManagerRef(Man);
+	RC->SetManagerRef(Man);
+	RC->SetReferences(CC, ThePlayer);
 	ThePlayer->SetManagerRef(Man);
-
-	RC.Initialize();
-	RC.SetReferences(CC, ThePlayer);
 }
 
 void GameLogic::Load()
@@ -53,7 +53,7 @@ void GameLogic::Load()
 	rockModels[2] = Man.CM.LoadTheLineModel("RockThree");
 	rockModels[3] = Man.CM.LoadTheLineModel("RockFour");
 
-	RC.SetRockModels(rockModels);
+	RC->SetRockModels(rockModels);
 
 	size_t ufoModelID = Man.CM.LoadTheLineModel("UFO");
 
@@ -65,7 +65,9 @@ bool GameLogic::BeginRun()
 {
 	Man.EM.BeginRun(); //Any Entities added after this point need this method fired manually.
 
-	RC.NewGame();
+	NewGame();
+
+	State = InPlay;
 
 	return true;
 }
@@ -74,56 +76,79 @@ void GameLogic::Input()
 {
 	Man.EM.Input();
 
-	if (IsGamepadAvailable(0))
+	if (State == MainMenu)
 	{
-		if (IsGamepadButtonPressed(0, 15))//Start button
+		if (IsGamepadAvailable(0))
+		{
+			if (IsGamepadButtonPressed(0, 15))//Start button
+			{
+				NewGame();
+			}
+		}
+
+		if (IsKeyPressed(KEY_N))
 		{
 			NewGame();
 		}
-	}
 
-	if (IsKeyPressed(KEY_N))
-	{
-		NewGame();
-	}
-
-	if (IsGamepadAvailable(0) && !ThePlayer->GameOver)
-	{
-		if (IsGamepadButtonPressed(0, 13)) //Menu Button
+		if (IsKeyPressed(KEY_D))
 		{
-			ThePlayer->Paused = !ThePlayer->Paused;
+			ThePlayer->Debug = true;
+			RC->Debug(true);
+			//UC.Debug(true);
+
+		}
+	}
+
+	if (State == InPlay)
+	{
+		if (IsGamepadAvailable(0))
+		{
+			if (IsGamepadButtonPressed(0, 13)) //Menu Button
+			{
+				State = Pause;
+			}
+
+			if (IsGamepadButtonPressed(0, 8)) //X button
+			{
+				MuteBackgroundMusic = !MuteBackgroundMusic;
+			}
 		}
 
-		if (IsGamepadButtonPressed(0, 8)) //X button
+		if (IsKeyPressed(KEY_M))
 		{
 			MuteBackgroundMusic = !MuteBackgroundMusic;
 		}
+
+
+		if (IsKeyPressed(KEY_P))
+		{
+			State = Pause;
+		}
 	}
-
-
-	if (IsKeyPressed(KEY_P) && !ThePlayer->GameOver)
+	else if (State == Pause)
 	{
-		ThePlayer->Paused = !ThePlayer->Paused;
-	}
+		if (IsKeyPressed(KEY_P))
+		{
+			State = InPlay;
+		}
 
-	if (IsKeyPressed(KEY_D) && !ThePlayer->GameOver)
-	{
-		ThePlayer->Debug = true;
-		RC.Debug(true);
-		//UC.Debug(true);
-
-	}
-
-	if (IsKeyPressed(KEY_M))
-	{
-		MuteBackgroundMusic = !MuteBackgroundMusic;
+		if (IsGamepadAvailable(0))
+		{
+			if (IsGamepadButtonPressed(0, 13)) //Menu Button
+			{
+				State = InPlay;
+			}
+		}
 	}
 }
 
 void GameLogic::Update(float deltaTime)
 {
+	if (State == Pause)
+		return;
+
 	Man.EM.Update(deltaTime);
-	RC.Update(deltaTime);
 }
 
 void GameLogic::Draw3D()
@@ -137,9 +162,9 @@ void GameLogic::Draw2D()
 
 void GameLogic::NewGame()
 {
-	//ThePlayer->NewGame();
-	//RC.NewGame();
+	ThePlayer->NewGame();
+	RC->NewGame();
 	//UC.NewGame();
-	//PlayerShipDisplay();
 	//HS.GameOver = false;
+	//PlayerShipDisplay();
 }

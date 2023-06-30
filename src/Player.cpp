@@ -1,5 +1,10 @@
 #include "Player.h"
 
+Player::~Player()
+{
+	delete Man;
+}
+
 void Player::SetManagerRef(Managers& man)
 {
 	Man = &man;
@@ -12,50 +17,22 @@ bool Player::Initialize()
 	Scale = 30;
 	Flame->Scale = 30;
 	Flame->Enabled = false;
+	Flame->ModelColor = { 180, 180, 255, 255 };
+
 	Radius = 17.0f;
+	ModelColor = { 175, 175, 255, 255 };
+
 
 	return true;
 }
 
 void Player::Input()
 {
-	float velocityRotZ = 3.666f;
+	Keyboard();
 
-	if (IsKeyDown(KEY_RIGHT))
+	if (IsGamepadAvailable(0))
 	{
-		RotationVelocity = velocityRotZ;
-	}
-	else if (IsKeyDown(KEY_LEFT))
-	{
-		RotationVelocity = -velocityRotZ;
-	}
-	else
-	{
-		RotationVelocity = 0;
-	}
-
-	if (IsKeyDown(KEY_UP))
-	{
-		ThrustIsOn = true;
-	}
-	else
-	{
-		ThrustIsOn = false;
-	}
-
-	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) ||
-		IsKeyPressed(KEY_SPACE))
-	{
-		Fire();
-	}
-
-	if (IsKeyDown(KEY_DOWN))
-	{
-		ShieldOn();
-	}
-	else
-	{
-		ShieldOff();
+		Gamepad();
 	}
 }
 
@@ -216,6 +193,92 @@ void Player::ShieldOff()
 	//StopSound(Sound06);
 
 	//shield->Enabled = false;
+}
+
+void Player::Gamepad()
+{
+	//Button B is 6 for Shield //Button A is 7 for Fire //Button Y is 8 for Hyperspace
+	//Button X is 5	//Left bumper is 9 //Right bumper is 11 for Shield //Left Trigger is 10
+	//Right Trigger is 12 for Thrust //Dpad Up is 1 for	//Dpad Down is 3 for
+	//Dpad Left is 4 for rotate left //Dpad Right is 2 for rotate right
+	//Axis 1 is -1 for , 1 for  on left stick.
+	//Axis 0 is -1 for Left, 1 for right on left stick.
+
+	if (IsGamepadButtonDown(0, 12))
+	{
+		ThrustIsOn = true;
+	}
+	else
+	{
+		ThrustIsOn = false;
+	}
+
+	float velocityRotZ = 0.07666f;
+
+	if (IsGamepadButtonDown(0, 4) || GetGamepadAxisMovement(0, 0) < -0.25f)
+	{
+		Rotation -= velocityRotZ;
+	}
+	else if (IsGamepadButtonDown(0, 2) || GetGamepadAxisMovement(0, 0) > 0.25f)
+	{
+		Rotation += velocityRotZ;
+	}
+
+	if (IsGamepadButtonPressed(0, 7))
+	{
+		Fire();
+	}
+
+	if (IsGamepadButtonDown(0, 11) || IsGamepadButtonDown(0, 6))
+	{
+		ShieldOn();
+	}
+	else
+	{
+		ShieldOff();
+	}
+}
+
+void Player::Keyboard()
+{
+	float velocityRotZ = 3.666f;
+
+	if (IsKeyDown(KEY_RIGHT))
+	{
+		RotationVelocity = velocityRotZ;
+	}
+	else if (IsKeyDown(KEY_LEFT))
+	{
+		RotationVelocity = -velocityRotZ;
+	}
+	else
+	{
+		RotationVelocity = 0;
+	}
+
+	if (IsKeyDown(KEY_UP))
+	{
+		ThrustIsOn = true;
+	}
+	else
+	{
+		ThrustIsOn = false;
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_CONTROL) || IsKeyPressed(KEY_LEFT_CONTROL) ||
+		IsKeyPressed(KEY_SPACE))
+	{
+		Fire();
+	}
+
+	if (IsKeyDown(KEY_DOWN))
+	{
+		ShieldOn();
+	}
+	else
+	{
+		ShieldOff();
+	}
 }
 
 bool Player::GetShieldIsOn()
