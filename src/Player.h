@@ -7,18 +7,20 @@
 class Player : public LineModel
 {
 public:
+	Player();
 	virtual ~Player();
 
 	bool NewLife = false;
 	bool Exploding = false;
 	bool GameOver = true;
 	bool Debug = false;
-	int wave { 0 };
-	int score { 0 };
-	int highScore{ 0 };
-	int lives { 0 };
-	std::shared_ptr<LineModel> Flame;
-	std::vector<std::shared_ptr<Shot>> Shots;
+	int Wave { 0 };
+	int Score { 0 };
+	int HighScore{ 0 };
+	int Lives { 0 };
+
+	LineModel* Flame;
+	std::vector<Shot*> Shots;
 
 	void SetManagersRef(Managers& man);
 	void SetShipModelID(size_t modelID);

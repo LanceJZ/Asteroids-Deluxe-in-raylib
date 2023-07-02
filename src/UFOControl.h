@@ -11,7 +11,7 @@ public:
 
 	UFOControl();
 	bool Initialize();
-	void SetPlayerRef(std::shared_ptr<Player> thePlayer);
+	void SetPlayerRef(Player* thePlayer);
 	void SetCrossRef(CrossCom& com);
 	void SetManagersRef(Managers& man);
 	bool BeginRun();
@@ -19,7 +19,7 @@ public:
 
 	void NewGame();
 
-	std::shared_ptr<UFO> TheUFO;
+	UFO* TheUFO = {};
 
 private:
 	int SpawnCount = {0};
@@ -27,7 +27,7 @@ private:
 
 	CrossCom* CC = {};
 	Managers* Man = {};
-	std::shared_ptr<Player> ThePlayer;
+	Player* ThePlayer = {};
 
 	void SpawnUFO();
 	void ResetTimer();

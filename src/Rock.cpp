@@ -13,7 +13,7 @@ bool Rock::Initialize()
 	return true;
 }
 
-void Rock::SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer)
+void Rock::SetReferences(CrossCom& com, Player* thePlayer)
 {
 	ThePlayer = thePlayer;
 	CC = &com;

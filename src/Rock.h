@@ -22,15 +22,15 @@ public:
 	bool Debug = false;
 
 	bool Initialize();
-	void SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer);
+	void SetReferences(CrossCom& com, Player* thePlayer);
 	void Update(float deltaTime);
 
 	void Spawn(Vector3 pos, RockSize size);
 
 
 private:
-	std::shared_ptr<Player> ThePlayer;
-	//std::shared_ptr<UFO> TheUFO;
+	Player* ThePlayer;
+	//UFO* TheUFO;
 	CrossCom* CC = {};
 
 	void SendScoreToPlayer();

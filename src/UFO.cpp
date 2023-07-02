@@ -11,13 +11,15 @@ UFO::~UFO()
 
 bool UFO::Initialize()
 {
+	LineModel::Initialize();
+
 	Enabled = false;
 	ModelColor = { 175, 175, 255, 255 };
 
 	return true;
 }
 
-void UFO::SetPlayerRef(std::shared_ptr<Player> thePlayer)
+void UFO::SetPlayerRef(Player* thePlayer)
 {
 	ThePlayer = thePlayer;
 }
@@ -57,6 +59,11 @@ void UFO::Update(float deltaTime)
 		FireShot();
 	}
 
+	if (Man->EM.Timers[ChangeVectorTimerID]->Elapsed())
+	{
+		ChangeVector();
+	}
+
 	if (CheckCollision())
 	{
 		Collision();
@@ -71,12 +78,48 @@ void UFO::Draw()
 void UFO::Spawn(int spawnCount)
 {
 	Enabled = true;
-	Scale = 20.0f;
-	Radius = 17.5f;
+	float fullScale = 20.0f;
+	float fullRadius = 17.5f;
+	float fullSpeed = 57.0f;
 
 	ResetVectorTimer();
 	ResetFireTimer();
 	ChangeVector();
+
+	float spawnPercent = (powf(0.915f, (float)spawnCount / (float)(CC->Wave + 1)) * 100);
+
+	if (GetRandomFloat(0, 99) < spawnPercent - ThePlayer->Score / 500)
+	{
+		TheSize = Large;
+		Scale = fullScale;
+		MaxSpeed = fullSpeed / 1.3f;
+		Radius = fullRadius;
+	}
+	else
+	{
+		TheSize = Small;
+		Scale = fullRadius / 2;
+		MaxSpeed = fullSpeed;
+		Radius = fullRadius / 2;
+	}
+
+	float speed = 0;
+	float height = GetRandomFloat((float)WindowHeight / 4, (float)WindowHeight / 1.25f);
+	float side = 0;
+
+	if (GetRandomFloat(0, 10) < 5)
+	{
+		speed = MaxSpeed;
+		side = -WindowWidth;
+	}
+	else
+	{
+		speed = -MaxSpeed;
+		side = WindowWidth;
+	}
+
+	Position = { side, height, 0 };
+	Velocity = { speed, 0, 0 };
 }
 
 void UFO::Collision()
@@ -96,6 +139,8 @@ void UFO::ResetVectorTimer()
 
 void UFO::ChangeVector()
 {
+	ResetVectorTimer();
+
 	if (GetRandomValue(1, 10) > 2)
 	{
 		if ((int)Velocity.y == 0)
@@ -122,11 +167,13 @@ void UFO::ChangeVector()
 
 void UFO::FireShot()
 {
+	ResetFireTimer();
+
 	float angle = 0;
 	float shotSpeed = 15;
 	bool shootRocks = false;
 
-	switch (size)
+	switch (TheSize)
 	{
 	case UFO::Large:
 		if (GetRandomValue(1, 10) < 5)
@@ -181,7 +228,7 @@ float UFO::AimedShot()
 		return GetRandomRadian();
 	}
 
-	float percentChance = 0.2f - (ThePlayer->score * 0.00001f);
+	float percentChance = 0.2f - (ThePlayer->Score * 0.00001f);
 
 	if (percentChance < 0)
 	{
@@ -235,7 +282,7 @@ float UFO::AimedShotAtRock()
 
 void UFO::GiveScore()
 {
-	switch (size)
+	switch (TheSize)
 	{
 	case Large:
 		ThePlayer->ScoreUpdate(200);

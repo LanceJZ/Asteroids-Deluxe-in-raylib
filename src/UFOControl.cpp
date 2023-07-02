@@ -7,10 +7,11 @@ UFOControl::UFOControl()
 
 bool UFOControl::Initialize()
 {
+
 	return false;
 }
 
-void UFOControl::SetPlayerRef(std::shared_ptr<Player> thePlayer)
+void UFOControl::SetPlayerRef(Player* thePlayer)
 {
 	ThePlayer = thePlayer;
 	TheUFO->SetPlayerRef(thePlayer);

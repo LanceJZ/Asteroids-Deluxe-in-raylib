@@ -15,14 +15,14 @@ public:
 		Large
 	};
 
-	Size size = Large;
+	Size TheSize = Large;
 
-	std::shared_ptr<Shot> TheShot;
+	Shot* TheShot = {};
 
 	UFO();
 	~UFO();
 	bool Initialize();
-	void SetPlayerRef(std::shared_ptr<Player> player);
+	void SetPlayerRef(Player* player);
 	void SetCrossRef(CrossCom& com);
 	void SetManagerRef(Managers& man);
 	bool BeginRun();
@@ -39,7 +39,7 @@ private:
 
 	CrossCom* CC = {};
 	Managers* Man = {};
-	std::shared_ptr<Player> ThePlayer;
+	Player* ThePlayer = {};
 
 	void GiveScore();
 	void ResetFireTimer();

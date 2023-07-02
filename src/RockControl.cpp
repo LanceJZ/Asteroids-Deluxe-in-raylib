@@ -2,7 +2,6 @@
 
 RockControl::RockControl()
 {
-	RockRefs = {};
 }
 
 RockControl::~RockControl()
@@ -26,12 +25,12 @@ void RockControl::SetCrossRef(CrossCom& com)
 	CC = &com;
 }
 
-void RockControl::SetUFORef(std::shared_ptr<UFO> ufo)
+void RockControl::SetUFORef(UFO* ufo)
 {
 	TheUFO = ufo;
 }
 
-void RockControl::SetPlayerRef(std::shared_ptr<Player> thePlayer)
+void RockControl::SetPlayerRef(Player* thePlayer)
 {
 	ThePlayer = thePlayer;
 }
@@ -101,7 +100,7 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 
 		for (size_t rockCheck = 0; rockCheck < rockNumber; rockCheck++)
 		{
-			if (!RockRefs[rockCheck].get()->Enabled)
+			if (!RockRefs[rockCheck]->Enabled)
 			{
 				spawnNewRock = false;
 				rockNumber = rockCheck;
@@ -112,11 +111,11 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		if (spawnNewRock)
 		{
 			size_t rockType = GetRandomValue(0, 3);
-			RockRefs.push_back(std::make_shared<Rock>());
+			RockRefs.push_back(new Rock());
 			CC->RockData.push_back({});
 			Man->EM.AddLineModel(RockRefs[rockNumber]);
-			RockRefs[rockNumber].get()->SetModel(Man->CM.GetLineModel(RockModelRefs[rockType]));
-			RockRefs[rockNumber].get()->SetReferences(*CC, ThePlayer);
+			RockRefs[rockNumber]->SetModel(Man->CM.GetLineModel(RockModelRefs[rockType]));
+			RockRefs[rockNumber]->SetReferences(*CC, ThePlayer);
 		}
 
 		RockRefs[rockNumber]->Spawn(pos, size);

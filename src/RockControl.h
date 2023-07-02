@@ -15,9 +15,9 @@ public:
 
 	bool Initialize();
 	void SetManagersRef(Managers& man);
-	void SetPlayerRef(std::shared_ptr<Player> thePlayer);
+	void SetPlayerRef(Player* thePlayer);
 	void SetCrossRef(CrossCom& com);
-	void SetUFORef(std::shared_ptr<UFO> ufo);
+	void SetUFORef(UFO* ufo);
 	void SetSoundID(size_t explodeID);
 	void SetRockModels(size_t rockModelRefs[4]);
 
@@ -30,13 +30,13 @@ private:
 	int NewRockCount = { 4 };
 	size_t RockModelRefs[4];
 	size_t ExplodeSoundID = 0;
-	std::vector<std::shared_ptr<Rock>> RockRefs;
+	std::vector<Rock*> RockRefs;
 
 	CrossCom* CC = {};
 	Managers* Man = {};
 	size_t PlayerID = 0;
-	std::shared_ptr<Player> ThePlayer;
-	std::shared_ptr<UFO> TheUFO;
+	Player* ThePlayer = {};
+	UFO* TheUFO = {};
 
 	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
 	void RockHit();

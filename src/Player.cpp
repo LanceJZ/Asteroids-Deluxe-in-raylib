@@ -1,8 +1,11 @@
 #include "Player.h"
 
+Player::Player()
+{
+}
+
 Player::~Player()
 {
-	delete Man;
 }
 
 void Player::SetManagersRef(Managers& man)
@@ -79,35 +82,35 @@ void Player::Hit()
 
 #ifdef _DEBUG
 	if (!Debug)
-		lives--;
+		Lives--;
 #else
-	lives--;
+	Lives--;
 #endif
 }
 
 void Player::ScoreUpdate(int addToScore)
 {
-	score += addToScore;
+	Score += addToScore;
 
-	if (score > highScore)
+	if (Score > HighScore)
 	{
-		highScore = score;
+		HighScore = Score;
 	}
 
-	if (score > NextNewLifeScore)
+	if (Score > NextNewLifeScore)
 	{
 		NextNewLifeScore += 10000;
-		lives++;
+		Lives++;
 		NewLife = true;
 	}
 }
 
 void Player::NewGame()
 {
-	lives = 4;
+	Lives = 4;
 	NextNewLifeScore = 10000;
-	score = 0;
-	wave = 0;
+	Score = 0;
+	Wave = 0;
 	GameOver = false;
 	Reset();
 }
@@ -197,8 +200,8 @@ void Player::ShieldOn()
 		//	PlaySound(ShieldSound);
 		//}
 
-		//shield->Enabled = true;
-		//shield->Alpha = 2.55f * shieldPower;
+		//Shield->Enabled = true;
+		//Shield->Alpha = 2.55f * shieldPower;
 	}
 }
 
@@ -297,5 +300,5 @@ void Player::Keyboard()
 
 bool Player::GetShieldIsOn()
 {
-	return false;// shield->Enabled;
+	return false;// Shield->Enabled;
 }

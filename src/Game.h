@@ -37,9 +37,9 @@ public:
 
 
 private:
-	std::shared_ptr<Player> ThePlayer;
-	std::shared_ptr<RockControl> RC;
-	std::shared_ptr<UFOControl> UC;
+	Player* ThePlayer;
+	RockControl* RC;
+	UFOControl* UC;
 	CrossCom CC;
 	Managers Man;
 

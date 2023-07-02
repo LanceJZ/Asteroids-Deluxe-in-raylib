@@ -2,12 +2,12 @@
 
 Game::Game()
 {
-	UC = std::make_shared<UFOControl>();
-	RC = std::make_shared<RockControl>();
-	ThePlayer = std::make_shared<Player>();
-	ThePlayer->Flame = std::make_shared<LineModel>();
-	UC->TheUFO = std::make_shared<UFO>();
-	UC->TheUFO->TheShot = std::make_shared<Shot>();
+	UC = new UFOControl();
+	RC = new RockControl();
+	ThePlayer = new Player();
+	ThePlayer->Flame = new LineModel();
+	UC->TheUFO = new UFO();
+	UC->TheUFO->TheShot = new Shot();
 }
 
 Game::~Game()
@@ -32,7 +32,7 @@ bool Game::Initialize(Camera &camera) //Initialize
 
 	for (int i = 0; i < 4; i++)
 	{
-		ThePlayer->Shots.push_back(std::make_shared<Shot>());
+		ThePlayer->Shots.push_back(new Shot());
 		Man.EM.AddLineModel(ThePlayer->Shots[i]);
 		ThePlayer->Shots[i]->SetManagersRef(Man);
 	}
