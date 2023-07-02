@@ -3,6 +3,7 @@
 #include "Managers.h"
 #include "Player.h"
 #include "RockControl.h"
+#include "UFOControl.h"
 
 enum GameState
 {
@@ -28,14 +29,15 @@ public:
 	void Load();
 	bool BeginRun();
 
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw3D();
-	virtual void Draw2D();
+	void Input();
+	void Update(float deltaTime);
+	void Draw3D();
+	void Draw2D();
 
 private:
 	std::shared_ptr<Player> ThePlayer;
 	std::shared_ptr<RockControl> RC;
+	std::shared_ptr<UFOControl> UC;
 	CrossCom CC;
 	Managers Man;
 

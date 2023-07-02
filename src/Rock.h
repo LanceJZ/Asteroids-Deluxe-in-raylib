@@ -31,7 +31,7 @@ public:
 private:
 	std::shared_ptr<Player> ThePlayer;
 	//std::shared_ptr<UFO> TheUFO;
-	CrossCom* CC;
+	CrossCom* CC = {};
 
 	void SendScoreToPlayer();
 	bool CheckCollision();

@@ -1,21 +1,20 @@
 #pragma once
 #include "Managers.h"
 #include "LineModel.h"
-#include "Timer.h"
 
 class Shot : public LineModel
 {
 public:
 	virtual ~Shot();
 
-	void SetManagerRef(Managers& man);
+	void SetManagersRef(Managers& man);
 	bool Initialize();
-	void BeginRun();
+	bool BeginRun();
 	virtual void Update(float deltaTime);
 	void Spawn(Vector3 pos, Vector3 vel, float timerAmount);
 
 private:
-	size_t ShotTimerNumber;
+	size_t ShotTimerID;
 	float windowWidth;
 	float windowHeight;
 	Managers* Man = {};

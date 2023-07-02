@@ -39,8 +39,8 @@ void Rock::Spawn(Vector3 pos, RockSize size)
 
 	Position = pos;
 	Rock::Size = size;
-	float scale = 30;
-	float radius = 58.25f;
+	float scale = 25;
+	float radius = 47.25f;
 	float change = 0;
 	Enabled = true;
 	BeenHit = false;

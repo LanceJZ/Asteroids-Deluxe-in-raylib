@@ -16,14 +16,23 @@ bool RockControl::Initialize()
 	return false;
 }
 
-void RockControl::SetManagerRef(Managers& man)
+void RockControl::SetManagersRef(Managers& man)
 {
 	Man = &man;
 }
 
-void RockControl::SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer)
+void RockControl::SetCrossRef(CrossCom& com)
 {
 	CC = &com;
+}
+
+void RockControl::SetUFORef(std::shared_ptr<UFO> ufo)
+{
+	TheUFO = ufo;
+}
+
+void RockControl::SetPlayerRef(std::shared_ptr<Player> thePlayer)
+{
 	ThePlayer = thePlayer;
 }
 
@@ -42,6 +51,19 @@ void RockControl::Update()
 	if (CC->RockHit)
 	{
 		RockHit();
+	}
+
+	if (TheUFO->Enabled)
+	{
+		for (size_t i = 0; i < RockRefs.size(); i++)
+		{
+			if (RockRefs[i]->Enabled)
+			{
+				CC->RockData[i].Position = RockRefs[i]->Position;
+				CC->RockData[i].Velocity = RockRefs[i]->Velocity;
+				CC->RockData[i].Enabled = RockRefs[i]->Enabled;
+			}
+		}
 	}
 }
 
@@ -91,6 +113,7 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 		{
 			size_t rockType = GetRandomValue(0, 3);
 			RockRefs.push_back(std::make_shared<Rock>());
+			CC->RockData.push_back({});
 			Man->EM.AddLineModel(RockRefs[rockNumber]);
 			RockRefs[rockNumber].get()->SetModel(Man->CM.GetLineModel(RockModelRefs[rockType]));
 			RockRefs[rockNumber].get()->SetReferences(*CC, ThePlayer);

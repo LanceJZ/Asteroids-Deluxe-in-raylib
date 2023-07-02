@@ -2,9 +2,10 @@
 #include <algorithm>
 #include "Common.h"
 #include "Managers.h"
-#include "Rock.h"
 #include "CrossCom.h"
+#include "Rock.h"
 #include "Player.h"
+#include "UFO.h"
 
 class RockControl : public Common
 {
@@ -13,8 +14,10 @@ public:
 	virtual ~RockControl();
 
 	bool Initialize();
-	void SetManagerRef(Managers& man);
-	void SetReferences(CrossCom& com, std::shared_ptr<Player> thePlayer);
+	void SetManagersRef(Managers& man);
+	void SetPlayerRef(std::shared_ptr<Player> thePlayer);
+	void SetCrossRef(CrossCom& com);
+	void SetUFORef(std::shared_ptr<UFO> ufo);
 	void SetSoundID(size_t explodeID);
 	void SetRockModels(size_t rockModelRefs[4]);
 
@@ -33,6 +36,7 @@ private:
 	Managers* Man = {};
 	size_t PlayerID = 0;
 	std::shared_ptr<Player> ThePlayer;
+	std::shared_ptr<UFO> TheUFO;
 
 	void SpawnRocks(Vector3 pos, int count, Rock::RockSize size);
 	void RockHit();

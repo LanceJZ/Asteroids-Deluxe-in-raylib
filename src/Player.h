@@ -20,7 +20,9 @@ public:
 	std::shared_ptr<LineModel> Flame;
 	std::vector<std::shared_ptr<Shot>> Shots;
 
-	void SetManagerRef(Managers& man);
+	void SetManagersRef(Managers& man);
+	void SetShipModelID(size_t modelID);
+	void SetShotModelID(size_t modelID);
 	bool Initialize(); //initialize
 	void Input();
 	void Update(float deltaTime);
@@ -34,6 +36,7 @@ public:
 
 private:
 	bool ThrustIsOn = false;
+	size_t ShipModelID;
 	int NextNewLifeScore = 10000;
 	float ThrustSoundTime = 0;
 	float ShieldPower = 100;

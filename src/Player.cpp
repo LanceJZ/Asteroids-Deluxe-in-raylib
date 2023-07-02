@@ -5,9 +5,23 @@ Player::~Player()
 	delete Man;
 }
 
-void Player::SetManagerRef(Managers& man)
+void Player::SetManagersRef(Managers& man)
 {
 	Man = &man;
+}
+
+void Player::SetShipModelID(size_t modelID)
+{
+	ShipModelID = modelID;
+	SetModel(Man->CM.GetLineModel(modelID));
+}
+
+void Player::SetShotModelID(size_t modelID)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		Shots[i]->SetModel(Man->CM.GetLineModel(modelID));
+	}
 }
 
 bool Player::Initialize()
@@ -19,7 +33,7 @@ bool Player::Initialize()
 	Flame->Enabled = false;
 	Flame->ModelColor = { 180, 180, 255, 255 };
 
-	Radius = 17.0f;
+	Radius = 16.5f;
 	ModelColor = { 175, 175, 255, 255 };
 
 

@@ -1,105 +1,75 @@
 #include "UFOControl.h"
 #include "raymath.h"
 
-UFOControl::UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom, Color color)
+UFOControl::UFOControl()
 {
-	GameScreenWidth = playScreenW;
-	GameScreenHeight = playScreenH;
-	UFOControl::player = player;
-
-	ufo = new UFO(playScreenW, playScreenH, player, crossCom, color);
-
-	timer = new Timer();
 }
 
 bool UFOControl::Initialize()
 {
-	ufo->Initialise();
-	ResetTimer();
-
 	return false;
 }
 
-void UFOControl::LoadModel(string ship, vector<Vector3> dotModel)
+void UFOControl::SetPlayerRef(std::shared_ptr<Player> thePlayer)
 {
-	ufo->LoadModel(ship, dotModel);
+	ThePlayer = thePlayer;
+	TheUFO->SetPlayerRef(thePlayer);
 }
 
-void UFOControl::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
+void UFOControl::SetCrossRef(CrossCom& com)
 {
-	ufo->LoadSound(exp, big, small, fire);
+	CC = &com;
+	TheUFO->SetCrossRef(com);
 }
 
-void UFOControl::Update(float deltaTime)
+void UFOControl::SetManagersRef(Managers& man)
 {
-	ufo->Update(deltaTime);
-	timer->Update(deltaTime);
+	Man = &man;
+	TheUFO->SetManagerRef(man);
+}
 
-	if (timer->Elapsed() && !ufo->Enabled)
+bool UFOControl::BeginRun()
+{
+	SpawnTimerID = Man->EM.AddTimer();
+
+	return true;
+}
+
+void UFOControl::Update()
+{
+	if (Man->EM.Timers[SpawnTimerID]->Elapsed())
 	{
-		SpawnUFO();
+		if (!TheUFO->Enabled) SpawnUFO();
 	}
-	else if (ufo->Enabled)
+	else if (TheUFO->Enabled)
 	{
 		ResetTimer();
 	}
 }
 
-void UFOControl::Draw()
-{
-	ufo->Draw();
-}
-
 void UFOControl::NewGame()
 {
-	ResetTimer();
-	spawnCount = 0;
-	ufo->Enabled = false;
-	ufo->shot->Enabled = false;
+	//ResetTimer();
+	SpawnCount = 0;
+	TheUFO->Enabled = false;
+	TheUFO->TheShot->Enabled = false;
 }
 
 void UFOControl::SpawnUFO()
 {
-	spawnCount++;
 	ResetTimer();
-	float spawnPercent = (powf(0.915f, (float)spawnCount / (float)(player->wave + 1)) * 100);
 
-	if (GetRandomFloat(0, 99) < spawnPercent - player->score / 500)
-	{
-		ufo->size = UFO::Large;
-		ufo->Scale = 1;
-		ufo->MaxSpeed = 5.0f;
-		ufo->Radius = 0.75f;
-	}
-	else
-	{
-		ufo->size = UFO::Small;
-		ufo->Scale = 0.5f;
-		ufo->MaxSpeed = 7.0f;
-		ufo->Radius = 0.4f;
-	}
+	if (!ThePlayer->Enabled && !ThePlayer->GameOver) return;
 
-	float speed = 0;
-	float height = GetRandomFloat(GameScreenHeight / 4, GameScreenHeight / 1.25f);
-	float side = 0;
+	SpawnCount++;
 
-	if (GetRandomFloat(0, 10) < 5)
-	{
-		speed = 5;
-		side = -GameScreenWidth;
-	}
-	else
-	{
-		speed = -5;
-		side = GameScreenWidth;
-	}
-
-	ufo->Spawn({ side, height, 0 }, { speed, 0, 0 });
+	TheUFO->Spawn(SpawnCount);
 }
 
 void UFOControl::ResetTimer()
 {
-	float min = 10 - (player->wave * 0.1f);
-	float max = 11 + (player->wave * 0.1f);
-	timer->Reset(GetRandomFloat(min, max));
+	float min = 10 - (CC->Wave * 0.1f);
+	float max = 15 - (CC->Wave * 0.1f);
+
+	Man->EM.Timers[SpawnTimerID]->Reset(GetRandomFloat(min, max));
 }

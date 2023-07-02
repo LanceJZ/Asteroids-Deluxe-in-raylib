@@ -1,31 +1,33 @@
 #pragma once
 #include "raylib.h"
+#include "Managers.h"
 #include "Common.h"
 #include "Player.h"
 #include "UFO.h"
-#include "Timer.h"
 
 class UFOControl : public Common
 {
 public:
 
-	virtual void LoadModel(string ship, vector<Vector3> dotModel);
-	virtual void Update(float deltaTime);
-	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
-	virtual void Draw();
+	UFOControl();
 	bool Initialize();
+	void SetPlayerRef(std::shared_ptr<Player> thePlayer);
+	void SetCrossRef(CrossCom& com);
+	void SetManagersRef(Managers& man);
+	bool BeginRun();
+	void Update();
 
 	void NewGame();
 
-	UFOControl(float playScreenW, float playScreenH, Player* player, CrossCom* crossCom, Color color);
-	UFO* ufo;
+	std::shared_ptr<UFO> TheUFO;
 
 private:
-	int spawnCount = {0};
+	int SpawnCount = {0};
+	size_t SpawnTimerID = 0;
 
-	Timer* timer;
-	Player* player;
-	CrossCom* crossCom;
+	CrossCom* CC = {};
+	Managers* Man = {};
+	std::shared_ptr<Player> ThePlayer;
 
 	void SpawnUFO();
 	void ResetTimer();

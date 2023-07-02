@@ -1,13 +1,5 @@
 #include "RockData.h"
 
-RockData::RockData()
-{
-}
-
-RockData::~RockData()
-{
-}
-
 void RockData::SetVelocity(Vector3 velocity)
 {
 	Velocity = velocity;

@@ -1,104 +1,60 @@
 #include "UFO.h"
 #include "raymath.h"
 
-UFO::UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom, Color color)
+UFO::UFO()
 {
-	UFO::player = player;
-	UFO::crossCom = crossCom;
-	UFO::color = color;
-	LineModel::ModelColor = color;
-	shot = new Shot(windowWidth, windowHeight);
-	shot->ModelColor = color;
-	WindowWidth = windowWidth;
-	WindowHeight = windowHeight;
-	fireTimer = new Timer();
-	vectorTimer = new Timer();
 }
 
 UFO::~UFO()
 {
-	UnloadSound(Sound01);
-	UnloadSound(Sound02);
-	UnloadSound(Sound03);
-	UnloadSound(Sound04);
 }
 
-void UFO::LoadModel(string ship, vector<Vector3> dotModel)
-{
-	LineModel::LoadModel(ship);
-	shot->SetModel(dotModel);
-	exploder = new Exploder(dotModel, color);
-}
-
-void UFO::LoadSound(Sound exp, Sound big, Sound small, Sound fire)
-{
-	Sound01 = exp;
-	Sound02 = big;
-	Sound03 = small;
-	Sound04 = fire;
-
-	SetSoundVolume(Sound01, 0.5f);
-	SetSoundVolume(Sound02, 0.5f);
-	SetSoundVolume(Sound03, 0.5f);
-	SetSoundVolume(Sound04, 0.5f);
-}
-
-bool UFO::Initialise()
+bool UFO::Initialize()
 {
 	Enabled = false;
+	ModelColor = { 175, 175, 255, 255 };
 
-	return false;
+	return true;
+}
+
+void UFO::SetPlayerRef(std::shared_ptr<Player> thePlayer)
+{
+	ThePlayer = thePlayer;
+}
+
+void UFO::SetCrossRef(CrossCom& com)
+{
+	CC = &com;
+}
+
+void UFO::SetManagerRef(Managers& man)
+{
+	Man = &man;
+	TheShot->SetManagersRef(man);
+}
+
+bool UFO::BeginRun()
+{
+	FireTimerID = Man->EM.AddTimer();
+	ChangeVectorTimerID = Man->EM.AddTimer();
+
+	return true;
 }
 
 void UFO::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
-	exploder->Update(deltaTime);
-	shot->Update(deltaTime);
 
-	if (Enabled)
+	CheckScreenEdgeY();
+
+	if (CheckReachedSide())
 	{
-		fireTimer->Update(deltaTime);
-		vectorTimer->Update(deltaTime);
-		CheckScreenEdgeY();
+		Enabled = false;
+	}
 
-		if (CheckReachedSide())
-		{
-			Enabled = false;
-		}
-
-		if (vectorTimer->Elapsed())
-		{
-			ChangeVector();
-			ResetVectorTimer();
-		}
-
-		if (fireTimer->Elapsed())
-		{
-			FireShot();
-			ResetFireTimer();
-		}
-
-		if (!player->gameOver)
-		{
-			switch (size)
-			{
-			case UFO::Small:
-				if (!IsSoundPlaying(Sound03))
-				{
-					PlaySound(Sound03);
-				}
-				break;
-			case UFO::Large:
-				if (!IsSoundPlaying(Sound02))
-				{
-					PlaySound(Sound02);
-				}
-				break;
-			default:
-				break;
-			}
-		}
+	if (Man->EM.Timers[FireTimerID]->Elapsed())
+	{
+		FireShot();
 	}
 
 	if (CheckCollision())
@@ -110,15 +66,13 @@ void UFO::Update(float deltaTime)
 void UFO::Draw()
 {
 	LineModel::Draw();
-	exploder->Draw();
-	shot->Draw();
 }
 
-void UFO::Spawn(Vector3 pos, Vector3 vel)
+void UFO::Spawn(int spawnCount)
 {
-	Position = pos;
-	Velocity = vel;
 	Enabled = true;
+	Scale = 20.0f;
+	Radius = 17.5f;
 
 	ResetVectorTimer();
 	ResetFireTimer();
@@ -128,24 +82,16 @@ void UFO::Spawn(Vector3 pos, Vector3 vel)
 void UFO::Collision()
 {
 	Enabled = false;
-	exploder->Spawn(Position, 15, radius / 2.0f);
-
-	if (!player->gameOver)
-	{
-		PlaySound(Sound01);
-		StopSound(Sound02);
-		StopSound(Sound03);
-	}
 }
 
 void UFO::ResetFireTimer()
 {
-	fireTimer->Reset(GetRandomFloat(0.75f, 2.75f));
+	Man->EM.Timers[FireTimerID]->Reset(GetRandomFloat(0.75f, 2.75f));
 }
 
 void UFO::ResetVectorTimer()
 {
-	vectorTimer->Reset(GetRandomFloat(1.25f, 3.15f));
+	Man->EM.Timers[ChangeVectorTimerID]->Reset(GetRandomFloat(1.25f, 3.15f));
 }
 
 void UFO::ChangeVector()
@@ -165,7 +111,8 @@ void UFO::ChangeVector()
 		}
 		else
 		{
-			if (Position.y < WindowHeight - (radius * 3) && Position.y > -WindowHeight - (radius * 3))
+			if (Position.y < WindowHeight - (Radius * 3) &&
+				Position.y > -WindowHeight - (Radius * 3))
 			{
 				Velocity.y = 0;
 			}
@@ -188,7 +135,7 @@ void UFO::FireShot()
 		}
 		else
 		{
-			if (crossCom->wedgeGroupActive)
+			if (CC->WedgeGroupActive)
 			{
 				angle = AimedShotAtWGroup();
 			}
@@ -199,7 +146,7 @@ void UFO::FireShot()
 		}
 		break;
 	case UFO::Small:
-		if (crossCom->wedgeGroupActive)
+		if (CC->WedgeGroupActive)
 		{
 			angle = AimedShotAtWGroup();
 		}
@@ -210,31 +157,31 @@ void UFO::FireShot()
 		break;
 	}
 
-	if (!player->Enabled && !crossCom->wedgeGroupActive)
+	if (!ThePlayer->Enabled && !CC->WedgeGroupActive)
 	{
 		angle = AimedShotAtRock();
 	}
 
-	if (!shot->Enabled)
+	if (!TheShot->Enabled)
 	{
-		if (!player->gameOver)
-		{
-			PlaySound(Sound04);
-		}
+		//if (!player->gameOver)
+		//{
+		//	PlaySound(Sound04);
+		//}
 
 		Vector3 offset = Vector3Add(VelocityFromAngleZ(Radius), Position);
-		shot->Spawn(offset,	VelocityFromAngleZ(angle, shotSpeed), 2.5f);
+		TheShot->Spawn(offset,	VelocityFromAngleZ(angle, shotSpeed), 2.5f);
 	}
 }
 
 float UFO::AimedShot()
 {
-	if (!player->Enabled)
+	if (!ThePlayer->Enabled)
 	{
 		return GetRandomRadian();
 	}
 
-	float percentChance = 0.2f - (player->score * 0.00001f);
+	float percentChance = 0.2f - (ThePlayer->score * 0.00001f);
 
 	if (percentChance < 0)
 	{
@@ -243,14 +190,14 @@ float UFO::AimedShot()
 
 	percentChance += GetRandomFloat(0.0f, 0.05f);
 
-	return AngleFromVectorZ(player->Position) + GetRandomFloat(-percentChance, percentChance);
+	return AngleFromVectorZ(ThePlayer->Position) + GetRandomFloat(-percentChance, percentChance);
 }
 
 float UFO::AimedShotAtWGroup()
 {
 	float percentChance = GetRandomFloat(0.0f, 0.05f);
 
-	return AngleFromVectorZ(crossCom->wedgeGroupPos) + GetRandomFloat(-percentChance, percentChance);
+	return AngleFromVectorZ(CC->WedgeGroupPos) + GetRandomFloat(-percentChance, percentChance);
 }
 
 float UFO::AimedShotAtRock()
@@ -258,21 +205,20 @@ float UFO::AimedShotAtRock()
 	bool noRocks = true;
 	Vector3 closestRockPos = { 0 };
 	Vector3 closestRockVel = { 0 };
-	float shortistDistance = 200;
+	float shortestDistance = 200;
 
-	for (auto rock : rocks)
+	for (int i = 0; i < CC->RockData.size(); i ++)
 	{
-		if (rock->Enabled)
+		if (CC->RockData[i].Enabled)
 		{
 			noRocks = false;
+			float rockDistance = Vector3Distance(Position, CC->RockData[i].Position);
 
-			float rockDistance = Vector3Distance(Position, rock->Position);
-
-			if (rockDistance < shortistDistance)
+			if (rockDistance < shortestDistance)
 			{
-				closestRockPos = rock->Position;
-				closestRockVel = rock->Velocity;
-				shortistDistance = rockDistance;
+				closestRockPos = CC->RockData[i].Position;
+				closestRockVel = CC->RockData[i].Velocity;
+				shortestDistance = rockDistance;
 			}
 		}
 	}
@@ -282,24 +228,9 @@ float UFO::AimedShotAtRock()
 		return GetRandomRadian();
 	}
 
-	//float spawnPercent = (float)(pow(0.915, spawnCount / (player->wave + 1)) * 100);
+	Vector3 dist = GetVelocityFromAngleZ(AngleFromVectorZ(closestRockVel), shortestDistance);
 
-	float aimCurrection = AngleFromVectorZ(closestRockVel) * 0.002f;
-
-	float adjustedCurrection = powf(aimCurrection, shortistDistance * 0.00175f);
-
-	//if ((closestRockVel.y > 0 && closestRockPos.y < Y()) || (closestRockVel.x > 0 && closestRockPos.x < X()) ||
-	//	(closestRockVel.x > 0 && closestRockPos.y < Y()) || (closestRockVel.y > 0 && closestRockPos.x < X()))
-	//{
-	//	adjustedCurrection *= -1;
-	//}
-
-	//if (closestRockVel.y > 0 && closestRockPos.y > Y())
-	//{
-	//	adjustedCurrection *= -1;
-	//}
-
-	return AngleFromVectorZ(closestRockPos) + aimCurrection;
+	return AngleFromVectorZ(Vector3Add(closestRockPos, Vector3Add(closestRockVel, dist)));
 }
 
 void UFO::GiveScore()
@@ -307,34 +238,34 @@ void UFO::GiveScore()
 	switch (size)
 	{
 	case Large:
-		player->ScoreUpdate(200);
+		ThePlayer->ScoreUpdate(200);
 		break;
 	case Small:
-		player->ScoreUpdate(1000);
+		ThePlayer->ScoreUpdate(1000);
 		break;
 	}
 }
 
 bool UFO::CheckCollision()
 {
-	if (shot->CirclesIntersect(player))
-	{
-		player->ShieldHit(shot->Position, shot->Velocity);
-		shot->Enabled = false;
-	}
+	//if (TheShot->CirclesIntersect(*ThePlayer))
+	//{
+	//	ThePlayer->ShieldHit(TheShot->Position, TheShot->Velocity);
+	//	TheShot->Enabled = false;
+	//}
 
-	if (CirclesIntersect(player))
-	{
-		if (!player->ShieldHit(Position, Velocity))
-		{
-			GiveScore();
-			return true;
-		}
-	}
+	//if (CirclesIntersect(*ThePlayer))
+	//{
+	//	if (!ThePlayer->ShieldHit(Position, Velocity))
+	//	{
+	//		GiveScore();
+	//		return true;
+	//	}
+	//}
 
-	for (auto shot : player->shots)
+	for (auto shot : ThePlayer->Shots)
 	{
-		if (CirclesIntersect(shot))
+		if (CirclesIntersect(*shot))
 		{
 			shot->Enabled = false;
 			GiveScore();

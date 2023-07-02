@@ -2,10 +2,9 @@
 
 Shot::~Shot()
 {
-	delete Man;
 }
 
-void Shot::SetManagerRef(Managers& man)
+void Shot::SetManagersRef(Managers& man)
 {
 	Man = &man;
 }
@@ -21,9 +20,13 @@ bool Shot::Initialize()
 	return true;
 }
 
-void Shot::BeginRun()
+bool Shot::BeginRun()
 {
-	ShotTimerNumber = Man->EM.AddTimer();
+	Entity::BeginRun();
+
+	ShotTimerID = Man->EM.AddTimer();
+
+	return true;
 }
 
 void Shot::Update(float deltaTime)
@@ -31,8 +34,9 @@ void Shot::Update(float deltaTime)
 	Entity::Update(deltaTime);
 	CheckScreenEdge();
 
-	if (Man->EM.Timers[ShotTimerNumber]->Elapsed())
+	if (Man->EM.Timers[ShotTimerID]->Elapsed())
 	{
+		Man->EM.Timers[ShotTimerID]->Reset();
 		Enabled = false;
 	}
 }
@@ -43,5 +47,5 @@ void Shot::Spawn(Vector3 pos, Vector3 vel, float timerAmount)
 	Velocity = vel;
 	Enabled = true;
 
-	Man->EM.Timers[ShotTimerNumber]->Reset(timerAmount);
+	Man->EM.Timers[ShotTimerID]->Reset(timerAmount);
 }

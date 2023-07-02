@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -116,7 +116,7 @@
       <PreprocessorDefinitions>DEBUG;PLATFORM_DESKTOP;GRAPHICS_API_OPENGL_33;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)raylib-4.5.0-Release\src\external;$(SolutionDir)raylib-4.5.0-Release\src\external\glfw\include;$(SolutionDir)raylib-4.5.0-Release\src;$(SolutionDir)Knightmare Engine\src</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <GuardEHContMetadata>true</GuardEHContMetadata>
       <BrowseInformation>true</BrowseInformation>
@@ -157,25 +157,29 @@
   <ItemGroup>
     <ClCompile Include="CrossCom.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="RockControl.cpp" />
+    <ClCompile Include="RockData.cpp" />
     <ClCompile Include="Shot.cpp" />
+    <ClCompile Include="UFO.cpp" />
+    <ClCompile Include="UFOControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrossCom.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="RockControl.h" />
+    <ClInclude Include="RockData.h" />
     <ClInclude Include="Shot.h" />
+    <ClInclude Include="UFO.h" />
+    <ClInclude Include="UFOControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Asteroids Deluxe.rc" />

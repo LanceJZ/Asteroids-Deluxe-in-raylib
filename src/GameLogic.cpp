@@ -2,9 +2,12 @@
 
 GameLogic::GameLogic()
 {
+	UC = std::make_shared<UFOControl>();
+	RC = std::make_shared<RockControl>();
 	ThePlayer = std::make_shared<Player>();
 	ThePlayer->Flame = std::make_shared<LineModel>();
-	RC = std::make_shared<RockControl>();
+	UC->TheUFO = std::make_shared<UFO>();
+	UC->TheUFO->TheShot = std::make_shared<Shot>();
 }
 
 GameLogic::~GameLogic()
@@ -16,35 +19,39 @@ void GameLogic::Initialize(Camera &camera)
 	TheCamera = camera;
 
 	ThePlayer->Flame->SetParent(ThePlayer);
-	ThePlayer->SetManagerRef(Man);
+	ThePlayer->SetManagersRef(Man);
 
 	Man.EM.AddCommon(RC);
+	Man.EM.AddCommon(UC);
 	Man.EM.AddLineModel(ThePlayer);
 	Man.EM.AddLineModel(ThePlayer->Flame);
+	Man.EM.AddLineModel(UC->TheUFO);
 
 	for (int i = 0; i < 4; i++)
 	{
 		ThePlayer->Shots.push_back(std::make_shared<Shot>());
 		Man.EM.AddLineModel(ThePlayer->Shots[i]);
-		ThePlayer->Shots[i]->SetManagerRef(Man);
+		ThePlayer->Shots[i]->SetManagersRef(Man);
 	}
 
-	RC->SetManagerRef(Man);
-	RC->SetReferences(CC, ThePlayer);
-	ThePlayer->SetManagerRef(Man);
+	RC->SetManagersRef(Man);
+	RC->SetPlayerRef(ThePlayer);
+	RC->SetUFORef(UC->TheUFO);
+	RC->SetCrossRef(CC);
+
+	UC->SetManagersRef(Man);
+	UC->SetPlayerRef(ThePlayer);
+	UC->SetCrossRef(CC);
+
+	ThePlayer->SetManagersRef(Man);
 }
 
 void GameLogic::Load()
 {
-	ThePlayer->SetModel(Man.CM.LoadAndGetLineModel("PlayerShip"));
-	ThePlayer->Flame->SetModel(Man.CM.LoadAndGetLineModel("PlayerFlame"));
-
 	size_t shotModelID = Man.CM.LoadTheLineModel("Dot");
-
-	for (int i = 0; i < 4; i++)
-	{
-		ThePlayer->Shots[i]->SetModel(Man.CM.GetLineModel(shotModelID));
-	}
+	ThePlayer->SetShipModelID(Man.CM.LoadTheLineModel("PlayerShip"));
+	ThePlayer->Flame->SetModel(Man.CM.LoadAndGetLineModel("PlayerFlame"));
+	ThePlayer->SetShotModelID(shotModelID);
 
 	size_t rockModels[4];
 
@@ -55,8 +62,8 @@ void GameLogic::Load()
 
 	RC->SetRockModels(rockModels);
 
-	size_t ufoModelID = Man.CM.LoadTheLineModel("UFO");
-
+	UC->TheUFO->SetModel(Man.CM.GetLineModel(Man.CM.LoadTheLineModel("UFO")));
+	UC->TheUFO->TheShot->SetModel(Man.CM.GetLineModel(shotModelID));
 
 	size_t wedgeModelID = Man.CM.LoadTheLineModel("Wedge");
 }
@@ -164,7 +171,6 @@ void GameLogic::NewGame()
 {
 	ThePlayer->NewGame();
 	RC->NewGame();
-	//UC.NewGame();
+	UC->NewGame();
 	//HS.GameOver = false;
-	//PlayerShipDisplay();
 }

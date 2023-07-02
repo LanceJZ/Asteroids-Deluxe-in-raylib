@@ -1,11 +1,10 @@
 #pragma once
 #include "LineModel.h"
+#include "Managers.h"
 #include "Player.h"
 #include "Shot.h"
 #include "Exploder.h"
-#include "Timer.h"
 #include "CrossCom.h"
-#include "RockData.h"
 
 class UFO : public LineModel
 {
@@ -18,30 +17,29 @@ public:
 
 	Size size = Large;
 
-	Shot* shot;
-	Timer* fireTimer;
-	Timer* vectorTimer;
-	Exploder* exploder;
-	std::vector<RockData*> rocks;
+	std::shared_ptr<Shot> TheShot;
 
-	UFO(float windowWidth, float windowHeight, Player* player, CrossCom* crossCom, Color color);
+	UFO();
 	~UFO();
-	void LoadModel(std::string ship, std::vector<Vector3> dotModel);
-	void LoadSound(Sound exp, Sound big, Sound small, Sound fire);
-	bool Initialise();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	bool Initialize();
+	void SetPlayerRef(std::shared_ptr<Player> player);
+	void SetCrossRef(CrossCom& com);
+	void SetManagerRef(Managers& man);
+	bool BeginRun();
+	void Update(float deltaTime);
+	void Draw();
 
-	void Spawn(Vector3 pos, Vector3 vel);
+	void Spawn(int spawnCount);
 	void Collision();
 
 
 private:
-	float radius{ 0.9f };
+	size_t FireTimerID = 0;
+	size_t ChangeVectorTimerID = 0;
 
-	Player* player;
-	CrossCom* crossCom;
-	Color color = WHITE;
+	CrossCom* CC = {};
+	Managers* Man = {};
+	std::shared_ptr<Player> ThePlayer;
 
 	void GiveScore();
 	void ResetFireTimer();

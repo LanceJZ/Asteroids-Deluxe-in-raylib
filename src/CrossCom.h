@@ -1,5 +1,7 @@
 #pragma once
+#include <vector>
 #include "raylib.h"
+#include "RockData.h"
 
 class CrossCom
 {
@@ -10,6 +12,7 @@ public:
 	bool NewWave = false; //Trigger for new wave to start.
 	bool WedgeGroupActive = false; //Trigger to show at least one wedge is alive.
 	Vector3 WedgeGroupPos = {0}; //To check Wedge Group Position.
-
+	std::vector<RockData> RockData;
+	int Wave = 0;
 private:
 };

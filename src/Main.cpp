@@ -36,5 +36,4 @@ int main()
 	game.Shutdown();
 	CloseWindow();
 	CloseAudioDevice();
-
 }
