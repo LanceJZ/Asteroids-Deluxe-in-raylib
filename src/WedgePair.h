@@ -3,40 +3,37 @@
 #include "Player.h"
 #include "UFO.h"
 #include "CrossCom.h"
+#include "Managers.h"
 
 class WedgePair : public Entity
 {
 public:
-	bool groupDocked = true;
-	bool wedgeDocked = true;
-	bool newWave = false;
+	bool GroupDocked = true;
+	bool WedgeDocked = true;
+	bool NewWave = false;
 
-	Wedge* wedges[2];
+	Wedge* Wedges[2] = {};
 
-	WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color);
+	WedgePair();
 	virtual ~WedgePair();
 
+	void SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
 	bool Initialize();
-	void LoadSound(Sound explode);
-	void LoadModel(string model);
-	void LoadWedgeModel(vector<Vector3> model);
-
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void SetModelID(size_t modelID);
+	void Update(float deltaTime);
+	void Draw();
 
 	void Spawn();
 
 private:
-	int score = 100;
-	float speed = 3.25f;
-	float turnSpeed = 0.25f;
-	Color color = WHITE;
+	int Score = 100;
+	float Speed = 3.25f;
+	float TurnSpeed = 0.25f;
 
-	LineModel wedgeModel;
-	Player* player;
-	UFO* ufo;
-	CrossCom* crossCom;
+	Player* ThePlayer = {};
+	UFO* TheUFO = {};
+	CrossCom* CC = {};
+	Managers* Man = {};
 
 	bool CheckCollision();
 	void Collision();

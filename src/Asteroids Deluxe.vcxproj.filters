@@ -51,6 +51,15 @@
     <ClCompile Include="Wedge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WedgePair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WedgeGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WedgeControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -90,6 +99,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wedge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WedgePair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WedgeGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WedgeControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

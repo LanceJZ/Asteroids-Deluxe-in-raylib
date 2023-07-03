@@ -4,35 +4,34 @@
 #include "UFO.h"
 #include "CrossCom.h"
 #include "Entity.h"
+#include "Managers.h"
 
 class WedgeGroup : public Entity
 {
 public:
-	bool wedgepairsDocked = true;
-	bool newWave = false;
+	bool WedgePairsDocked = true;
+	bool NewWave = false;
 
-	WedgePair* wedgePairs[3];
+	WedgePair* WedgePairs[3] = {};
 
-	WedgeGroup(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color);
+	WedgeGroup();
 	virtual ~WedgeGroup();
-	bool Initialize();
-	void LoadSound(Sound explode);
-	void LoadModel(string model);
 
-	virtual void Input();
+	void SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
+	bool Initialize();
+	void SetModelID(size_t modelID);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position, Vector3 velocity);
+	void Spawn();
 
 private:
-	int score = 50;
-	Color color = WHITE;
+	int Score = 50;
 
-	LineModel wedgeModel;
-	Player* player;
-	UFO* ufo;
-	CrossCom* crossCom;
+	Player* ThePlayer = {};
+	UFO* TheUFO = {};
+	CrossCom* CC = {};
+	Managers* Man = {};
 
 	bool CheckCollision();
 	void Collision();

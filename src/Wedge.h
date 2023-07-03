@@ -8,13 +8,15 @@
 class Wedge : public LineModel
 {
 public:
-	bool docked = true;
-	bool newWave = false;
+	bool Docked = true;
+	bool NewWave = false;
 
 	Wedge();
 	virtual ~Wedge();
 
+	void SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
 	bool Initialize();
+	void SetModelFromID(size_t modelID);
 
 	void Update(float deltaTime);
 	void Draw();
@@ -22,10 +24,10 @@ public:
 	void Spawn();
 
 private:
-	int score = 200;
-	float speed = 3.75f;
-	float turnSpeed = 0.5f;
-	float rotateMagnitude = PI / 2;
+	int Score = 200;
+	float Speed = 3.75f;
+	float TurnSpeed = 0.5f;
+	float RotateMagnitude = PI / 2;
 
 	Player* ThePlayer = {};
 	UFO* TheUFO = {};

@@ -1,68 +1,55 @@
 #include "WedgeControl.h"
 
-WedgeControl::WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom, Color color)
+WedgeControl::WedgeControl()
 {
-	GameScreenWidth = playScreenW;
-	GameScreenHeight = playScreenH;
-	WedgeControl::player = player;
-	WedgeControl::crossCom = crosscom;
-	WedgeControl::color = color;
-	spawnTimer = new Timer();
-	wedgeGroup = new WedgeGroup(playScreenW, playScreenH, player, ufo, crossCom, color);
 }
 
 WedgeControl::~WedgeControl()
 {
-	UnloadSound(spawn);
+}
+
+void WedgeControl::SetRef(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
+{
+	CC = cc;
+	Man = man;
+	ThePlayer = player;
+	TheUFO = ufo;
+
+	TheWedgeGroup->SetRefs(cc, man, player, ufo);
 }
 
 bool WedgeControl::Initialise()
 {
-	wedgeGroup->Initialize();
-	spawnTimer->Reset(3);
+	//SpawnTimer->Reset(3);
 	ready = false;
 
 	return false;
 }
 
-void WedgeControl::LoadSound(Sound explode, Sound spawn)
+void WedgeControl::SetModelID(size_t modelID)
 {
-	WedgeControl::spawn = spawn;
-	wedgeGroup->LoadSound(explode);
-}
-
-void WedgeControl::LoadModel(string model)
-{
-	wedgeGroup->LoadModel(model);
-}
-
-void WedgeControl::Input()
-{
-
+	TheWedgeGroup->SetModelID(modelID);
 }
 
 void WedgeControl::Update(float deltaTime)
 {
-	wedgeGroup->Update(deltaTime);
-	spawnTimer->Update(deltaTime);
-
-	if (!crossCom->spawnWedgeGroup)
+	if (!CC->SpawnWedgeGroup)
 	{
-		spawnTimer->Reset();
+		//SpawnTimer->Reset();
 		return;
 	}
 
-	if (wedgeGroup->Enabled)
+	if (TheWedgeGroup->Enabled)
 	{
-		spawnTimer->Reset();
+		//SpawnTimer->Reset();
 		return;
 	}
 
 	bool resetTimer = false;
 
-	for (auto wedgePair : wedgeGroup->wedgePairs)
+	for (auto wedgePair : TheWedgeGroup->WedgePairs)
 	{
-		for (auto wedge : wedgePair->wedges)
+		for (auto wedge : wedgePair->Wedges)
 		{
 			if (wedge->Enabled)
 			{
@@ -73,37 +60,31 @@ void WedgeControl::Update(float deltaTime)
 
 	if (resetTimer)
 	{
-		spawnTimer->Reset();
+		//SpawnTimer->Reset();
 		return;
 	}
 
-	if (spawnTimer->Elapsed())
-	{
-		spawnTimer->Reset();
+	//if (SpawnTimer->Elapsed())
+	//{
+	//	SpawnTimer->Reset();
 
-		if (ready)
-		{
-			SpawnGroup();
-		}
-		else if (!ready)
-		{
-			ready = true;
-		}
-	}
-}
-
-void WedgeControl::Draw()
-{
-	wedgeGroup->Draw();
+	//	if (ready)
+	//	{
+	//		SpawnGroup();
+	//	}
+	//	else if (!ready)
+	//	{
+	//		ready = true;
+	//	}
+	//}
 }
 
 void WedgeControl::SpawnGroup()
 {
-	if (!player->gameOver)
-		PlaySound(spawn);
+	//if (!ThePlayer->GameOver)
+	//	PlaySound(SpawnSoundID);
 
 	ready = false;
 
-	wedgeGroup->Spawn({ GameScreenWidth,
-		GetRandomFloat(-GameScreenHeight, GameScreenHeight), 0}, GetRandomVelocity(1.5f));
+	TheWedgeGroup->Spawn();
 }

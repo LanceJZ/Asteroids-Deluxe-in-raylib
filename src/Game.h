@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "RockControl.h"
 #include "UFOControl.h"
+#include "WedgeControl.h"
 
 enum GameState
 {
@@ -40,6 +41,7 @@ private:
 	Player* ThePlayer;
 	RockControl* RC;
 	UFOControl* UC;
+	WedgeControl* WC;
 	CrossCom CC;
 	Managers Man;
 

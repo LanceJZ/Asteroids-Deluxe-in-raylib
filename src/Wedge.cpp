@@ -8,6 +8,16 @@ Wedge::~Wedge()
 {
 }
 
+void Wedge::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
+{
+	CC = cc;
+	Man = man;
+	ThePlayer = player;
+	TheUFO = ufo;
+
+	man->EM.AddLineModel(this);
+}
+
 bool Wedge::Initialize()
 {
 	TurnOff();
@@ -15,11 +25,16 @@ bool Wedge::Initialize()
 	return false;
 }
 
+void Wedge::SetModelFromID(size_t modelID)
+{
+	SetModel(Man->CM.GetLineModel(modelID));
+}
+
 void Wedge::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
 
-	if (!docked)
+	if (!Docked)
 	{
 		if (!CC->NewWave)
 		{
@@ -58,7 +73,7 @@ void Wedge::Draw()
 void Wedge::Spawn()
 {
 	Enabled = true;
-	docked = true;
+	Docked = true;
 }
 
 bool Wedge::CheckCollision()
@@ -67,7 +82,7 @@ bool Wedge::CheckCollision()
 	{
 		if (!ThePlayer->ShieldHit(Position, Velocity))
 		{
-			ThePlayer->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(Score);
 			return true;
 		}
 	}
@@ -76,7 +91,7 @@ bool Wedge::CheckCollision()
 	{
 		if (CirclesIntersect(*shot))
 		{
-			ThePlayer->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(Score);
 			shot->Enabled = false;
 			return true;
 		}
@@ -107,12 +122,12 @@ void Wedge::Collision()
 
 void Wedge::ChasePlayer()
 {
-	RotateVelocity(ThePlayer->Position, turnSpeed, speed);
+	RotateVelocity(ThePlayer->Position, TurnSpeed, Speed);
 }
 
 void Wedge::ChaseUFO()
 {
-	RotateVelocity(TheUFO->Position, turnSpeed, speed);
+	RotateVelocity(TheUFO->Position, TurnSpeed, Speed);
 }
 
 void Wedge::TurnOff()
@@ -125,7 +140,7 @@ void Wedge::TurnOff()
 
 void Wedge::LeavePlay()
 {
-	PositionedObject::LeavePlay(turnSpeed, speed);
+	PositionedObject::LeavePlay(TurnSpeed, Speed);
 
 	if (OffScreen())
 	{

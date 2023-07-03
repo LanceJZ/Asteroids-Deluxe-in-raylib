@@ -2,33 +2,32 @@
 #include "WedgeGroup.h"
 #include "Player.h"
 #include "UFO.h"
-#include "Timer.h"
 #include "Common.h"
 #include "CrossCom.h"
+#include "Managers.h"
 
 class WedgeControl : public Common
 {
 public:
 	bool ready = false;
-	WedgeGroup* wedgeGroup;
+	WedgeGroup* TheWedgeGroup = {};
 
-	WedgeControl(float playScreenW, float playScreenH, Player* player, UFO* ufo, CrossCom* crosscom, Color color);
+	WedgeControl();
 	virtual ~WedgeControl();
 
+	void SetRef(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
 	bool Initialise();
-	void LoadSound(Sound explode, Sound spawn);
-	void LoadModel(string model);
+	void SetModelID(size_t modelID);
 
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
 
 private:
-	Color color = WHITE;
-	Player* player;
-	Timer* spawnTimer;
-	CrossCom* crossCom;
-	Sound spawn;
+	size_t SpawnTimerID = 0;
+
+	Player* ThePlayer = {};
+	UFO* TheUFO = {};
+	CrossCom* CC = {};
+	Managers* Man = {};
 
 	void SpawnGroup();
 };

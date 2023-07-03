@@ -1,101 +1,73 @@
 #include "WedgePair.h"
 
-WedgePair::WedgePair(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color)
+WedgePair::WedgePair()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		wedges[i] = new Wedge(windowWidth, windowHeight, player, ufo, crossCom, color);
-	}
-
-	WindowHeight = windowHeight;
-	WindowWidth = windowWidth;
-	WedgePair::player = player;
-	WedgePair::ufo = ufo;
-	WedgePair::crossCom = crossCom;
-	WedgePair::color = color;
-
-	Radius = 0.95f;
 }
 
 WedgePair::~WedgePair()
 {
-	UnloadSound(Sound01);
 }
 
-void WedgePair::LoadWedgeModel(vector<Vector3> model)
+void WedgePair::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 {
-	wedgeModel.SetModel(model);
-	SetSoundVolume(Sound01, 0.75f);
+	CC = cc;
+	Man = man;
+	ThePlayer = player;
+	TheUFO = ufo;
 
-	for (auto wedge : wedges)
+	man->EM.AddEntity(this);
+
+	for (auto wedge : Wedges)
 	{
-		wedge->SetModel(wedgeModel.GetModel());
+		wedge->SetRefs(cc, man, player, ufo);
 	}
 }
 
 bool WedgePair::Initialize()
 {
-	wedges[0]->Rotation = Rotation;
-	wedges[1]->Rotation = (float)PI + Rotation;
-
-	for (auto wedge : wedges)
-	{
-		wedge->Initialize();
-	}
-
+	Radius = 0.95f;
 	TurnOff();
 
 	return false;
 }
 
-void WedgePair::LoadSound(Sound explode)
+void WedgePair::SetModelID(size_t modelID)
 {
-	Sound01 = explode;
-
-	for (auto wedge : wedges)
+	for (auto wedge : Wedges)
 	{
-		wedge->LoadSound(explode);
+		wedge->SetModelFromID(modelID);
 	}
-}
-
-void WedgePair::LoadModel(string model)
-{
-}
-
-void WedgePair::Input()
-{
-
 }
 
 void WedgePair::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
-	for (auto wedge : wedges)
+	for (auto wedge : Wedges)
 	{
 		wedge->Update(deltaTime);
 	}
 
-	if (wedgeDocked) //Still together in a pair.
+	if (WedgeDocked) //Still together in a pair.
 	{
 		Vector3 pos = VelocityFromAngleZ(Rotation, 0.65f);
 
-		wedges[1]->X(Position.x - pos.x);
-		wedges[1]->Y(Position.y - pos.y);
-		wedges[0]->X(pos.x + Position.x);
-		wedges[0]->Y(pos.y + Position.y);
-		wedges[1]->Rotation = (float)PI + Rotation;
-		wedges[0]->Rotation = Rotation;
+		Wedges[0]->X(pos.x + Position.x);
+		Wedges[1]->X(Position.x - pos.x);
+		Wedges[0]->Y(pos.y + Position.y);
+		Wedges[1]->Y(Position.y - pos.y);
+		Wedges[0]->Rotation = Rotation;
+		Wedges[1]->Rotation = (float)PI + Rotation;
 
-		if (!groupDocked) //Not in the group.
+		if (!GroupDocked) //Not in the group.
 		{
-			if (!crossCom->newWave)
+			if (!CC->NewWave)
 			{
-				if (player->Enabled)
+				if (ThePlayer->Enabled)
 				{
 					ChasePlayer();
 				}
-				else if (ufo->Enabled)
+				else if (TheUFO->Enabled)
 				{
 					ChaseUFO();
 				}
@@ -122,22 +94,17 @@ void WedgePair::Update(float deltaTime)
 void WedgePair::Draw()
 {
 	Entity::Draw();
-
-	for (auto wedge : wedges)
-	{
-		wedge->Draw();
-	}
 }
 
 void WedgePair::Spawn()
 {
 	Enabled = true;
-	wedgeDocked = true;
-	groupDocked = true;
-	wedges[0]->Rotation = Rotation;
-	wedges[1]->Rotation = (float)PI + Rotation;
+	WedgeDocked = true;
+	GroupDocked = true;
+	Wedges[0]->Rotation = Rotation;
+	Wedges[1]->Rotation = (float)PI + Rotation;
 
-	for (auto wedge : wedges)
+	for (auto wedge : Wedges)
 	{
 		wedge->Spawn();
 	}
@@ -145,34 +112,34 @@ void WedgePair::Spawn()
 
 bool WedgePair::CheckCollision()
 {
-	if (CirclesIntersect(player))
+	if (CirclesIntersect(*ThePlayer))
 	{
-		if (!player->ShieldHit(Position, Velocity))
+		if (!ThePlayer->ShieldHit(Position, Velocity))
 		{
-			player->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(Score);
 			return true;
 		}
 	}
 
-	for (auto shot : player->shots)
+	for (auto &shot : ThePlayer->Shots)
 	{
-		if (CirclesIntersect(shot))
+		if (CirclesIntersect(*shot))
 		{
-			player->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(Score);
 			shot->Enabled = false;
 			return true;
 		}
 	}
 
-	if (CirclesIntersect(ufo))
+	if (CirclesIntersect(*TheUFO))
 	{
-		ufo->Collision();
+		TheUFO->Collision();
 		return true;
 	}
 
-	if (CirclesIntersect(ufo->shot))
+	if (CirclesIntersect(*TheUFO->TheShot))
 	{
-		ufo->shot->Enabled = false;
+		TheUFO->TheShot->Enabled = false;
 		return true;
 	}
 
@@ -181,15 +148,15 @@ bool WedgePair::CheckCollision()
 
 void WedgePair::Collision()
 {
-	if (!player->gameOver)
-		PlaySound(Sound01);
+	//if (!ThePlayer->GameOver)
+	//	PlaySound(ExplodeSoundID);
 
-	wedgeDocked = false;
+	WedgeDocked = false;
 	TurnOff();
 
-	for (auto wedge : wedges)
+	for (auto wedge : Wedges)
 	{
-		wedge->docked = false;
+		wedge->Docked = false;
 	}
 }
 
@@ -203,17 +170,17 @@ void WedgePair::TurnOff()
 
 void WedgePair::ChasePlayer()
 {
-	RotateVelocity(player->Position, turnSpeed, speed);
+	RotateVelocity(ThePlayer->Position, TurnSpeed, Speed);
 }
 
 void WedgePair::ChaseUFO()
 {
-	RotateVelocity(ufo->Position, turnSpeed, speed);
+	RotateVelocity(TheUFO->Position, TurnSpeed, Speed);
 }
 
 void WedgePair::LeavePlay()
 {
-	PositionedObject::LeavePlay(turnSpeed, speed);
+	PositionedObject::LeavePlay(TurnSpeed, Speed);
 
 	if (OffScreen())
 	{

@@ -167,6 +167,9 @@
     <ClCompile Include="UFO.cpp" />
     <ClCompile Include="UFOControl.cpp" />
     <ClCompile Include="Wedge.cpp" />
+    <ClCompile Include="WedgeControl.cpp" />
+    <ClCompile Include="WedgeGroup.cpp" />
+    <ClCompile Include="WedgePair.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrossCom.h" />
@@ -182,6 +185,9 @@
     <ClInclude Include="UFO.h" />
     <ClInclude Include="UFOControl.h" />
     <ClInclude Include="Wedge.h" />
+    <ClInclude Include="WedgeControl.h" />
+    <ClInclude Include="WedgeGroup.h" />
+    <ClInclude Include="WedgePair.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Asteroids Deluxe.rc" />

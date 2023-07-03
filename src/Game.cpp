@@ -4,6 +4,7 @@ Game::Game()
 {
 	UC = new UFOControl();
 	RC = new RockControl();
+	WC = new WedgeControl();
 	ThePlayer = new Player();
 	ThePlayer->Flame = new LineModel();
 	UC->TheUFO = new UFO();
@@ -26,6 +27,7 @@ bool Game::Initialize(Camera &camera) //Initialize
 
 	Man.EM.AddCommon(RC);
 	Man.EM.AddCommon(UC);
+	Man.EM.AddCommon(WC);
 	Man.EM.AddLineModel(ThePlayer);
 	Man.EM.AddLineModel(ThePlayer->Flame);
 	Man.EM.AddLineModel(UC->TheUFO);
