@@ -115,7 +115,7 @@ void RockControl::SpawnRocks(Vector3 pos, int count, Rock::RockSize size)
 			CC->RockData.push_back({});
 			Man->EM.AddLineModel(RockRefs[rockNumber]);
 			RockRefs[rockNumber]->SetModel(Man->CM.GetLineModel(RockModelRefs[rockType]));
-			RockRefs[rockNumber]->SetReferences(*CC, ThePlayer);
+			RockRefs[rockNumber]->SetReferences(*CC, ThePlayer, TheUFO);
 		}
 
 		RockRefs[rockNumber]->Spawn(pos, size);

@@ -129,12 +129,18 @@ void UFO::Collision()
 
 void UFO::ResetFireTimer()
 {
-	Man->EM.Timers[FireTimerID]->Reset(GetRandomFloat(0.75f, 2.75f));
+	float min = 5 - (CC->Wave * 0.1f);
+	float max = 5 + min;
+
+	Man->EM.Timers[FireTimerID]->Reset(GetRandomFloat(min, max));
 }
 
 void UFO::ResetVectorTimer()
 {
-	Man->EM.Timers[ChangeVectorTimerID]->Reset(GetRandomFloat(1.25f, 3.15f));
+	float min = 7 - (CC->Wave * 0.1f);
+	float max = 7 + min;
+
+	Man->EM.Timers[ChangeVectorTimerID]->Reset(GetRandomFloat(min, max));
 }
 
 void UFO::ChangeVector()
@@ -170,7 +176,7 @@ void UFO::FireShot()
 	ResetFireTimer();
 
 	float angle = 0;
-	float shotSpeed = 15;
+	float shotSpeed = 325;
 	bool shootRocks = false;
 
 	switch (TheSize)
@@ -217,7 +223,7 @@ void UFO::FireShot()
 		//}
 
 		Vector3 offset = Vector3Add(VelocityFromAngleZ(Radius), Position);
-		TheShot->Spawn(offset,	VelocityFromAngleZ(angle, shotSpeed), 2.5f);
+		TheShot->Spawn(offset, VelocityFromAngleZ(angle, shotSpeed), 2.5f);
 	}
 }
 
@@ -235,16 +241,22 @@ float UFO::AimedShot()
 		percentChance = 0;
 	}
 
-	percentChance += GetRandomFloat(0.0f, 0.05f);
+	float minP = 0.015f - (CC->Wave * 0.0025f);
 
-	return AngleFromVectorZ(ThePlayer->Position) + GetRandomFloat(-percentChance, percentChance);
+	if (minP < 0)
+		minP = 0;
+
+	float maxP = 0.02f + minP;
+
+	percentChance += GetRandomFloat(minP, maxP);
+
+	return AngleFromVectorZ(ThePlayer->Position) +
+		GetRandomFloat(-percentChance, percentChance);
 }
 
 float UFO::AimedShotAtWGroup()
 {
-	float percentChance = GetRandomFloat(0.0f, 0.05f);
-
-	return AngleFromVectorZ(CC->WedgeGroupPos) + GetRandomFloat(-percentChance, percentChance);
+	return AngleFromVectorZ(CC->WedgeGroupPos);
 }
 
 float UFO::AimedShotAtRock()

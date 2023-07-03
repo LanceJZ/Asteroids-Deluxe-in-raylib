@@ -1,19 +1,11 @@
 #include "Wedge.h"
 
-Wedge::Wedge(float windowWidth, float windowHeight, Player* player, UFO* ufo, CrossCom* crossCom, Color color)
+Wedge::Wedge()
 {
-	WindowHeight = windowHeight;
-	WindowWidth = windowWidth;
-	Wedge::player = player;
-	Wedge::ufo = ufo;
-	Wedge::crossCom = crossCom;
-	Wedge::ModelColor = color;
-	Radius = 0.72f;
 }
 
 Wedge::~Wedge()
 {
-	UnloadSound(Sound01);
 }
 
 bool Wedge::Initialize()
@@ -23,30 +15,19 @@ bool Wedge::Initialize()
 	return false;
 }
 
-void Wedge::LoadSound(Sound explode)
-{
-	Sound01 = explode;
-	SetSoundVolume(Sound01, 0.75f);
-}
-
-void Wedge::Input()
-{
-
-}
-
 void Wedge::Update(float deltaTime)
 {
 	LineModel::Update(deltaTime);
 
 	if (!docked)
 	{
-		if (!crossCom->newWave)
+		if (!CC->NewWave)
 		{
-			if (player->Enabled)
+			if (ThePlayer->Enabled)
 			{
 				ChasePlayer();
 			}
-			else if (ufo->Enabled)
+			else if (TheUFO->Enabled)
 			{
 				ChaseUFO();
 			}
@@ -82,34 +63,34 @@ void Wedge::Spawn()
 
 bool Wedge::CheckCollision()
 {
-	if (CirclesIntersect(player))
+	if (CirclesIntersect(*ThePlayer))
 	{
-		if (!player->ShieldHit(Position, Velocity))
+		if (!ThePlayer->ShieldHit(Position, Velocity))
 		{
-			player->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(score);
 			return true;
 		}
 	}
 
-	for (auto shot : player->shots)
+	for (auto &shot : ThePlayer->Shots)
 	{
-		if (CirclesIntersect(shot))
+		if (CirclesIntersect(*shot))
 		{
-			player->ScoreUpdate(score);
+			ThePlayer->ScoreUpdate(score);
 			shot->Enabled = false;
 			return true;
 		}
 	}
 
-	if (CirclesIntersect(ufo))
+	if (CirclesIntersect(*TheUFO))
 	{
-		ufo->Collision();
+		TheUFO->Collision();
 		return true;
 	}
 
-	if (CirclesIntersect(ufo->shot))
+	if (CirclesIntersect(*TheUFO->TheShot))
 	{
-		ufo->shot->Enabled = false;
+		TheUFO->TheShot->Enabled = false;
 		return true;
 	}
 
@@ -118,20 +99,20 @@ bool Wedge::CheckCollision()
 
 void Wedge::Collision()
 {
-	if (!player->gameOver)
-		PlaySound(Sound01);
+	//if (!ThePlayer->GameOver)
+	//	PlaySound(ExplodeSoundID);
 
 	TurnOff();
 }
 
 void Wedge::ChasePlayer()
 {
-	RotateVelocity(player->Position, turnSpeed, speed);
+	RotateVelocity(ThePlayer->Position, turnSpeed, speed);
 }
 
 void Wedge::ChaseUFO()
 {
-	RotateVelocity(ufo->Position, turnSpeed, speed);
+	RotateVelocity(TheUFO->Position, turnSpeed, speed);
 }
 
 void Wedge::TurnOff()

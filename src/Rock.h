@@ -2,8 +2,8 @@
 #include "CrossCom.h"
 #include "LineModel.h"
 #include "Player.h"
+#include "UFO.h"
 //#include "Exploder.h"
-//#include "UFO.h"
 
 class Rock : public LineModel
 {
@@ -22,15 +22,15 @@ public:
 	bool Debug = false;
 
 	bool Initialize();
-	void SetReferences(CrossCom& com, Player* thePlayer);
+	void SetReferences(CrossCom& com, Player* player, UFO* ufo);
 	void Update(float deltaTime);
 
 	void Spawn(Vector3 pos, RockSize size);
 
 
 private:
-	Player* ThePlayer;
-	//UFO* TheUFO;
+	Player* ThePlayer = {};
+	UFO* TheUFO = {};
 	CrossCom* CC = {};
 
 	void SendScoreToPlayer();

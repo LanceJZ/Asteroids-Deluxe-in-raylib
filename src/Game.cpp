@@ -29,6 +29,7 @@ bool Game::Initialize(Camera &camera) //Initialize
 	Man.EM.AddLineModel(ThePlayer);
 	Man.EM.AddLineModel(ThePlayer->Flame);
 	Man.EM.AddLineModel(UC->TheUFO);
+	Man.EM.AddLineModel(UC->TheUFO->TheShot);
 
 	for (int i = 0; i < 4; i++)
 	{

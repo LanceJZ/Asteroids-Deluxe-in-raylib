@@ -36,7 +36,6 @@ void Shot::Update(float deltaTime)
 
 	if (Man->EM.Timers[ShotTimerID]->Elapsed())
 	{
-		Man->EM.Timers[ShotTimerID]->Reset();
 		Enabled = false;
 	}
 }

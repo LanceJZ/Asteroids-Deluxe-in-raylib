@@ -50,7 +50,7 @@ void UFOControl::Update()
 
 void UFOControl::NewGame()
 {
-	//ResetTimer();
+	ResetTimer();
 	SpawnCount = 0;
 	TheUFO->Enabled = false;
 	TheUFO->TheShot->Enabled = false;
@@ -70,7 +70,7 @@ void UFOControl::SpawnUFO()
 void UFOControl::ResetTimer()
 {
 	float min = 10 - (CC->Wave * 0.1f);
-	float max = 15 - (CC->Wave * 0.1f);
+	float max = 10 + min;
 
 	Man->EM.Timers[SpawnTimerID]->Reset(GetRandomFloat(min, max));
 }

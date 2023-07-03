@@ -13,11 +13,11 @@ bool Rock::Initialize()
 	return true;
 }
 
-void Rock::SetReferences(CrossCom& com, Player* thePlayer)
+void Rock::SetReferences(CrossCom& com, Player* player, UFO* ufo)
 {
-	ThePlayer = thePlayer;
+	ThePlayer = player;
 	CC = &com;
-	//TheUFO = ufo;
+	TheUFO = ufo;
 }
 
 void Rock::Update(float deltaTime)
@@ -137,19 +137,19 @@ bool Rock::CheckCollision()
 	//	}
 	//}
 
-	//if (CirclesIntersect(TheUFO))
-	//{
-	//	TheUFO->Enabled = false;
+	if (CirclesIntersect(*TheUFO))
+	{
+		TheUFO->Enabled = false;
 
-	//	return true;
-	//}
+		return true;
+	}
 
-	//if (CirclesIntersect(&TheUFO->TheShot))
-	//{
-	//	TheUFO->TheShot.Enabled = false;
+	if (CirclesIntersect(*TheUFO->TheShot))
+	{
+		TheUFO->TheShot->Enabled = false;
 
-	//	return true;
-	//}
+		return true;
+	}
 
 	return false;
 }
