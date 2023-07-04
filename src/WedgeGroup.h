@@ -20,8 +20,7 @@ public:
 	void SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
 	bool Initialize();
 	void SetModelID(size_t modelID);
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
 
 	void Spawn();
 

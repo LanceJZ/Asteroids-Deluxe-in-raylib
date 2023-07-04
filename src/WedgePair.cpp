@@ -25,8 +25,15 @@ void WedgePair::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 
 bool WedgePair::Initialize()
 {
+	Entity::Initialize();
+
 	Radius = 0.95f;
 	TurnOff();
+
+	for (auto wedge : Wedges)
+	{
+		wedge->SetParent(this);
+	}
 
 	return false;
 }
@@ -43,57 +50,35 @@ void WedgePair::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
-	for (auto wedge : Wedges)
+	if (!GroupDocked) //Not in the group.
 	{
-		wedge->Update(deltaTime);
-	}
-
-	if (WedgeDocked) //Still together in a pair.
-	{
-		Vector3 pos = VelocityFromAngleZ(Rotation, 0.65f);
-
-		Wedges[0]->X(pos.x + Position.x);
-		Wedges[1]->X(Position.x - pos.x);
-		Wedges[0]->Y(pos.y + Position.y);
-		Wedges[1]->Y(Position.y - pos.y);
-		Wedges[0]->Rotation = Rotation;
-		Wedges[1]->Rotation = (float)PI + Rotation;
-
-		if (!GroupDocked) //Not in the group.
+		if (!CC->NewWave)
 		{
-			if (!CC->NewWave)
+			if (ThePlayer->Enabled)
 			{
-				if (ThePlayer->Enabled)
-				{
-					ChasePlayer();
-				}
-				else if (TheUFO->Enabled)
-				{
-					ChaseUFO();
-				}
-				else
-				{
-					LeavePlay();
-				}
-
-				CheckScreenEdge();
+				ChasePlayer();
+			}
+			else if (TheUFO->Enabled)
+			{
+				ChaseUFO();
 			}
 			else
 			{
 				LeavePlay();
 			}
 
-			if (CheckCollision())
-			{
-				Collision();
-			}
+			CheckScreenEdge();
+		}
+		else
+		{
+			LeavePlay();
+		}
+
+		if (CheckCollision())
+		{
+			Collision();
 		}
 	}
-}
-
-void WedgePair::Draw()
-{
-	Entity::Draw();
 }
 
 void WedgePair::Spawn()
@@ -101,12 +86,19 @@ void WedgePair::Spawn()
 	Enabled = true;
 	WedgeDocked = true;
 	GroupDocked = true;
+	Vector3 pos = VelocityFromAngleZ(Rotation, 0.65f);
+
 	Wedges[0]->Rotation = Rotation;
 	Wedges[1]->Rotation = (float)PI + Rotation;
+	Wedges[0]->X(pos.x + Position.x);
+	Wedges[1]->X(Position.x - pos.x);
+	Wedges[0]->Y(pos.y + Position.y);
+	Wedges[1]->Y(Position.y - pos.y);
 
 	for (auto wedge : Wedges)
 	{
 		wedge->Spawn();
+		wedge->ReConnectAsChild(wedge);
 	}
 }
 
@@ -157,6 +149,7 @@ void WedgePair::Collision()
 	for (auto wedge : Wedges)
 	{
 		wedge->Docked = false;
+		wedge->RemoveChild(wedge);
 	}
 }
 
@@ -165,7 +158,7 @@ void WedgePair::TurnOff()
 	Enabled = false;
 	Velocity = { 0 };
 	RotationVelocity = 0;
-	Position = { 30, 30, 0 };
+	Position = { WindowWidth * 2, 0, 0 };
 }
 
 void WedgePair::ChasePlayer()

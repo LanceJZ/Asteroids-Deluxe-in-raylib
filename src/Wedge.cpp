@@ -20,6 +20,8 @@ void Wedge::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 
 bool Wedge::Initialize()
 {
+	LineModel::Initialize();
+
 	TurnOff();
 
 	return false;
@@ -63,11 +65,6 @@ void Wedge::Update(float deltaTime)
 			Collision();
 		}
 	}
-}
-
-void Wedge::Draw()
-{
-	LineModel::Draw();
 }
 
 void Wedge::Spawn()
@@ -135,7 +132,7 @@ void Wedge::TurnOff()
 	Enabled = false;
 	Velocity = { 0 };
 	RotationVelocity = 0;
-	Position = { 30, 30, 0 };
+	Position = { WindowWidth * 2, 0, 0 };
 }
 
 void Wedge::LeavePlay()

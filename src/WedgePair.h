@@ -21,7 +21,6 @@ public:
 	bool Initialize();
 	void SetModelID(size_t modelID);
 	void Update(float deltaTime);
-	void Draw();
 
 	void Spawn();
 

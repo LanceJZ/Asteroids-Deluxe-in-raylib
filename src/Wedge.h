@@ -19,7 +19,6 @@ public:
 	void SetModelFromID(size_t modelID);
 
 	void Update(float deltaTime);
-	void Draw();
 
 	void Spawn();
 
