@@ -14,15 +14,17 @@ void Wedge::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 	Man = man;
 	ThePlayer = player;
 	TheUFO = ufo;
-
-	man->EM.AddLineModel(this);
 }
 
 bool Wedge::Initialize()
 {
 	LineModel::Initialize();
 
-	TurnOff();
+	Radius = 14.6f;
+	Scale = 21.6f;
+	Enabled = false;
+
+	//TurnOff();
 
 	return false;
 }

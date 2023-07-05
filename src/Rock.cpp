@@ -1,9 +1,5 @@
 #include "Rock.h"
 
-Rock::~Rock()
-{
-}
-
 bool Rock::Initialize()
 {
 	LineModel::Initialize();

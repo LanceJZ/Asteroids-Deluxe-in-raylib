@@ -15,10 +15,22 @@ void WedgeControl::SetRef(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 	ThePlayer = player;
 	TheUFO = ufo;
 
-	TheWedgeGroup->SetRefs(cc, man, player, ufo);
+	WG = new WedgeGroup();
+	man->EM.AddEntity(WG);
+	WG->SetRefs(cc, man, player, ufo);
+
+	//for (auto wedgePairs : WG->WedgePairs)
+	//{
+	//	for (auto wedge : wedgePairs->Wedges)
+	//	{
+	//		wedge->SetParent(wedgePairs);
+	//	}
+
+	//	wedgePairs->SetParent(WG);
+	//}
 }
 
-bool WedgeControl::Initialise()
+bool WedgeControl::Initialize()
 {
 	//SpawnTimer->Reset(3);
 	ready = false;
@@ -28,18 +40,20 @@ bool WedgeControl::Initialise()
 
 void WedgeControl::SetModelID(size_t modelID)
 {
-	TheWedgeGroup->SetModelID(modelID);
+	WG->SetModelID(modelID);
 }
 
-void WedgeControl::Update(float deltaTime)
+void WedgeControl::Update()
 {
+	Common::Update();
+
 	if (!CC->SpawnWedgeGroup)
 	{
 		//SpawnTimer->Reset();
 		return;
 	}
 
-	if (TheWedgeGroup->Enabled)
+	if (WG->Enabled)
 	{
 		//SpawnTimer->Reset();
 		return;
@@ -47,7 +61,7 @@ void WedgeControl::Update(float deltaTime)
 
 	bool resetTimer = false;
 
-	for (auto wedgePair : TheWedgeGroup->WedgePairs)
+	for (auto wedgePair : WG->WedgePairs)
 	{
 		for (auto wedge : wedgePair->Wedges)
 		{
@@ -86,5 +100,5 @@ void WedgeControl::SpawnGroup()
 
 	ready = false;
 
-	TheWedgeGroup->Spawn();
+	WG->Spawn();
 }

@@ -10,16 +10,18 @@ class WedgeControl : public Common
 {
 public:
 	bool ready = false;
-	WedgeGroup* TheWedgeGroup = {};
+	WedgeGroup* WG = {};
 
 	WedgeControl();
 	virtual ~WedgeControl();
 
 	void SetRef(CrossCom* cc, Managers* man, Player* player, UFO* ufo);
-	bool Initialise();
+	bool Initialize();
 	void SetModelID(size_t modelID);
 
-	void Update(float deltaTime);
+	void Update();
+
+	void SpawnGroup();
 
 private:
 	size_t SpawnTimerID = 0;
@@ -29,6 +31,5 @@ private:
 	CrossCom* CC = {};
 	Managers* Man = {};
 
-	void SpawnGroup();
 };
 

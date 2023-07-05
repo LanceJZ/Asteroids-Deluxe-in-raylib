@@ -30,7 +30,7 @@ private:
 	int NewRockCount = { 4 };
 	size_t RockModelRefs[4];
 	size_t ExplodeSoundID = 0;
-	std::vector<Rock*> RockRefs;
+	std::vector<Rock*> RockRefs = {};
 
 	CrossCom* CC = {};
 	Managers* Man = {};

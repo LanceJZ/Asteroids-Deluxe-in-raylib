@@ -19,7 +19,7 @@ public:
 	int HighScore{ 0 };
 	int Lives { 0 };
 
-	LineModel* Flame;
+	LineModel* Flame = {};
 	std::vector<Shot*> Shots;
 
 	void SetManagersRef(Managers& man);
@@ -38,7 +38,7 @@ public:
 
 private:
 	bool ThrustIsOn = false;
-	size_t ShipModelID;
+	size_t ShipModelID = 0;
 	int NextNewLifeScore = 10000;
 	float ThrustSoundTime = 0;
 	float ShieldPower = 100;

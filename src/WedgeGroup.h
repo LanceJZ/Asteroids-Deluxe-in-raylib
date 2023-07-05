@@ -30,7 +30,6 @@ private:
 	Player* ThePlayer = {};
 	UFO* TheUFO = {};
 	CrossCom* CC = {};
-	Managers* Man = {};
 
 	bool CheckCollision();
 	void Collision();

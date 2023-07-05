@@ -11,15 +11,13 @@ WedgePair::~WedgePair()
 void WedgePair::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 {
 	CC = cc;
-	Man = man;
 	ThePlayer = player;
 	TheUFO = ufo;
 
-	man->EM.AddEntity(this);
-
-	for (auto wedge : Wedges)
+	for (int i = 0; i < 2; i++)
 	{
-		wedge->SetRefs(cc, man, player, ufo);
+		man->EM.AddLineModel(Wedges[i] = new Wedge());
+		Wedges[i]->SetRefs(cc, man, player, ufo);
 	}
 }
 
@@ -27,13 +25,8 @@ bool WedgePair::Initialize()
 {
 	Entity::Initialize();
 
-	Radius = 0.95f;
+	Radius = 19.5f;
 	TurnOff();
-
-	for (auto wedge : Wedges)
-	{
-		wedge->SetParent(this);
-	}
 
 	return false;
 }
@@ -79,6 +72,15 @@ void WedgePair::Update(float deltaTime)
 			Collision();
 		}
 	}
+	else
+	{
+		Vector3 pos = VelocityFromAngleZ(Rotation, 13.5f);//20.76923 times the old one.
+
+		Wedges[0]->X(pos.x + Position.x);
+		Wedges[1]->X(Position.x - pos.x);
+		Wedges[0]->Y(pos.y + Position.y);
+		Wedges[1]->Y(Position.y - pos.y);
+	}
 }
 
 void WedgePair::Spawn()
@@ -86,7 +88,7 @@ void WedgePair::Spawn()
 	Enabled = true;
 	WedgeDocked = true;
 	GroupDocked = true;
-	Vector3 pos = VelocityFromAngleZ(Rotation, 0.65f);
+	Vector3 pos = VelocityFromAngleZ(Rotation, 13.5f);//20.76923 times the old one.
 
 	Wedges[0]->Rotation = Rotation;
 	Wedges[1]->Rotation = (float)PI + Rotation;
@@ -113,7 +115,7 @@ bool WedgePair::CheckCollision()
 		}
 	}
 
-	for (auto &shot : ThePlayer->Shots)
+	for (auto shot : ThePlayer->Shots)
 	{
 		if (CirclesIntersect(*shot))
 		{

@@ -29,7 +29,7 @@ void Player::SetShotModelID(size_t modelID)
 
 bool Player::Initialize()
 {
-	Entity::Initialize();
+	LineModel::Initialize();
 
 	Scale = 30;
 	Flame->Scale = 30;

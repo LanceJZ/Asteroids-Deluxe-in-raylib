@@ -12,31 +12,26 @@ WedgeGroup::~WedgeGroup()
 void WedgeGroup::SetRefs(CrossCom* cc, Managers* man, Player* player, UFO* ufo)
 {
 	CC = cc;
-	Man = man;
 	ThePlayer = player;
 	TheUFO = ufo;
 
-	man->EM.AddEntity(this);
-
-	for (auto wedgePair : WedgePairs)
+	for (int i = 0; i < 3; i++)
 	{
-		wedgePair->SetRefs(cc, man, player, ufo);
+		WedgePairs[i] = new WedgePair();
+		man->EM.AddEntity(WedgePairs[i]);
+		WedgePairs[i]->SetRefs(cc, man, player, ufo);
 	}
+
+	CC->NewWave = false;
 }
 
 bool WedgeGroup::Initialize()
 {
 	Entity::Initialize();
 
-	for (auto wedgePair : WedgePairs)
-	{
-		wedgePair->SetParent(this);
-	}
-
 	Enabled = false;
-	CC->NewWave = false;
 	Position = { WindowWidth * 2, 0, 0 };
-	Radius = 1.6f;
+	Radius = 33.0f;
 
 	return false;
 }
@@ -53,6 +48,16 @@ void WedgeGroup::Update(float deltaTime)
 {
 	Entity::Update(deltaTime);
 
+	float wY = 15.57692f;//20.76923 times the old one.
+	float wYLower = 7.26923f;//20.76923 times the old one.
+	float wX = 13.49999f;//20.76923 times the old one.
+
+	WedgePairs[0]->Position.y = Position.y + wY;
+	WedgePairs[0]->Position.x = Position.x;
+	WedgePairs[1]->Position = { Position.x + wX, Position.y - wYLower, 0 };
+	WedgePairs[2]->Position = { Position.x - wX, Position.y - wYLower, 0 };
+
+	CheckScreenEdge();
 }
 
 void WedgeGroup::Spawn()
@@ -61,13 +66,11 @@ void WedgeGroup::Spawn()
 	Enabled = true;
 	WedgePairsDocked = true;
 	Position = { WindowWidth, GetRandomFloat(-WindowHeight, WindowHeight), 0 };
-	Velocity = GetRandomVelocity(1.5f);
+	Velocity = GetRandomVelocity(45.5f);
 	float rot = 0.333333f;
-
-	float wY = 0.75f;
-	float wYLower = 0.35f;
-	float wX = 0.65f;
-	float rot = 0.333f;
+	float wY = 15.57692f;//20.76923 times the old one.
+	float wYLower = 7.26923f;//20.76923 times the old one.
+	float wX = 13.49999f;//20.76923 times the old one.
 
 	WedgePairs[0]->Rotation = 0;
 	WedgePairs[1]->Rotation = (float)PI * rot;
@@ -75,7 +78,6 @@ void WedgeGroup::Spawn()
 	WedgePairs[0]->Position.y = Position.y + wY;
 	WedgePairs[0]->Position.x = Position.x;
 	WedgePairs[1]->Position = { Position.x + wX, Position.y - wYLower, 0 };
-	WedgePairs[1]->Rotation = (float)PI * rot;
 	WedgePairs[2]->Position = { Position.x - wX, Position.y - wYLower, 0 };
 
 	for (auto wedgePair : WedgePairs)
@@ -96,7 +98,7 @@ bool WedgeGroup::CheckCollision()
 		}
 	}
 
-	for (auto &shot : ThePlayer->Shots)
+	for (auto shot : ThePlayer->Shots)
 	{
 		if (CirclesIntersect(*shot))
 		{

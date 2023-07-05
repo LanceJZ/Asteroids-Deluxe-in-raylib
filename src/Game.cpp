@@ -49,6 +49,8 @@ bool Game::Initialize(Camera &camera) //Initialize
 	UC->SetPlayerRef(ThePlayer);
 	UC->SetCrossRef(CC);
 
+	WC->SetRef(&CC, &Man, ThePlayer, UC->TheUFO);
+
 	ThePlayer->SetManagersRef(Man);
 
 	return true;
@@ -74,6 +76,7 @@ bool Game::Load()
 	UC->TheUFO->TheShot->SetModel(Man.CM.GetLineModel(shotModelID));
 
 	size_t wedgeModelID = Man.CM.LoadTheLineModel("Wedge");
+	WC->SetModelID(wedgeModelID);
 
 	return true;
 }
@@ -199,6 +202,7 @@ void Game::NewGame()
 	ThePlayer->NewGame();
 	RC->NewGame();
 	UC->NewGame();
+	WC->SpawnGroup();
 	//HS.GameOver = false;
 }
 
