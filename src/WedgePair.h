@@ -26,7 +26,7 @@ public:
 
 private:
 	int Score = 100;
-	float Speed = 3.25f;
+	float Speed = 67.5f;
 	float TurnSpeed = 0.25f;
 
 	Player* ThePlayer = {};

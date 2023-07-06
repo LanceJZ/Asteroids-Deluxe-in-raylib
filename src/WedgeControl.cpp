@@ -58,6 +58,23 @@ void WedgeControl::Update()
 		//SpawnTimer->Reset();
 		return;
 	}
+	else if (CC->WedgeHit)
+	{
+		bool deadJim = true;
+
+		for (auto wedgePair : WG->WedgePairs)
+		{
+			for (auto wedge : wedgePair->Wedges)
+			{
+				if (wedge->Enabled)
+				{
+					deadJim = false;
+					CC->WedgeHit = false;
+					return;
+				}
+			}
+		}
+	}
 
 	bool resetTimer = false;
 

@@ -74,13 +74,16 @@ void WedgePair::Update(float deltaTime)
 	}
 	else
 	{
-		Vector3 pos = VelocityFromAngleZ(Rotation, 13.5f);//20.76923 times the old one.
-
-		Wedges[0]->X(pos.x + Position.x);
-		Wedges[1]->X(Position.x - pos.x);
-		Wedges[0]->Y(pos.y + Position.y);
-		Wedges[1]->Y(Position.y - pos.y);
 	}
+
+	Vector3 pos = VelocityFromAngleZ(Rotation, 13.5f);//20.76923 times the old one.
+
+	Wedges[0]->X(pos.x + Position.x);
+	Wedges[1]->X(Position.x - pos.x);
+	Wedges[0]->Y(pos.y + Position.y);
+	Wedges[1]->Y(Position.y - pos.y);
+	Wedges[0]->Rotation = Rotation;
+	Wedges[1]->Rotation = (float)PI + Rotation;
 }
 
 void WedgePair::Spawn()
@@ -90,12 +93,12 @@ void WedgePair::Spawn()
 	GroupDocked = true;
 	Vector3 pos = VelocityFromAngleZ(Rotation, 13.5f);//20.76923 times the old one.
 
-	Wedges[0]->Rotation = Rotation;
-	Wedges[1]->Rotation = (float)PI + Rotation;
-	Wedges[0]->X(pos.x + Position.x);
-	Wedges[1]->X(Position.x - pos.x);
-	Wedges[0]->Y(pos.y + Position.y);
-	Wedges[1]->Y(Position.y - pos.y);
+	//Wedges[0]->Rotation = Rotation;
+	//Wedges[1]->Rotation = (float)PI + Rotation;
+	//Wedges[0]->X(pos.x + Position.x);
+	//Wedges[1]->X(Position.x - pos.x);
+	//Wedges[0]->Y(pos.y + Position.y);
+	//Wedges[1]->Y(Position.y - pos.y);
 
 	for (auto wedge : Wedges)
 	{
@@ -146,7 +149,7 @@ void WedgePair::Collision()
 	//	PlaySound(ExplodeSoundID);
 
 	WedgeDocked = false;
-	TurnOff();
+	Enabled = false;
 
 	for (auto wedge : Wedges)
 	{
@@ -179,6 +182,6 @@ void WedgePair::LeavePlay()
 
 	if (OffScreen())
 	{
-		Initialize();
+		TurnOff();
 	}
 }

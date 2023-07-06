@@ -57,16 +57,29 @@ void WedgeGroup::Update(float deltaTime)
 	WedgePairs[1]->Position = { Position.x + wX, Position.y - wYLower, 0 };
 	WedgePairs[2]->Position = { Position.x - wX, Position.y - wYLower, 0 };
 
-	CheckScreenEdge();
+	if (CC->NewWave)
+	{
+		GoOffScreen();
+	}
+	else
+	{
+		CheckScreenEdge();
+	}
+
+	if (CheckCollision()) Collision();
 }
 
 void WedgeGroup::Spawn()
 {
 	CC->WedgeGroupActive = true;
+	CC->NewWave = false;
 	Enabled = true;
-	WedgePairsDocked = true;
 	Position = { WindowWidth, GetRandomFloat(-WindowHeight, WindowHeight), 0 };
 	Velocity = GetRandomVelocity(45.5f);
+
+	Velocity.x = PI / 2 * 22.75f;
+	Velocity.y = PI / 2 * 22.75f;
+
 	float rot = 0.333333f;
 	float wY = 15.57692f;//20.76923 times the old one.
 	float wYLower = 7.26923f;//20.76923 times the old one.
@@ -75,16 +88,21 @@ void WedgeGroup::Spawn()
 	WedgePairs[0]->Rotation = 0;
 	WedgePairs[1]->Rotation = (float)PI * rot;
 	WedgePairs[2]->Rotation = ((float)PI * 2) * rot;
-	WedgePairs[0]->Position.y = Position.y + wY;
-	WedgePairs[0]->Position.x = Position.x;
-	WedgePairs[1]->Position = { Position.x + wX, Position.y - wYLower, 0 };
-	WedgePairs[2]->Position = { Position.x - wX, Position.y - wYLower, 0 };
+	//WedgePairs[0]->Position.y = Position.y + wY;
+	//WedgePairs[0]->Position.x = Position.x;
+	//WedgePairs[1]->Position = { Position.x + wX, Position.y - wYLower, 0 };
+	//WedgePairs[2]->Position = { Position.x - wX, Position.y - wYLower, 0 };
 
 	for (auto wedgePair : WedgePairs)
 	{
 		wedgePair->Spawn();
 		ReConnectAsChild(wedgePair);
 	}
+}
+
+void WedgeGroup::NewGame()
+{
+	TurnOff();
 }
 
 bool WedgeGroup::CheckCollision()
@@ -133,7 +151,6 @@ void WedgeGroup::Collision()
 
 void WedgeGroup::Undock()
 {
-	WedgePairsDocked = false;
 	Velocity = { 0 };
 	Enabled = false;
 	CC->WedgeGroupActive = false;
@@ -141,8 +158,31 @@ void WedgeGroup::Undock()
 	for (auto wedgePair : WedgePairs)
 	{
 		wedgePair->GroupDocked = false;
-		RemoveChild(wedgePair);
+		//RemoveChild(wedgePair);
 	}
 
-	Position.y = WindowHeight * 2;
+	Position.x = WindowWidth * 2;
+}
+
+void WedgeGroup::GoOffScreen()
+{
+	if (OffScreen())
+	{
+		TurnOff();
+	}
+}
+
+void WedgeGroup::TurnOff()
+{
+	Enabled = false;
+
+	for (auto wedgePair : WedgePairs)
+	{
+		wedgePair->Enabled = false;
+
+		for (auto wedge : wedgePair->Wedges)
+		{
+			wedge->Enabled = false;
+		}
+	}
 }

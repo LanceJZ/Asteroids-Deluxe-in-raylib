@@ -23,8 +23,7 @@ bool Wedge::Initialize()
 	Radius = 14.6f;
 	Scale = 21.6f;
 	Enabled = false;
-
-	//TurnOff();
+	ModelColor = { 175, 175, 255, 255 };
 
 	return false;
 }
@@ -115,6 +114,7 @@ void Wedge::Collision()
 {
 	//if (!ThePlayer->GameOver)
 	//	PlaySound(ExplodeSoundID);
+	CC->WedgeHit = true;
 
 	TurnOff();
 }
@@ -143,6 +143,6 @@ void Wedge::LeavePlay()
 
 	if (OffScreen())
 	{
-		Initialize();
+		TurnOff();
 	}
 }

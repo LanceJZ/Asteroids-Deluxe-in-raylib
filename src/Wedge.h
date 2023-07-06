@@ -24,7 +24,7 @@ public:
 
 private:
 	int Score = 200;
-	float Speed = 3.75f;
+	float Speed = 77.89f;
 	float TurnSpeed = 0.5f;
 	float RotateMagnitude = PI / 2;
 

@@ -9,9 +9,6 @@
 class WedgeGroup : public Entity
 {
 public:
-	bool WedgePairsDocked = true;
-	bool NewWave = false;
-
 	WedgePair* WedgePairs[3] = {};
 
 	WedgeGroup();
@@ -23,6 +20,7 @@ public:
 	void Update(float deltaTime);
 
 	void Spawn();
+	void NewGame();
 
 private:
 	int Score = 50;
@@ -34,5 +32,7 @@ private:
 	bool CheckCollision();
 	void Collision();
 	void Undock();
+	void GoOffScreen();
+	void TurnOff();
 };
 
