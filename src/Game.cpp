@@ -19,7 +19,7 @@ bool Game::Initialize(Camera &camera) //Initialize
 {
 	TheCamera = camera;
 
-	SetTargetFPS(60);
+	SetTargetFPS(120);
 	SetWindowTitle("Asteroids Deluxe");
 
 	ThePlayer->Flame->SetParent(ThePlayer);
@@ -86,8 +86,6 @@ bool Game::BeginRun()
 	Man.EM.BeginRun(); //Any Entities added after this point need this method fired manually.
 
 	NewGame();
-
-	State = InPlay;
 
 	return true;
 }
@@ -193,12 +191,10 @@ void Game::Draw()
 	EndDrawing();
 }
 
-void Game::Shutdown()
-{
-}
-
 void Game::NewGame()
 {
+	State = InPlay;
+
 	ThePlayer->NewGame();
 	RC->NewGame();
 	UC->NewGame();

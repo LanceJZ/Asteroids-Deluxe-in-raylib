@@ -34,8 +34,6 @@ public:
 	void ProcessInput();
 	void Update(float deltaTime);
 	void Draw();
-	void Shutdown();
-
 
 private:
 	Player* ThePlayer;

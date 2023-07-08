@@ -33,7 +33,8 @@ int main()
 		game.Draw();
 	}
 
-	game.Shutdown();
+	UnloadImage(icon);
+
 	CloseWindow();
 	CloseAudioDevice();
 }
