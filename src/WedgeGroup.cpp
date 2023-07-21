@@ -96,7 +96,7 @@ void WedgeGroup::Spawn()
 	for (auto wedgePair : WedgePairs)
 	{
 		wedgePair->Spawn();
-		ReConnectAsChild(wedgePair);
+		//ReConnectAsChild(wedgePair);
 	}
 }
 

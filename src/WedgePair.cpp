@@ -103,7 +103,7 @@ void WedgePair::Spawn()
 	for (auto wedge : Wedges)
 	{
 		wedge->Spawn();
-		wedge->ReConnectAsChild(wedge);
+		//wedge->ReConnectAsChild(wedge);
 	}
 }
 
@@ -154,7 +154,7 @@ void WedgePair::Collision()
 	for (auto wedge : Wedges)
 	{
 		wedge->Docked = false;
-		wedge->RemoveChild(wedge);
+		//wedge->RemoveChild(wedge);
 	}
 }
 
