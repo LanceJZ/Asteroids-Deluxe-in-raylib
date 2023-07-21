@@ -2,13 +2,6 @@
 
 Game::Game()
 {
-	UC = new UFOControl();
-	RC = new RockControl();
-	WC = new WedgeControl();
-	ThePlayer = new Player();
-	ThePlayer->Flame = new LineModel();
-	UC->TheUFO = new UFO();
-	UC->TheUFO->TheShot = new Shot();
 }
 
 Game::~Game()
@@ -22,16 +15,15 @@ bool Game::Initialize(Camera &camera) //Initialize
 	SetTargetFPS(120);
 	SetWindowTitle("Asteroids Deluxe");
 
-	ThePlayer->Flame->SetParent(ThePlayer);
+	Man.EM.AddCommon(RC = new RockControl());
+	Man.EM.AddCommon(UC = new UFOControl());
+	Man.EM.AddCommon(WC = new WedgeControl());
+	Man.EM.AddLineModel(ThePlayer = new Player());
 	ThePlayer->SetManagersRef(Man);
-
-	Man.EM.AddCommon(RC);
-	Man.EM.AddCommon(UC);
-	Man.EM.AddCommon(WC);
-	Man.EM.AddLineModel(ThePlayer);
-	Man.EM.AddLineModel(ThePlayer->Flame);
-	Man.EM.AddLineModel(UC->TheUFO);
-	Man.EM.AddLineModel(UC->TheUFO->TheShot);
+	Man.EM.AddLineModel(ThePlayer->Flame = new LineModel());
+	ThePlayer->Flame->SetParent(ThePlayer);
+	Man.EM.AddLineModel(UC->TheUFO = new UFO());
+	Man.EM.AddLineModel(UC->TheUFO->TheShot = new Shot());
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -204,7 +196,7 @@ void Game::NewGame()
 
 void Game::Draw3D()
 {
-	Man.EM.Draw();
+	Man.EM.Draw3D();
 }
 
 void Game::Draw2D()

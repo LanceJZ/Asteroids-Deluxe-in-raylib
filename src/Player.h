@@ -26,6 +26,7 @@ public:
 	void SetShipModelID(size_t modelID);
 	void SetShotModelID(size_t modelID);
 	bool Initialize(); //initialize
+	bool BeginRun();
 	void Input();
 	void Update(float deltaTime);
 

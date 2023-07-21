@@ -32,13 +32,21 @@ bool Player::Initialize()
 	LineModel::Initialize();
 
 	Scale = 30;
-	Flame->Scale = 30;
-	Flame->Enabled = false;
-	Flame->ModelColor = { 180, 180, 255, 255 };
 
 	Radius = 16.5f;
 	ModelColor = { 175, 175, 255, 255 };
 
+
+	return true;
+}
+
+bool Player::BeginRun()
+{
+	LineModel::BeginRun();
+
+	Flame->Scale = 30;
+	Flame->Enabled = false;
+	Flame->ModelColor = { 180, 180, 255, 255 };
 
 	return true;
 }
